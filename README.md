@@ -2,6 +2,11 @@
 
 * Assigned Date: 4/18/2024
 * Due Date: 5/1/2024
+* GROUP
+* Elijah Hedrick
+* Devon Richey
+* Tyler Emanuelle Morton
+* Ihtheram Chowdhury
 
 ## Technical Requirements:
 Application must leverage the following full stack:
@@ -85,7 +90,7 @@ Presentations will occur on the morning of May 1st 2024. All team members must h
     - As a user, I can see my past rentals
     - As a user, I can see all cars at a location
     - as a user, I can cancel orders
-    = as a user, I can pick up and return ordered vehicles
+    - as a user, I can pick up and return ordered vehicles
     - As an admin, I can add, remove, and update vehicles to the database
     - As an admin, I can add, remove, and update locations to the database
     - As an admin I can see current and past orders 
