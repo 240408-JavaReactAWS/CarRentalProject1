@@ -1,4 +1,4 @@
-package com.revature.models;
+package com.revature.CarRental.models;
 
 import jakarta.persistence.*;
 
@@ -14,6 +14,7 @@ public class Order {
 
     private String dateAndTime;
 
+    // Foreign
     private int vehicleId;
     private int userId;
 
