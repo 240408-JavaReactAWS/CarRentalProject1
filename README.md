@@ -92,19 +92,20 @@ Presentations will occur on the morning of May 1st 2024. All team members must h
 
 ## User Stories
 
-    - Users and Admins can create accoutns
-    - As a user, I can place rental orders
-    - As a user, I can see my current order
-    - As a user, I can see my past rentals
-    - As a user, I can see all cars at a location
-    - as a user, I can cancel orders
-    - as a user, I can pick up and return ordered vehicles
-    - As an admin, I can add, remove, and update vehicles to the database
-    - As an admin, I can add, remove, and update locations to the database
-    - As an admin I can see current and past orders 
-    - as an Admin I can accept or reject orders
-    - As an admin, I can transfer cars between locations
-
+    - Users and Admins can create accounts                                      Eli
+    - As a user, I can place rental orders                                      Eli
+    - As a user, I can see my current order                                     Eli
+    - As a user, I can see my past rentals                                      Eli
+    - As a user, I can see all cars at a location                               Ihtheram
+    - as a user, I can cancel orders                                            Ihtheram
+    - as a user, I can pick up and return ordered vehicles                      Ihtheram
+    - As an admin, I can add, remove, and update vehicles to the database       Tyler
+    - As an admin, I can add, remove, and update locations to the database      Tyler
+    - As an admin I can see current and past orders                             Tyler
+    - as an Admin I can accept or reject orders                                 Devon
+    - As an admin, I can transfer cars between locations                        Devon
+    - Users and Admins can log in                                               Devon
+    
 ## Process
 
 1. User places an order -> creates an order in table, adds order to their order list, isApproved and isCompleted is false
