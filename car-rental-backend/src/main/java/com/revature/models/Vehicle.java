@@ -20,7 +20,6 @@ public class Vehicle {
     private String year;
 
     @ManyToOne
-    @JoinColumn(name = "location_id")
     private int locationId;
 
     private Boolean isAvailable;
