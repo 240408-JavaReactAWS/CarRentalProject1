@@ -108,7 +108,7 @@ Presentations will occur on the morning of May 1st 2024. All team members must h
 ## Process
 
 1. User places an order -> creates an order in table, adds order to their order list, isApproved and isCompleted is false
-2. Admin reviews the order -> isApproved is true, if not approved, delete order from DB and users order list
+2. Admin reviews the order -> isApproved is true, if not approved, mark isCompleted as true and leave isApproved as false to makr a refused order
 3. Time comes, user picks up -> if(isApproved) vehicle isAvaliable = false, user current vehicle is updated
 4. User done, returns car -> vehicle isAvaliable = true, Order isCompleted = true
 
