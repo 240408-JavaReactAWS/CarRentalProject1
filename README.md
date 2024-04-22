@@ -41,6 +41,14 @@ Suggested stretch goals (not limited to):
 
 Presentations will occur on the morning of May 1st 2024. All team members must have a speaking role in the presentation of the application, and a PowerPoint slideshow must accompany your presentation.
 
+## Working
+
+    The backend of the project written in Java using Spring is in the car-rental-backend folder.
+
+    The frontend made with React is in the car-rental-frontend folder. After downloading the git repo, open a terminal, cd to car-rental-frontend, and run "npm i" to install all node_modules dependencies.
+
+    When working in the command line make sure you are in the correct directory for your commands.
+
 ## Structure
 
     Tables
