@@ -19,8 +19,11 @@ public class User {
     private String username;
     private String password;
 
+    @OneToOne
+    @JoinColumn(name = "current_car_id")
     private Vehicle currentCar;
 
+    @OneToMany(mappedBy = "user")
     private List<Order> allOrders;
 
     private Boolean isAdmin;

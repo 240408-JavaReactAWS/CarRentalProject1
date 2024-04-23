@@ -21,6 +21,7 @@ public class Location {
     private String state;
     private String postalCode;
 
+    @OneToMany(mappedBy = "location")
     private List<Vehicle> vehicleStock;
 
     // Constructors

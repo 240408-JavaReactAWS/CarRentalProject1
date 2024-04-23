@@ -12,10 +12,14 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderId;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private String dateAndTime;
 
     // Foreign
+    @ManyToOne
     private int vehicleId;
+
+    @ManyToOne
     private int userId;
 
     private Boolean isApproved;
