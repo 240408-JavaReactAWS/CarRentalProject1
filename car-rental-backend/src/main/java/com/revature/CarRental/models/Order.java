@@ -1,5 +1,6 @@
 package com.revature.CarRental.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,10 +18,10 @@ public class Order {
 
     // Foreign
     @ManyToOne
-    private int vehicleId;
+    private Vehicle vehicle;
 
     @ManyToOne
-    private int userId;
+    private User user;
 
     private Boolean isApproved;
     private Boolean isCompleted;
@@ -30,10 +31,10 @@ public class Order {
     public Order() {
     }
 
-    public Order(String dateAndTime, int vehicleId, int userId) {
+    public Order(String dateAndTime, Vehicle vehicle, User user) {
         this.dateAndTime = dateAndTime;
-        this.vehicleId = vehicleId;
-        this.userId = userId;
+        this.vehicle = vehicle;
+        this.user = user;
         this.isApproved = false;
         this.isCompleted = false;
     }
@@ -56,22 +57,23 @@ public class Order {
         this.dateAndTime = dateAndTime;
     }
 
-    public int getVehicleId() {
-        return vehicleId;
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
-    public void setVehicleId(int vehicleId) {
-        this.vehicleId = vehicleId;
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
+    @JsonProperty(value="isApproved")
     public Boolean getApproved() {
         return isApproved;
     }
@@ -80,6 +82,7 @@ public class Order {
         isApproved = approved;
     }
 
+    @JsonProperty(value="isCompleted")
     public Boolean getCompleted() {
         return isCompleted;
     }

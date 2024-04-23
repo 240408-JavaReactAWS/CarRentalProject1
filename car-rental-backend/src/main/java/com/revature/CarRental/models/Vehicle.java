@@ -1,6 +1,6 @@
 package com.revature.CarRental.models;
 
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -20,7 +20,7 @@ public class Vehicle {
     private String year;
 
     @ManyToOne
-    private int locationId;
+    private Location location;
 
     private Boolean isAvailable;
 
@@ -29,12 +29,12 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Vehicle(String color, String make, String model, String year, int locationId) {
+    public Vehicle(String color, String make, String model, String year, Location location) {
         this.color = color;
         this.make = make;
         this.model = model;
         this.year = year;
-        this.locationId = locationId;
+        this.location = location;
         this.isAvailable = true;
     }
 
@@ -80,14 +80,15 @@ public class Vehicle {
         this.year = year;
     }
 
-    public int getLocationId() {
-        return locationId;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocationId(int locationId) {
-        this.locationId = locationId;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
+    @JsonProperty(value="isAvailable")
     public Boolean getAvailable() {
         return isAvailable;
     }

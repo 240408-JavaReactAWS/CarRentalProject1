@@ -1,8 +1,9 @@
 package com.revature.CarRental.models;
 
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,6 +39,14 @@ public class User {
         this.password = password;
         this.currentCar = currentCar;
         this.allOrders = allOrders;
+        this.isAdmin = isAdmin;
+    }
+
+    public User(String username, String password, boolean isAdmin) {
+        this.username = username;
+        this.password = password;
+        this.currentCar = null;
+        this.allOrders = new ArrayList<Order>();
         this.isAdmin = isAdmin;
     }
 
@@ -83,6 +92,7 @@ public class User {
         this.allOrders = allOrders;
     }
 
+    @JsonProperty(value="isAdmin")
     public Boolean getAdmin() {
         return isAdmin;
     }
