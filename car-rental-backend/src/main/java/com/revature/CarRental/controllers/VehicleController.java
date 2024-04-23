@@ -1,6 +1,7 @@
 package com.revature.CarRental.controllers;
 
 
+import com.revature.CarRental.models.Location;
 import com.revature.CarRental.models.Vehicle;
 import com.revature.CarRental.services.VehicleService;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,10 +25,10 @@ public class VehicleController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<Vehicle> updateVehicleLocationHandler(@PathVariable int id, @RequestBody int newLocationId) {
+    public ResponseEntity<Vehicle> updateVehicleLocationHandler(@PathVariable int id, @RequestBody Location newLocation) {
         Vehicle vehicle;
         try {
-            vehicle = vs.updateVehicleLocation(id, newLocationId);
+            vehicle = vs.updateVehicleLocation(id, newLocation);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(NOT_FOUND);
         }

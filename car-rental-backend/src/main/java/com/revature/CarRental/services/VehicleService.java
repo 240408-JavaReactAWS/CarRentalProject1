@@ -1,5 +1,6 @@
 package com.revature.CarRental.services;
 
+import com.revature.CarRental.models.Location;
 import com.revature.CarRental.models.Vehicle;
 import com.revature.CarRental.repos.VehicleDAO;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,11 +19,11 @@ public class VehicleService {
         this.vd = vd;
     }
 
-    public Vehicle updateVehicleLocation(int id, int locationId) {
+    public Vehicle updateVehicleLocation(int id, Location location) {
         Optional<Vehicle> optionalVehicle = vd.findById(id);
         if (optionalVehicle.isPresent()) {
             Vehicle vehicle = optionalVehicle.get();
-            vehicle.setLocationId(locationId);
+            vehicle.setLocation(location);
             vd.save(vehicle);
             return vehicle;
         }

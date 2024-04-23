@@ -29,7 +29,9 @@ public class UserController {
     @PostMapping
     public User registerUserHandler(@RequestBody User user) {
         return us.createUser(user);
-    }    @PostMapping("/login")
+    }
+
+    @PostMapping("/login")
     public ResponseEntity<User> loginHandler(@RequestBody User loginAttempt) {
         User user;
         try {
