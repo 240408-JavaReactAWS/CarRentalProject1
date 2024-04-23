@@ -22,6 +22,7 @@ public class OrderService {
             Order order = optionalOrder.get();
             order.setApproved(approvalStatus);
             order.setCompleted(true);
+            od.save(order);
             return order;
         }
         throw new EntityNotFoundException("No Order found with id: " + id);
