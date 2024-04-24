@@ -42,13 +42,13 @@ public class OrderController {
 
     /**
      * ORDER CANCELLATION by USER
-     * Endpoint: DELETE localhost:8080/locations/location.
+     * Endpoint: DELETE localhost:8080/orders/myorder.
      *
      * @ResponseBody JSON of the deleted Order.
      * @ResponseStatus NO_CONTENT (204) if successfully deleted, NOT_FOUND (404) otherwise .
      */
     @DeleteMapping("/myorder")
-    public ResponseEntity<Order> cancelOrderHandler(@PathVariable User credentials) {
+    public ResponseEntity<Order> cancelOrderHandler(@RequestBody User credentials) {
         Order order;
         try {
             order = os.deleteOrder(credentials); // os = OrderService

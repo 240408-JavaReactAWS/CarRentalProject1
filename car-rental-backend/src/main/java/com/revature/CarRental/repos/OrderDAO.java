@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface OrderDAO extends JpaRepository<Order, Integer> {
 
     /**
-     * RETRIEVE CURRENT ORDER OF A USER
+     * RETRIEVE ORDER OF A USER
      */
     Order getByUserAndIsCompleted(User user, boolean isCompleted);
 
