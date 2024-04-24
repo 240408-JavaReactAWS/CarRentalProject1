@@ -29,7 +29,7 @@ public class LocationController {
     @GetMapping("/{state}/{city}/v")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody List<Vehicle> viewAllVehiclesAtLocationHandler(@PathVariable String city, @PathVariable String state) {
-        return ls.getAllVehiclesAtLocation(city, state);
+        return ls.getAllVehiclesAtLocation(city, state); // ls = LocationService
     }
 
 }
