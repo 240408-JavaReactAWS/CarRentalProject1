@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.security.auth.login.FailedLoginException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,6 +41,9 @@ public class OrderService {
         throw new EntityNotFoundException("No Order found with id: " + id);
     }
 
+    public List<Order> getCurrentAndPastOrders() {
+        return od.findAll();
+    }
 
     public Order createOrder(int vehicleId, User login) throws FailedLoginException {
         Optional<Vehicle> optionalVehicle = vd.findById(vehicleId);

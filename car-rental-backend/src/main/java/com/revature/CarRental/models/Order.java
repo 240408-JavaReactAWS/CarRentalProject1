@@ -21,14 +21,16 @@ public class Order {
 
     // Foreign
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Vehicle vehicle;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     @JsonBackReference
     private User user;
 
-    private Boolean isApproved;
-    private Boolean isCompleted;
+    private Boolean isApproved = false;
+    private Boolean isCompleted = false;
 
     // Constructors
 

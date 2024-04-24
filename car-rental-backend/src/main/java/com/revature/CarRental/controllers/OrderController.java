@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import javax.security.auth.login.FailedLoginException;
 
 import static org.springframework.http.HttpStatus.*;
@@ -37,6 +39,10 @@ public class OrderController {
         return new ResponseEntity<>(order, OK);
     }
 
+    @GetMapping("/allorders")
+    public ResponseEntity<List<Order>> getCurrentAndPastOrdersHandler() {
+        return new ResponseEntity<>(os.getCurrentAndPastOrders(), OK);
+    }
     @PostMapping
     public ResponseEntity<Order> createOrderHandler(@RequestBody VehicleUserDTO orderDTO) {
         Order order;

@@ -31,4 +31,16 @@ public class LocationService {
         locations.forEach( (loc) -> {vehicles.addAll( loc.getVehicleStock());} );
         return vehicles;
     }
+
+    public void addLocation(Location location) {
+        ld.save(location);
+    }
+
+    public void removeLocation(int id) {
+        ld.deleteById(id);
+    }
+
+    public void updateLocation(Location location) {
+        ld.save(location);
+    }
 }

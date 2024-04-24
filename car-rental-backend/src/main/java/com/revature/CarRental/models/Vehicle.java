@@ -15,16 +15,21 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false)
     private String color;
+    @Column(nullable = false)
     private String make;
+    @Column(nullable = false)
     private String model;
+    @Column(nullable = false)
     private String year;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     @JsonBackReference
     private Location location;
 
-    private Boolean isAvailable;
+    private Boolean isAvailable = true;
 
     // Constructors
 
