@@ -3,6 +3,7 @@ package com.revature.CarRental.models;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,9 +26,9 @@ public class Location {
     @Column(nullable = false)
     private String postalCode;
 
-    @OneToMany(mappedBy = "location")
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Vehicle> vehicleStock;
+    private List<Vehicle> vehicleStock = new ArrayList<>();
 
     // Constructors
 

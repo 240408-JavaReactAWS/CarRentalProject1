@@ -3,11 +3,13 @@ package com.revature.CarRental.services;
 import com.revature.CarRental.models.Location;
 import com.revature.CarRental.models.Vehicle;
 import com.revature.CarRental.repos.LocationDAO;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LocationService {
@@ -40,7 +42,18 @@ public class LocationService {
         ld.deleteById(id);
     }
 
-    public void updateLocation(Location location) {
-        ld.save(location);
+    public Location updateLocation(int id, Location newlocation) {
+        Optional<Location> optLocation = ld.findById(id);
+        if(optLocation.isPresent()) {
+            Location location = optLocation.get();
+            location.setCity(newlocation.getCity());
+            location.setState(newlocation.getState());
+            location.setPostalCode(newlocation.getPostalCode());
+            location.setStreetAddress(newlocation.getStreetAddress());
+            location.setVehicleStock(newlocation.getVehicleStock());
+            ld.save(location);
+            return location;
+        }
+        throw new EntityNotFoundException("No Location found with id: " + id);
     }
 }

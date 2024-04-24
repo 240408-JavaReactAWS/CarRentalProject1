@@ -50,10 +50,10 @@ public class VehicleController {
         return new ResponseEntity<>(NO_CONTENT);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Vehicle> updateVehicleHandler(@RequestBody Vehicle vehicle) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Vehicle> updateVehicleHandler(@PathVariable int id, @RequestBody Vehicle vehicle) {
         try {
-            vs.updateVehicle(vehicle);
+            vs.updateVehicle(id, vehicle);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(NOT_FOUND);
         }

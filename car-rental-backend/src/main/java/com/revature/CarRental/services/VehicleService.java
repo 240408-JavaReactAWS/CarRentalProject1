@@ -30,16 +30,29 @@ public class VehicleService {
         throw new EntityNotFoundException("No Vehicle found with id: " + id);
     }
 
-    public void addVehicle(Vehicle vehicle) {
+    public Vehicle addVehicle(Vehicle vehicle) {
         vd.save(vehicle);
+        return vehicle;
     }
 
     public void removeVehicle(int id) {
         vd.deleteById(id);
     }
 
-    public void updateVehicle(Vehicle vehicle) {
-        vd.save(vehicle);
+    public Vehicle updateVehicle(int id, Vehicle newVehicle) {
+        Optional<Vehicle> optVehicle = vd.findById(id);
+        if (optVehicle.isPresent()) {
+            Vehicle vehicle = optVehicle.get();
+            vehicle.setMake(newVehicle.getMake());
+            vehicle.setModel(newVehicle.getModel());
+            vehicle.setYear(newVehicle.getYear());
+            vehicle.setColor(newVehicle.getColor());
+            vehicle.setAvailable(newVehicle.getAvailable());
+            vehicle.setLocation(newVehicle.getLocation());
+            vd.save(vehicle);
+            return vehicle;
+        }
+        throw new EntityNotFoundException("No Vehicle found with id: " + id);
     }
 
 }

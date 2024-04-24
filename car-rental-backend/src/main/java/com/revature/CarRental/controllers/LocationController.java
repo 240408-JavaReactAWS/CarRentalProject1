@@ -50,10 +50,10 @@ public class LocationController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Location> updateLocationHandler(@RequestBody Location location) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Location> updateLocationHandler(@PathVariable int id, @RequestBody Location location) {
         try {
-            ls.updateLocation(location);
+            ls.updateLocation(id, location);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
