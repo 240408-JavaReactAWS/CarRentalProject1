@@ -30,4 +30,16 @@ public class VehicleService {
         throw new EntityNotFoundException("No Vehicle found with id: " + id);
     }
 
+    public void addVehicle(Vehicle vehicle) {
+        vd.save(vehicle);
+    }
+
+    public void removeVehicle(int id) {
+        vd.deleteById(id);
+    }
+
+    public void updateVehicle(Vehicle vehicle) {
+        vd.save(vehicle);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.revature.CarRental.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -17,7 +18,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
+    @Column(nullable = false, unique = true)
     private String username;
+    @Column(nullable = false)
     private String password;
 
     @OneToOne
@@ -25,9 +28,10 @@ public class User {
     private Vehicle currentCar;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Order> allOrders;
 
-    private Boolean isAdmin;
+    private Boolean isAdmin = false;
 
     // Constructors
 

@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 
 @RestController
@@ -35,4 +34,29 @@ public class VehicleController {
         return new ResponseEntity<>(vehicle, OK);
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<Vehicle> addVehicleHandler(@RequestBody Vehicle vehicle) {
+        vs.addVehicle(vehicle);
+        return new ResponseEntity<>(vehicle, CREATED);
+    }
+
+    @DeleteMapping("/remove/{id}")
+    public ResponseEntity<Vehicle> removeVehicleHandler(@PathVariable int id) {
+        try {
+            vs.removeVehicle(id);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(NOT_FOUND);
+        }
+        return new ResponseEntity<>(NO_CONTENT);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Vehicle> updateVehicleHandler(@RequestBody Vehicle vehicle) {
+        try {
+            vs.updateVehicle(vehicle);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(NOT_FOUND);
+        }
+        return new ResponseEntity<>(vehicle, OK);
+    }
 }

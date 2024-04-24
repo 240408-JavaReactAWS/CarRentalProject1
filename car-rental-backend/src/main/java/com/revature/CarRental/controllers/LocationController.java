@@ -1,9 +1,11 @@
 package com.revature.CarRental.controllers;
 
+import com.revature.CarRental.models.Location;
 import com.revature.CarRental.models.Vehicle;
 import com.revature.CarRental.services.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,5 +33,32 @@ public class LocationController {
     public @ResponseBody List<Vehicle> viewAllVehiclesAtLocationHandler(@PathVariable String city, @PathVariable String state) {
         return ls.getAllVehiclesAtLocation(city, state); // ls = LocationService
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<Location> addLocationHandler(@RequestBody Location location) {
+        ls.addLocation(location);
+        return new ResponseEntity<>(location, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/remove/{id}")
+    public ResponseEntity<Location> removeLocationHandler(@PathVariable int id) {
+        try {
+            ls.removeLocation(id);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Location> updateLocationHandler(@RequestBody Location location) {
+        try {
+            ls.updateLocation(location);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(location, HttpStatus.OK);
+    }
+
 
 }

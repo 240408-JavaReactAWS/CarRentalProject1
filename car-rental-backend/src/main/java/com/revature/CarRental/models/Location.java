@@ -1,5 +1,6 @@
 package com.revature.CarRental.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -15,12 +16,17 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int locationId;
 
+    @Column(nullable = false)
     private String streetAddress;
+    @Column(nullable = false)
     private String city;
+    @Column(nullable = false)
     private String state;
+    @Column(nullable = false)
     private String postalCode;
 
     @OneToMany(mappedBy = "location")
+    @JsonManagedReference
     private List<Vehicle> vehicleStock;
 
     // Constructors
