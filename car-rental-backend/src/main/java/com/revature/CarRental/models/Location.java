@@ -28,6 +28,13 @@ public class Location {
     public Location() {
     }
 
+    public Location(String streetAddress, String city, String state, String postalCode) {
+        this.streetAddress = streetAddress;
+        this.city = city;
+        this.state = state;
+        this.postalCode = postalCode;
+    }
+
     public Location(String streetAddress, String city, String state, String postalCode, List<Vehicle> vehicleStock) {
         this.streetAddress = streetAddress;
         this.city = city;
