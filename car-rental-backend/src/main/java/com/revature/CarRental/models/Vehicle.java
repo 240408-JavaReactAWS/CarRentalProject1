@@ -25,7 +25,7 @@ public class Vehicle {
     private String year;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, name = "location_id")
     @JsonBackReference
     private Location location;
 
