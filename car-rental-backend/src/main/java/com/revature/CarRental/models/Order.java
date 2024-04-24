@@ -18,13 +18,15 @@ public class Order {
 
     // Foreign
     @ManyToOne
+    @Column(nullable = false)
     private Vehicle vehicle;
 
     @ManyToOne
+    @Column(nullable = false)
     private User user;
 
-    private Boolean isApproved;
-    private Boolean isCompleted;
+    private Boolean isApproved = false;
+    private Boolean isCompleted = false;
 
     // Constructors
 

@@ -17,7 +17,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
+    @Column(nullable = false, unique = true)
     private String username;
+    @Column(nullable = false)
     private String password;
 
     @OneToOne
@@ -27,7 +29,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Order> allOrders;
 
-    private Boolean isAdmin;
+    private Boolean isAdmin = false;
 
     // Constructors
 
