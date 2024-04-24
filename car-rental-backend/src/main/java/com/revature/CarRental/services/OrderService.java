@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,5 +31,8 @@ public class OrderService {
         throw new EntityNotFoundException("No Order found with id: " + id);
     }
 
+    public List<Order> getCurrentAndPastOrders() {
+        return od.findAll();
+    }
 
 }

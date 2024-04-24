@@ -24,7 +24,7 @@ public class Vehicle {
     private String year;
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private Location location;
 
     private Boolean isAvailable = true;

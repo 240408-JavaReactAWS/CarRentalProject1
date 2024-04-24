@@ -18,11 +18,11 @@ public class Order {
 
     // Foreign
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private Vehicle vehicle;
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private User user;
 
     private Boolean isApproved = false;

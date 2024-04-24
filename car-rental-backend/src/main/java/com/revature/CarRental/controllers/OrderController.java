@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -35,5 +37,9 @@ public class OrderController {
         return new ResponseEntity<>(order, OK);
     }
 
+    @GetMapping("/allorders")
+    public ResponseEntity<List<Order>> getCurrentAndPastOrdersHandler() {
+        return new ResponseEntity<>(os.getCurrentAndPastOrders(), OK);
+    }
 
 }
