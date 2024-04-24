@@ -1,5 +1,6 @@
 package com.revature.CarRental.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -20,6 +21,7 @@ public class Vehicle {
     private String year;
 
     @ManyToOne
+    @JsonBackReference
     private Location location;
 
     private Boolean isAvailable;

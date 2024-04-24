@@ -1,7 +1,9 @@
 package com.revature.CarRental.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "orders")
@@ -14,6 +16,7 @@ public class Order {
     private int orderId;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private String dateAndTime;
 
     // Foreign
@@ -21,6 +24,7 @@ public class Order {
     private Vehicle vehicle;
 
     @ManyToOne
+    @JsonBackReference
     private User user;
 
     private Boolean isApproved;
@@ -29,6 +33,13 @@ public class Order {
     // Constructors
 
     public Order() {
+    }
+
+    public Order(Vehicle vehicle, User user) {
+        this.vehicle = vehicle;
+        this.user = user;
+        this.isApproved = false;
+        this.isCompleted = false;
     }
 
     public Order(String dateAndTime, Vehicle vehicle, User user) {

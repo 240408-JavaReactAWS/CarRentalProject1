@@ -1,14 +1,16 @@
 package com.revature.CarRental.controllers;
 
 import com.revature.CarRental.models.Order;
+import com.revature.CarRental.models.User;
 import com.revature.CarRental.services.OrderService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.OK;
+import javax.security.auth.login.FailedLoginException;
+
+import static org.springframework.http.HttpStatus.*;
 
 
 @RestController
@@ -35,5 +37,39 @@ public class OrderController {
         return new ResponseEntity<>(order, OK);
     }
 
+    @PostMapping
+    public ResponseEntity<Order> createOrderHandler(@RequestBody VehicleUserDTO orderDTO) {
+        Order order;
+        try {
+            order = os.createOrder(orderDTO.vehicleId, orderDTO.login);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(NOT_FOUND);
+        } catch (FailedLoginException e) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(order, OK);
+    }
 
+
+}
+
+class VehicleUserDTO {
+    int vehicleId;
+    User login;
+
+    public void setLogin(User login) {
+        this.login = login;
+    }
+
+    public User getLogin() {
+        return login;
+    }
+
+    public void setVehicleId(int vehicleId) {
+        this.vehicleId = vehicleId;
+    }
+
+    public int getVehicleId() {
+        return vehicleId;
+    }
 }
