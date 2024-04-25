@@ -44,9 +44,14 @@ public class VehicleController {
         return new ResponseEntity<>(vehicle, OK);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Vehicle> addVehicleHandler(@RequestBody Vehicle vehicle) {
-        vs.addVehicle(vehicle);
+    //The id field here is for location id.
+    @PostMapping("/{id}/add")
+    public ResponseEntity<Vehicle> addVehicleHandler(@PathVariable int id, @RequestBody Vehicle vehicle) {
+        try { // Check if location exists
+            vs.addVehicle(id, vehicle);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(NOT_FOUND);
+        }
         return new ResponseEntity<>(vehicle, CREATED);
     }
 

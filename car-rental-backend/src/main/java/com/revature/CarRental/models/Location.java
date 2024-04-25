@@ -28,7 +28,7 @@ public class Location {
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     @JsonManagedReference("location")
-    private List<Vehicle> vehicleStock = new ArrayList<>();
+    private List<Vehicle> vehicleStock;
 
     // Constructors
 
