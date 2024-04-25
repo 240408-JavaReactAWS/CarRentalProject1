@@ -8,7 +8,7 @@ function Button(props: IButtonProps) {
     let user : IUser;
 
     if (!localStorage.getItem('user')) {
-        return;
+        return null;
     } else {
         user = JSON.parse(localStorage.getItem('user') || '{}');
     }
@@ -93,6 +93,8 @@ function Button(props: IButtonProps) {
                 }
         }
     }
+
+    return null;
 }
 
 export default Button
