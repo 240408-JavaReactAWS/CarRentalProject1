@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { IUser } from '../../models/IUser';
 import Order from './Order';
 import { IOrder } from '../../models/IOrder';
+import OrderNav from './OrderNav';
+
+
 
 function OrderPage(props: IUser) {
     
@@ -25,7 +28,6 @@ function OrderPage(props: IUser) {
     }
 
     // GETs All Pending Orders. Modify endpoint once defined
-    /*
     let asyncCallPendingOrders = async () => {
         // Check headers
         let res = await fetch('http://localhost:8080/orders/pendingorders', {
@@ -40,10 +42,9 @@ function OrderPage(props: IUser) {
             console.log(error)
         })
     }
-    */
+    
 
     // GETs All Completed Orders. Modify endpoint once defined
-    /*
     let asyncCallCompletedOrders = async () => {
         // Check headers
         let res = await fetch('http://localhost:8080/orders/completedorders', {
@@ -58,7 +59,6 @@ function OrderPage(props: IUser) {
             console.log(error)
         })
     }
-    */ 
 
     // GETs All User Orders.
     let asyncCallUserOrders = async () => {
@@ -108,7 +108,11 @@ function OrderPage(props: IUser) {
     return (
         <>
             <h1>Orders</h1>
-            {/* Inner Nav Component */}
+            {
+                (props.isAdmin) && (
+                    <OrderNav asyncCallAllOrders={asyncCallAllOrders} asyncCallPendingOrders={asyncCallPendingOrders} asyncCallCompletedOrders={asyncCallCompletedOrders}/>
+                )
+            }
             {
                 (!props.isAdmin && currentOrder !== null) && (
                     <div className='currentOrder'>

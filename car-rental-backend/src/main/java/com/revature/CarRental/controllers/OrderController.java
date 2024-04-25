@@ -81,6 +81,16 @@ public class OrderController {
         return new ResponseEntity<>(os.getCurrentAndPastOrders(), OK);
     }
 
+    @GetMapping("/pendingorders")
+    public ResponseEntity<List<Order>> getPendingOrdersHandler() {
+        return new ResponseEntity<>(os.getPendingOrders(), OK);
+    }
+
+    @GetMapping("/completedorders")
+    public ResponseEntity<List<Order>> getCompletedOrdersHandler() {
+        return new ResponseEntity<>(os.getCompletedOrders(), OK);
+    }
+
     @GetMapping("/{username}") // get all orders for a user
     public ResponseEntity<List<Order>> getAllOrdersForUser(@PathVariable String username) {
         List<Order> orderList;

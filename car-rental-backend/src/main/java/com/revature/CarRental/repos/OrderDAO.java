@@ -22,4 +22,8 @@ public interface OrderDAO extends JpaRepository<Order, Integer> {
         delete(order);
     }
     List<Order> findAllByUser(User user);
+
+    List<Order> findAllByIsApprovedAndIsCompleted(boolean isApproved, boolean isCompleted);
+
+    List<Order> findAllByIsCompleted(boolean isCompleted);
 }
