@@ -21,6 +21,12 @@ public class LocationController {
         this.ls = ls;
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody List<Location> viewAllLocationsHandler() {
+        return ls.getAllLocations();
+    }
+
      /**
      * VEHICLE VIEWING - ALL VEHICLES AT A LOCATION
      * Endpoint: GET localhost:8080/locations/{State}/{City}/v.
@@ -28,6 +34,7 @@ public class LocationController {
      * @ResponseBody JSON of a list containing all vehicles at a location retrieved from the database or Empty list if there are no vehicles.
      * @ResponseStatus default, 200 (OK).
      */
+     // NOTE FROM DEVON - I don't think we need to pass in the state and city as path variables. We can probably just use the id.
     @GetMapping("/{state}/{city}/v")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody List<Vehicle> viewAllVehiclesAtLocationHandler(@PathVariable String city, @PathVariable String state) {

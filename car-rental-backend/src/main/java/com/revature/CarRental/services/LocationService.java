@@ -22,6 +22,10 @@ public class LocationService {
     }
 
 
+    public List<Location> getAllLocations() {
+        return ld.findAll();
+    }
+
     /**
      * VEHICLE RETRIEVING - ALL VEHICLES AT A LOCATION
      * @return `List of Vehicles` if exist `empty List` otherwise
