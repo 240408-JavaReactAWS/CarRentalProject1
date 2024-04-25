@@ -77,12 +77,12 @@ public class OrderController {
         return new ResponseEntity<>(os.getCurrentAndPastOrders(), OK);
     }
 
-    @GetMapping("pendingorders")
+    @GetMapping("/pendingorders")
     public ResponseEntity<List<Order>> getPendingOrdersHandler() {
         return new ResponseEntity<>(os.getPendingOrders(), OK);
     }
 
-    @GetMapping("completedorders")
+    @GetMapping("/completedorders")
     public ResponseEntity<List<Order>> getCompletedOrdersHandler() {
         return new ResponseEntity<>(os.getCompletedOrders(), OK);
     }
