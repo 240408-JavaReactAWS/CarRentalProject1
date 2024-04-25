@@ -86,7 +86,7 @@ public class OrderController {
         } catch (FailedLoginException e) {
             return new ResponseEntity<>(UNAUTHORIZED);
         }
-        return new ResponseEntity<>(order, OK);
+        return new ResponseEntity<>(order, CREATED);
     }
 
 
