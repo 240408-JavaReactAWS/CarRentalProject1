@@ -3,6 +3,7 @@ package com.revature.CarRental.controllers;
 import com.revature.CarRental.models.Order;
 import com.revature.CarRental.models.User;
 import com.revature.CarRental.services.OrderService;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -85,6 +86,8 @@ public class OrderController {
             return new ResponseEntity<>(NOT_FOUND);
         } catch (FailedLoginException e) {
             return new ResponseEntity<>(UNAUTHORIZED);
+        } catch (EntityExistsException e) {
+            return new ResponseEntity<>(CONFLICT);
         }
         return new ResponseEntity<>(order, CREATED);
     }

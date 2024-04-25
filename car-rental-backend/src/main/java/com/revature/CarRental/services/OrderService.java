@@ -6,6 +6,7 @@ import com.revature.CarRental.repos.OrderDAO;
 import com.revature.CarRental.repos.UserDAO;
 import com.revature.CarRental.models.Vehicle;
 import com.revature.CarRental.repos.VehicleDAO;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,6 +80,12 @@ public class OrderService {
         Optional<User> optionalUser = ud.findByUsername(login.getUsername());
         if(optionalVehicle.isPresent() &&
                 optionalUser.isPresent() && login.getPassword().equals(optionalUser.get().getPassword())) {
+            List<Order> orders = od.findAllByUser(optionalUser.get());
+            for(Order order : orders) {
+                if(!order.getCompleted()) {
+                    throw new EntityExistsException("User already has a pending order.");
+                }
+            }
             Order order = new Order(optionalVehicle.get(), optionalUser.get());
             return od.save(order);
         } else if(optionalVehicle.isPresent() &&
