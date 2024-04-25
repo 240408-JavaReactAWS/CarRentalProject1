@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import OrderPage from './components/orders/OrderPage';
+import Login from './components/login/Login';
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
           </ul>
         </nav>
         <Routes>
-          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/" element={<Login />} />
           {/* <Route path="/vehicles" element={<VehiclePage />} /> */}
           <Route path="/orders" element={<OrderPage {...localStorage.user} />} />
         </Routes>
