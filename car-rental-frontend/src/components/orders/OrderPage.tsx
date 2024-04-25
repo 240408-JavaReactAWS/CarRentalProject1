@@ -6,10 +6,11 @@ import OrderNav from './OrderNav';
 
 
 
-function OrderPage(props: IUser) {
+function OrderPage() {
     
     //console.log(props)
     //console.log(localStorage.user)
+    let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {} as IUser
 
     const [orderList, setOrderList] = useState<any>([])
     const [currentOrder, setCurrentOrder] = useState<IOrder>({} as IOrder)
@@ -66,7 +67,7 @@ function OrderPage(props: IUser) {
     // GETs All User Orders.
     let asyncCallUserOrders = async () => {
         // Check headers
-        let res = await fetch('http://localhost:8080/orders/' + localStorage.user.username, {
+        let res = await fetch('http://localhost:8080/orders/' + user.username, {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -82,7 +83,7 @@ function OrderPage(props: IUser) {
     // GETs Current User Order. Modify endpoint once defined
     let asyncCallCurrentUserOrder = async () => {
         // Check headers
-        let res = await fetch('http://localhost:8080/orders/' + localStorage.user.username + '/current', {
+        let res = await fetch('http://localhost:8080/orders/' + user.username + '/current', {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -98,7 +99,7 @@ function OrderPage(props: IUser) {
 
     useEffect(() => {
 
-        if (localStorage.user.isAdmin) {
+        if (user.isAdmin) {
             asyncCallAllOrders()
         } else {
             asyncCallUserOrders()
@@ -112,12 +113,12 @@ function OrderPage(props: IUser) {
         <>
             <h1>Orders</h1>
             {
-                (localStorage.user.isAdmin) && (
+                (user.isAdmin) && (
                     <OrderNav asyncCallAllOrders={asyncCallAllOrders} asyncCallPendingOrders={asyncCallPendingOrders} asyncCallCompletedOrders={asyncCallCompletedOrders}/>
                 )
             }
             {
-                (!localStorage.user.isAdmin && currentOrder !== null) && (
+                (!user.isAdmin && currentOrder !== null) && (
                     <div className='currentOrder'>
                         <Order {...currentOrder}/>
                     </div>

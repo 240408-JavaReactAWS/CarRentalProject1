@@ -22,7 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           {/* <Route path="/vehicles" element={<VehiclePage />} /> */}
-          <Route path="/orders" element={<OrderPage {...localStorage.user} />} />
+          <Route path="/orders" element={<OrderPage />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>

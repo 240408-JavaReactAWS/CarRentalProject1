@@ -34,6 +34,8 @@ function Login() {
                 console.log(error)
             })
         }
+
+        console.log(localStorage.getItem('user'))
     }
 
     let createAccount = (isAdmin: boolean) => {
@@ -58,6 +60,8 @@ function Login() {
                 console.log(error)
             })
         }
+
+        console.log(localStorage.getItem('user'))
     }
 
 
