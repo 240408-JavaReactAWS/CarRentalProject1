@@ -22,7 +22,7 @@ public class LocationController {
     }
 
      /**
-     * VEHICLE RETRIEVING - ALL VEHICLES AT A LOCATION
+     * VEHICLE VIEWING - ALL VEHICLES AT A LOCATION
      * Endpoint: GET localhost:8080/locations/{State}/{City}/v.
      *
      * @ResponseBody JSON of a list containing all vehicles at a location retrieved from the database or Empty list if there are no vehicles.

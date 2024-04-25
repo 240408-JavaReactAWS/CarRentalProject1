@@ -55,4 +55,16 @@ public class VehicleService {
         throw new EntityNotFoundException("No Vehicle found with id: " + id);
     }
 
+
+    public void updateVehicleAvailability(int id, Boolean availability) {
+        Optional<Vehicle> optionalVehicle = vd.findById(id);
+        if (optionalVehicle.isPresent()) {
+            Vehicle vehicle = optionalVehicle.get();
+            vehicle.setAvailable(availability);
+            vd.save(vehicle);
+        }
+        throw new EntityNotFoundException("No Vehicle found with id: " + id);
+    }
+
+
 }

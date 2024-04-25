@@ -2,12 +2,19 @@ package com.revature.CarRental.controllers;
 
 
 import com.revature.CarRental.models.Location;
+import com.revature.CarRental.models.Order;
+import com.revature.CarRental.models.User;
 import com.revature.CarRental.models.Vehicle;
+import com.revature.CarRental.repos.OrderDAO;
+import com.revature.CarRental.services.OrderService;
+import com.revature.CarRental.services.UserService;
 import com.revature.CarRental.services.VehicleService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.security.auth.login.FailedLoginException;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -17,6 +24,9 @@ import static org.springframework.http.HttpStatus.*;
 public class VehicleController {
 
     private VehicleService vs;
+    private UserService us;
+    private OrderDAO od;
+    private OrderService os;
 
     @Autowired
     public VehicleController(VehicleService vs) {
@@ -59,4 +69,22 @@ public class VehicleController {
         }
         return new ResponseEntity<>(vehicle, OK);
     }
+
+    /**
+     * VEHICLE PICKUP by USER
+     * Endpoint: GET localhost:8080/vehicles/pickup.
+     *
+     * @ResponseBody JSON of the vehicle being picked up by the user.
+     * @ResponseStatus default, 200 (OK).
+     */
+    @PatchMapping("/pickup")
+    public ResponseEntity<Vehicle> pickupVehicleHandler(@RequestBody User credentials) throws FailedLoginException {
+        User user = us.login(credentials);
+        Order order = od.getByUserAndIsApprovedAndIsCompleted(user, true, false);
+        vs.updateVehicleAvailability(order.getVehicle().getId(), false);
+        return new ResponseEntity<>(order.getVehicle(), OK);
+    }
+
+
+
 }

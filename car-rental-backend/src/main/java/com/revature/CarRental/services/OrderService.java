@@ -79,4 +79,17 @@ public class OrderService {
         }
         throw new EntityNotFoundException("No Vehicle found with id: " + vehicleId);
     }
+
+    public void updateOrderCompletionStatus(int id, Boolean completionStatus) {
+        Optional<Order> optionalOrder = od.findById(id);
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
+            order.setCompleted(completionStatus);
+            od.save(order);
+        } else {
+            throw new EntityNotFoundException("No Order found with id: " + id);
+        }
+    }
+
+
 }
