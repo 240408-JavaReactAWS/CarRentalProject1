@@ -8,6 +8,9 @@ import Login from './components/login/Login';
 
 
 function App() {
+
+  //console.log(localStorage.user)
+
   return (
     <div className="content">
       <header className="header">

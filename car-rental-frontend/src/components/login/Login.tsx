@@ -15,7 +15,7 @@ function Login() {
 
     let login = async () => {
         if (storedUsername != "" && storedPassword != "") {
-            let res = await fetch('http://localhost:8080/login', {
+            let res = await fetch('http://localhost:8080/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

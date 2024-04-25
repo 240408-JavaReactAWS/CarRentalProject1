@@ -8,6 +8,9 @@ import OrderNav from './OrderNav';
 
 function OrderPage(props: IUser) {
     
+    //console.log(props)
+    //console.log(localStorage.user)
+
     const [orderList, setOrderList] = useState<any>([])
     const [currentOrder, setCurrentOrder] = useState<IOrder>({} as IOrder)
 
@@ -63,7 +66,7 @@ function OrderPage(props: IUser) {
     // GETs All User Orders.
     let asyncCallUserOrders = async () => {
         // Check headers
-        let res = await fetch('http://localhost:8080/orders/' + props.username, {
+        let res = await fetch('http://localhost:8080/orders/' + localStorage.user.username, {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -79,7 +82,7 @@ function OrderPage(props: IUser) {
     // GETs Current User Order. Modify endpoint once defined
     let asyncCallCurrentUserOrder = async () => {
         // Check headers
-        let res = await fetch('http://localhost:8080/orders/' + props.username + '/current', {
+        let res = await fetch('http://localhost:8080/orders/' + localStorage.user.username + '/current', {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -95,7 +98,7 @@ function OrderPage(props: IUser) {
 
     useEffect(() => {
 
-        if (props.isAdmin) {
+        if (localStorage.user.isAdmin) {
             asyncCallAllOrders()
         } else {
             asyncCallUserOrders()
@@ -109,12 +112,12 @@ function OrderPage(props: IUser) {
         <>
             <h1>Orders</h1>
             {
-                (props.isAdmin) && (
+                (localStorage.user.isAdmin) && (
                     <OrderNav asyncCallAllOrders={asyncCallAllOrders} asyncCallPendingOrders={asyncCallPendingOrders} asyncCallCompletedOrders={asyncCallCompletedOrders}/>
                 )
             }
             {
-                (!props.isAdmin && currentOrder !== null) && (
+                (!localStorage.user.isAdmin && currentOrder !== null) && (
                     <div className='currentOrder'>
                         <Order {...currentOrder}/>
                     </div>
