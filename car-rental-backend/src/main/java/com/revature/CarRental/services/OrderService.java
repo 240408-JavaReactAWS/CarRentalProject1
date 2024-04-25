@@ -78,6 +78,14 @@ public class OrderService {
         return od.findAll();
     }
 
+    public List<Order> getPendingOrders() {
+        return od.findAllByIsApprovedAndIsCompleted(false, false);
+    }
+
+    public List<Order> getCompletedOrders() {
+        return od.findAllByIsCompleted(true);
+    }
+
     public List<Order> getAllOrdersForUser(String username) {
         Optional<User> optionalUser = ud.findByUsername(username);
         if(optionalUser.isPresent()) {
