@@ -86,6 +86,20 @@ public class OrderService {
         throw new EntityNotFoundException("No User found with username: " + username);
     }
 
+    public Order getCurrentOrderForUser(String username) {
+        Optional<User> optionalUser = ud.findByUsername(username);
+        if(optionalUser.isPresent()) {
+            List<Order> orders = od.findAllByUser(optionalUser.get());
+            for(Order order : orders) {
+                if(!order.getCompleted()) {
+                    return order;
+                }
+            }
+            throw new EntityNotFoundException(username + "has no current order");
+        }
+        throw new EntityNotFoundException("No User found with username: " + username);
+    }
+
     public Order createOrder(int vehicleId, User login) throws FailedLoginException {
         Optional<Vehicle> optionalVehicle = vd.findById(vehicleId);
         Optional<User> optionalUser = ud.findByUsername(login.getUsername());
@@ -118,5 +132,6 @@ public class OrderService {
             throw new EntityNotFoundException("No Order found with id: " + id);
         }
     }
+
 
 }

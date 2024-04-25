@@ -89,6 +89,18 @@ public class OrderController {
         return new ResponseEntity<>(orderList, OK);
     }
 
+    @GetMapping("/{username}/current") // get all orders for a user
+    public ResponseEntity<Order> getCurrentOrderForUser(@PathVariable String username) {
+        Order order;
+        try {
+            order = os.getCurrentOrderForUser(username);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(order, OK);
+    }
+
     @PostMapping
     public ResponseEntity<Order> createOrderHandler(@RequestBody VehicleUserDTO orderDTO) {
         Order order;
