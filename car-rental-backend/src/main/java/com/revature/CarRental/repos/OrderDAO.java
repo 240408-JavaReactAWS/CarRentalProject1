@@ -9,10 +9,10 @@ import java.util.List;
 public interface OrderDAO extends JpaRepository<Order, Integer> {
 
     /**
-     * RETRIEVE ORDER OF A USER
+     * RETRIEVE an ORDER OF A USER
      */
     Order getByUserAndIsCompleted(User user, boolean isCompleted);
-    Order getByUserAndIsApprovedAndIsCompleted(User user, boolean isApproved, boolean isCompleted);
+    Order getByUserAndIsApprovedAndIsAvailableAndIsCompleted(User user, boolean isApproved, boolean isAvailable, boolean isCompleted);
 
     /**
      * DELETE CURRENT ORDER OF A USER

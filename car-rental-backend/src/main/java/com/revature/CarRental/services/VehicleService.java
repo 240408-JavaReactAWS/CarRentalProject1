@@ -77,8 +77,9 @@ public class VehicleService {
             Vehicle vehicle = optionalVehicle.get();
             vehicle.setAvailable(availability);
             vd.save(vehicle);
+        } else {
+            throw new EntityNotFoundException("No Vehicle found with id: " + id);
         }
-        throw new EntityNotFoundException("No Vehicle found with id: " + id);
     }
 
 

@@ -32,8 +32,11 @@ public class VehicleController {
     private OrderService os;
 
     @Autowired
-    public VehicleController(VehicleService vs) {
+    public VehicleController(VehicleService vs, UserService us, OrderDAO od, OrderService os) {
         this.vs = vs;
+        this.us = us;
+        this.od = od;
+        this.os = os;
     }
 
     @GetMapping
@@ -93,7 +96,7 @@ public class VehicleController {
     @PatchMapping("/pickup")
     public ResponseEntity<Vehicle> pickupVehicleHandler(@RequestBody User credentials) throws FailedLoginException {
         User user = us.login(credentials);
-        Order order = od.getByUserAndIsApprovedAndIsCompleted(user, true, false);
+        Order order = od.getByUserAndIsApprovedAndIsAvailableAndIsCompleted(user, true, true, false);
         vs.updateVehicleAvailability(order.getVehicle().getId(), false);
         return new ResponseEntity<>(order.getVehicle(), OK);
     }
@@ -108,7 +111,7 @@ public class VehicleController {
     @PatchMapping("/return")
     public ResponseEntity<Vehicle> returnVehicleHandler(@RequestBody User credentials) throws FailedLoginException {
         User user = us.login(credentials);
-        Order order = od.getByUserAndIsApprovedAndIsCompleted(user, true, false);
+        Order order = od.getByUserAndIsApprovedAndIsAvailableAndIsCompleted(user, true, false, false);
         vs.updateVehicleAvailability(order.getVehicle().getId(), true); // Mark vehicle as available
         os.updateOrderCompletionStatus(order.getVehicle().getId(), true); // Mark order as completed
         return new ResponseEntity<>(order.getVehicle(), OK);
