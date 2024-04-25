@@ -41,6 +41,18 @@ public class OrderController {
         return new ResponseEntity<>(order, OK);
     }
 
+    @PatchMapping("/complete/{id}")
+    public ResponseEntity<Order> updateOrderCompleteStatusHandler(@PathVariable int id, @RequestBody Boolean completeStatus) {
+        Order order;
+        try {
+            order = os.updateOrderCompleteStatus(id, completeStatus);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(order, OK);
+    }
+
     /**
      * ORDER CANCELLATION by USER
      * Endpoint: DELETE localhost:8080/orders/myorder.

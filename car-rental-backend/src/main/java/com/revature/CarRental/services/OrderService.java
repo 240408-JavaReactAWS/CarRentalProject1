@@ -44,6 +44,17 @@ public class OrderService {
         throw new EntityNotFoundException("No Order found with id: " + id);
     }
 
+    public Order updateOrderCompleteStatus(int id, Boolean completeStatus) {
+        Optional<Order> optionalOrder = od.findById(id);
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
+            order.setCompleted(completeStatus);
+            od.save(order);
+            return order;
+        }
+        throw new EntityNotFoundException("No Order found with id: " + id);
+    }
+
     /**
      * ORDER CANCELLATION by USER
      * @return DELETED ORDER if deleted throws exception otherwise
@@ -107,6 +118,5 @@ public class OrderService {
             throw new EntityNotFoundException("No Order found with id: " + id);
         }
     }
-
 
 }
