@@ -65,8 +65,12 @@ public class OrderController {
         Order order;
         try {
             order = os.deleteOrder(credentials); // os = OrderService
-        } catch (EntityNotFoundException | FailedLoginException e) {
+        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(NOT_FOUND);
+        } catch (FailedLoginException e) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        } catch (EntityExistsException e) {
+            return new ResponseEntity<>(CONFLICT);
         }
         return new ResponseEntity<>(order, NO_CONTENT);
     }

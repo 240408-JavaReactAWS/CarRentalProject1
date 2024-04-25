@@ -65,6 +65,14 @@ public class OrderService {
         if (user_w_username.isPresent()) {
             User user = user_w_username.get();
             if (credentials.getPassword().equals(user.getPassword())) {
+                try {
+                    deletedOrder = this.getCurrentOrderForUser(user.getUsername());
+                    if(deletedOrder.getApproved()) {
+                        throw new EntityExistsException("Cannot delete an approved order.");
+                    }
+                } catch(EntityNotFoundException e) {
+                    throw new EntityNotFoundException("No current order found for user: " + user.getUsername());
+                }
                 deletedOrder=od.getByUserAndIsCompleted(user, false); // od = OrderDAO
                 od.deleteByUserAndIsCompleted(user, false); // od = OrderDAO
                 return deletedOrder;
