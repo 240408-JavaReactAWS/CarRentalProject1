@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import OrderPage from './components/orders/OrderPage';
+import Nav from './components/nav/Nav';
 
 
 function App() {
@@ -13,13 +14,7 @@ function App() {
       </header>
       <BrowserRouter>
         {/* Replace with Nav Component */}
-        <nav>
-          <ul>
-            <li>
-              <a href="/orders">Orders</a>
-            </li>
-          </ul>
-        </nav>
+        <Nav />
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}
           {/* <Route path="/vehicles" element={<VehiclePage />} /> */}
