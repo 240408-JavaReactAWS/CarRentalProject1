@@ -4,6 +4,7 @@ import './App.css';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import OrderPage from './components/orders/OrderPage';
 import Nav from './components/nav/Nav';
+import Login from './components/login/Login';
 
 
 function App() {
@@ -16,9 +17,10 @@ function App() {
         {/* Replace with Nav Component */}
         <Nav />
         <Routes>
-          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/" element={<Login />} />
           {/* <Route path="/vehicles" element={<VehiclePage />} /> */}
           <Route path="/orders" element={<OrderPage {...localStorage.user} />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </div>

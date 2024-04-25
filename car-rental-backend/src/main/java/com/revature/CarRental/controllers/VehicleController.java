@@ -23,6 +23,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/vehicles")
+@CrossOrigin(origins = "http://localhost:3000")
 public class VehicleController {
 
     private VehicleService vs;
