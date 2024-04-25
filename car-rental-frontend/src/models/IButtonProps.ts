@@ -6,5 +6,8 @@ export enum Source {
 export interface IButtonProps {
     source: Source,
     sourceId: number,
-    shouldDisplay: boolean    
+    shouldDisplay: boolean,
+    methods : {
+        approveReject: (approval: boolean) => void
+    }
 }

@@ -2,6 +2,7 @@ package com.revature.CarRental.services;
 
 import com.revature.CarRental.models.Location;
 import com.revature.CarRental.models.Vehicle;
+import com.revature.CarRental.repos.LocationDAO;
 import com.revature.CarRental.repos.VehicleDAO;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,12 @@ import java.util.Optional;
 public class VehicleService {
 
     private VehicleDAO vd;
+    private LocationDAO ld;
 
     @Autowired
-    public VehicleService(VehicleDAO vd) {
+    public VehicleService(LocationDAO ld, VehicleDAO vd) {
         this.vd = vd;
+        this.ld = ld;
     }
 
     public Vehicle updateVehicleLocation(int id, Location location) {
@@ -30,7 +33,14 @@ public class VehicleService {
         throw new EntityNotFoundException("No Vehicle found with id: " + id);
     }
 
-    public Vehicle addVehicle(Vehicle vehicle) {
+    public Vehicle addVehicle(int id, Vehicle vehicle) {
+        Optional<Location> optLocation = ld.findById(id);
+        if (optLocation.isPresent()) {
+            Location location = optLocation.get();
+            vehicle.setLocation(location);
+        } else {
+            throw new EntityNotFoundException("No Location found with id: " + id);
+        }
         vd.save(vehicle);
         return vehicle;
     }

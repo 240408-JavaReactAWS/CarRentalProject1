@@ -27,8 +27,8 @@ public class Location {
     private String postalCode;
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Vehicle> vehicleStock = new ArrayList<>();
+    @JsonManagedReference("location")
+    private List<Vehicle> vehicleStock;
 
     // Constructors
 

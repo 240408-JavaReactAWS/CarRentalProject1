@@ -54,7 +54,6 @@ public class LocationService {
             location.setState(newlocation.getState());
             location.setPostalCode(newlocation.getPostalCode());
             location.setStreetAddress(newlocation.getStreetAddress());
-            location.setVehicleStock(newlocation.getVehicleStock());
             ld.save(location);
             return location;
         }

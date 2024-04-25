@@ -56,8 +56,8 @@ function Button(props: IButtonProps) {
             return (
                 <>
                     <div>
-                        <button>Approve</button>
-                        <button>Reject</button>
+                        <button onClick={() => props.methods.approveReject(true)}>Approve</button>
+                        <button onClick={() => props.methods.approveReject(false)}>Reject</button>
                     </div>
                 </>
             )
@@ -94,3 +94,5 @@ function Button(props: IButtonProps) {
         }
     }
 }
+
+export default Button
