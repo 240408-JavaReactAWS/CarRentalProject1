@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.login.FailedLoginException;
 
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.*;
 
 
@@ -31,6 +33,11 @@ public class VehicleController {
     @Autowired
     public VehicleController(VehicleService vs) {
         this.vs = vs;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Vehicle>> viewAllVehiclesHandler() {
+        return new ResponseEntity<>(vs.getAllVehicles(), OK);
     }
 
     @PatchMapping("{id}")
