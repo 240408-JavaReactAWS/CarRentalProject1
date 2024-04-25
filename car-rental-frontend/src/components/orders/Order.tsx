@@ -1,11 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import VehicleInfo from '../vehicles/VehicleInfo'
+import Button from '../Button'
 import { IOrder } from '../../models/IOrder'
+import {Source, IButtonProps} from '../../models/IButtonProps'
 
 
 function Order(props: number | IOrder) {
 
     const [order, setOrder] = useState<any>([]);
+
+    let approveReject = (approval: boolean) => {
+        
+        let asyncCall = async () => {
+            let res = await fetch('http://localhost:8080/orders/' + order.orderId, { 
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    approvalStatus: approval
+                })
+            })
+            .then((data) => data.json())
+            .then((data) => setOrder(data))
+            .catch((error) => {
+                alert("There was an error")
+                console.log(error)
+            })
+        }
+
+        asyncCall()
+
+    }
 
     useEffect(() => {
 
@@ -43,7 +69,12 @@ function Order(props: number | IOrder) {
                 </div>
                 <div>
                     <VehicleInfo {...order.vehicle}/>
-                    {/* Button Component */}
+                    <Button 
+                        source={Source.Order} 
+                        sourceId={order.orderId} 
+                        shouldDisplay={!order.isCompleted} 
+                        methods={{approveReject: approveReject}}
+                    />
                 </div>
             </div>
         </>
@@ -51,3 +82,5 @@ function Order(props: number | IOrder) {
 
 
 }
+
+export default Order

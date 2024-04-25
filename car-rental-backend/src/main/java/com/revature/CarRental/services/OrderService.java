@@ -34,7 +34,9 @@ public class OrderService {
         if (optionalOrder.isPresent()) {
             Order order = optionalOrder.get();
             order.setApproved(approvalStatus);
-            order.setCompleted(true);
+            if (!approvalStatus) {
+                order.setCompleted(true);
+            }
             od.save(order);
             return order;
         }
