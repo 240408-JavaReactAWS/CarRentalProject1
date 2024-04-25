@@ -63,6 +63,19 @@ public class OrderController {
     public ResponseEntity<List<Order>> getCurrentAndPastOrdersHandler() {
         return new ResponseEntity<>(os.getCurrentAndPastOrders(), OK);
     }
+
+    @GetMapping("/{username}") // get all orders for a user
+    public ResponseEntity<List<Order>> getAllOrdersForUser(@PathVariable String username) {
+        List<Order> orderList;
+        try {
+            orderList = os.getAllOrdersForUser(username);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(orderList, OK);
+    }
+
     @PostMapping
     public ResponseEntity<Order> createOrderHandler(@RequestBody VehicleUserDTO orderDTO) {
         Order order;

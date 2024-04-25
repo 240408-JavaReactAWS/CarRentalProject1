@@ -21,11 +21,11 @@ public class Order {
 
     // Foreign
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, name = "vehicle_id")
     private Vehicle vehicle;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, name = "user_id")
     @JsonBackReference
     private User user;
 

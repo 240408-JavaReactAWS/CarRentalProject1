@@ -64,6 +64,14 @@ public class OrderService {
         return od.findAll();
     }
 
+    public List<Order> getAllOrdersForUser(String username) {
+        Optional<User> optionalUser = ud.findByUsername(username);
+        if(optionalUser.isPresent()) {
+            return od.findAllByUser(optionalUser.get());
+        }
+        throw new EntityNotFoundException("No User found with username: " + username);
+    }
+
     public Order createOrder(int vehicleId, User login) throws FailedLoginException {
         Optional<Vehicle> optionalVehicle = vd.findById(vehicleId);
         Optional<User> optionalUser = ud.findByUsername(login.getUsername());

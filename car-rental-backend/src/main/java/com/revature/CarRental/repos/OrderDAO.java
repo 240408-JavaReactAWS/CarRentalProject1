@@ -4,6 +4,8 @@ import com.revature.CarRental.models.Order;
 import com.revature.CarRental.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface OrderDAO extends JpaRepository<Order, Integer> {
 
     /**
@@ -19,4 +21,5 @@ public interface OrderDAO extends JpaRepository<Order, Integer> {
         Order order = getByUserAndIsCompleted(user, isCompleted);
         delete(order);
     }
+    List<Order> findAllByUser(User user);
 }
