@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +21,10 @@ public class VehicleService {
     public VehicleService(LocationDAO ld, VehicleDAO vd) {
         this.vd = vd;
         this.ld = ld;
+    }
+
+    public List<Vehicle> getAllVehicles() {
+        return vd.findAll();
     }
 
     public Vehicle updateVehicleLocation(int id, Location location) {

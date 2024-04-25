@@ -64,8 +64,9 @@ function Order(props: number | IOrder) {
                 <div>
                     <h1>Order Information</h1>
                     <p>Order Id: {order.orderId}</p>
-                    <p>User Id: {order.user.userId}</p>
+                    <p>User Id: {order.userId}</p>
                     <p>Date and Time: {order.dateAndTime}</p>
+                    <p>Approved: {order.isComplete ? order.isApproved : "Pending"}</p>
                 </div>
                 <div>
                     <VehicleInfo {...order.vehicle}/>
