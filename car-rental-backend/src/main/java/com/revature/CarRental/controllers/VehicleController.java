@@ -85,6 +85,23 @@ public class VehicleController {
         return new ResponseEntity<>(order.getVehicle(), OK);
     }
 
+    /**
+     * VEHICLE RETURN by USER
+     * Endpoint: GET localhost:8080/vehicles/return
+     *
+     * @ResponseBody JSON of the vehicle being returned by the user.
+     * @ResponseStatus default, 200 (OK).
+     */
+    @PatchMapping("/return")
+    public ResponseEntity<Vehicle> returnVehicleHandler(@RequestBody User credentials) throws FailedLoginException {
+        User user = us.login(credentials);
+        Order order = od.getByUserAndIsApprovedAndIsCompleted(user, true, false);
+        vs.updateVehicleAvailability(order.getVehicle().getId(), true); // Mark vehicle as available
+        os.updateOrderCompletionStatus(order.getVehicle().getId(), true); // Mark order as completed
+        return new ResponseEntity<>(order.getVehicle(), OK);
+    }
+
+
 
 
 }
