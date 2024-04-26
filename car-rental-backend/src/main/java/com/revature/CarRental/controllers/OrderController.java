@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.security.auth.login.FailedLoginException;
@@ -78,8 +79,16 @@ public class OrderController {
 
 
     @GetMapping("/allorders")
-    public ResponseEntity<List<Order>> getCurrentAndPastOrdersHandler() {
-        return new ResponseEntity<>(os.getCurrentAndPastOrders(), OK);
+    public ResponseEntity<List<OrderDTO>> getCurrentAndPastOrdersHandler() {
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        List<Order> orderList = os.getCurrentAndPastOrders();
+        for(Order order : orderList) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setOrder(order);
+            orderDTO.setUserId(order.getUser().getUserId());
+            orderDTOList.add(orderDTO);
+        }
+        return new ResponseEntity<>(orderDTOList, OK);
     }
 
     @GetMapping("/pendingorders")
@@ -152,5 +161,26 @@ class VehicleUserDTO {
 
     public int getVehicleId() {
         return vehicleId;
+    }
+}
+
+class OrderDTO {
+    Order order;
+    int userId;
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 }
