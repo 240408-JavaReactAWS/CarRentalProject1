@@ -96,7 +96,7 @@ public class VehicleController {
     @PatchMapping("/pickup")
     public ResponseEntity<Vehicle> pickupVehicleHandler(@RequestBody User credentials) throws FailedLoginException {
         User user = us.login(credentials);
-        Order order = od.getByUserAndIsApprovedAndIsAvailableAndIsCompleted(user, true, true, false);
+        Order order = os.getCurrentOrderForUser(user.getUsername());
         if(us.getCurrentCar(user.getUserId()).equals(order.getVehicle())) {
             return new ResponseEntity<>(BAD_REQUEST); // User already has the vehicle
         }
