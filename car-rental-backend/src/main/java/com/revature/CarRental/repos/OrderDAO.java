@@ -12,7 +12,6 @@ public interface OrderDAO extends JpaRepository<Order, Integer> {
      * RETRIEVE an ORDER OF A USER
      */
     Order getByUserAndIsCompleted(User user, boolean isCompleted);
-    Order getByUserAndIsApprovedAndIsAvailableAndIsCompleted(User user, boolean isApproved, boolean isAvailable, boolean isCompleted);
 
     /**
      * DELETE CURRENT ORDER OF A USER
@@ -26,4 +25,5 @@ public interface OrderDAO extends JpaRepository<Order, Integer> {
     List<Order> findAllByIsApprovedAndIsCompleted(boolean isApproved, boolean isCompleted);
 
     List<Order> findAllByIsCompleted(boolean isCompleted);
+
 }

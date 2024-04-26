@@ -96,7 +96,7 @@ public class VehicleController {
     @PatchMapping("/pickup")
     public ResponseEntity<Vehicle> pickupVehicleHandler(@RequestBody User credentials) throws FailedLoginException {
         User user = us.login(credentials);
-        Order order = od.getByUserAndIsApprovedAndIsAvailableAndIsCompleted(user, true, true, false);
+        Order order = os.getCurrentOrderForUser(user.getUsername());
         vs.updateVehicleAvailability(order.getVehicle().getId(), false);
         us.updateCurrentCar(user.getUserId(), order.getVehicle());  // Assign vehicle to user
         return new ResponseEntity<>(order.getVehicle(), OK);
@@ -112,7 +112,7 @@ public class VehicleController {
     @PatchMapping("/return")
     public ResponseEntity<Vehicle> returnVehicleHandler(@RequestBody User credentials) throws FailedLoginException {
         User user = us.login(credentials);
-        Order order = od.getByUserAndIsApprovedAndIsAvailableAndIsCompleted(user, true, false, false);
+        Order order = os.getCurrentOrderForUser(user.getUsername());
         vs.updateVehicleAvailability(order.getVehicle().getId(), true); // Mark vehicle as available
         os.updateOrderCompletionStatus(order.getVehicle().getId(), true); // Mark order as completed
         us.updateCurrentCar(user.getUserId(), null); // Remove vehicle from use
