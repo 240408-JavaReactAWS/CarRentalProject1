@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { IUser } from '../../models/IUser';
 import Order from './Order';
 import { IOrder } from '../../models/IOrder';
+import { IOrderDTO } from '../../models/IOrderDTO';
 import OrderNav from './OrderNav';
+import axios from 'axios';
 
 
 
@@ -13,10 +15,11 @@ function OrderPage() {
     let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {} as IUser
 
     const [orderList, setOrderList] = useState<any>([])
-    const [currentOrder, setCurrentOrder] = useState<IOrder>({} as IOrder)
+    const [currentOrder, setCurrentOrder] = useState<any>([])
 
     // GETs All Orders. 
     let asyncCallAllOrders = async () => {
+        console.log("Getting all orders")
         // Check headers
         let res = await fetch('http://localhost:8080/orders/allorders', {
             headers: {
@@ -25,7 +28,7 @@ function OrderPage() {
         })
         .then((data) => data.json())
         .then((data) => {
-            console.log(data)
+            // console.log(data)
             setOrderList(data)})
         .catch((error) => {
             alert("There was an error loading order list")
@@ -33,8 +36,29 @@ function OrderPage() {
         })
     }
 
+    /*
+    // Filter All Orders by isApproved
+    let filterOrders = (e: React.MouseEvent<HTMLButtonElement>) => {
+        asyncCallAllOrders()
+
+        console.log((e.target as HTMLButtonElement).value)
+
+        let filteredOrders = orderList.filter((orderDTO: IOrderDTO) => {
+            if ((e.target as HTMLButtonElement).value == "all") {
+                return orderDTO;
+            } else if ((e.target as HTMLButtonElement).value == "pending") {
+                return orderDTO.order.isCompleted == false;
+            } else if ((e.target as HTMLButtonElement).value == "completed") {
+                return orderDTO.order.isCompleted == true;                
+            }
+        })
+        setOrderList(filteredOrders)
+    }
+    */
+
     // GETs All Pending Orders. Modify endpoint once defined
     let asyncCallPendingOrders = async () => {
+        console.log("Getting pending orders")
         // Check headers
         let res = await fetch('http://localhost:8080/orders/pendingorders', {
             headers: {
@@ -52,6 +76,7 @@ function OrderPage() {
 
     // GETs All Completed Orders. Modify endpoint once defined
     let asyncCallCompletedOrders = async () => {
+        console.log("Getting completed orders")
         // Check headers
         let res = await fetch('http://localhost:8080/orders/completedorders', {
             headers: {
@@ -85,17 +110,41 @@ function OrderPage() {
     // GETs Current User Order. Modify endpoint once defined
     let asyncCallCurrentUserOrder = async () => {
         // Check headers
+        /*
         let res = await fetch('http://localhost:8080/orders/' + user.username + '/current', {
             headers: {
                 'Content-Type': 'application/json'
             },
         })
         .then((data) => data.json())
-        .then((data) => setCurrentOrder(data))
-        .catch((error) => {
-            alert("There was an error loading order")
-            console.log(error)
+        .then((data) => {
+            if (data)
         })
+        .then((data) => {
+            console.log("Data: " + data)
+            currentOrder = data})
+        .catch((error) => {
+            console.log("Error: " + error)
+        })
+        */
+
+        try {
+            let res = await axios.get('http://localhost:8080/orders/' + user.username + '/current')
+            if (res.status != 200) {
+                throw new Error("Error: " + res.status)
+            }
+            setCurrentOrder(res.data)
+        } catch (error: any) {
+            let status = error.response.status
+            if (status === 404) {
+                console.log("No current order")
+                setCurrentOrder(null)
+            } else {
+                console.log("Error: " + error)
+            }
+        }
+
+        
     }
     
 
@@ -111,12 +160,16 @@ function OrderPage() {
     },[])
         
 
+    //console.log(orderList)
+
     return (
         <>
             <h1>Orders</h1>
             {
                 (user.isAdmin) && (
-                    <OrderNav asyncCallAllOrders={asyncCallAllOrders} asyncCallPendingOrders={asyncCallPendingOrders} asyncCallCompletedOrders={asyncCallCompletedOrders}/>
+                    <OrderNav asyncCallAllOrders={asyncCallAllOrders} asyncCallPendingOrders={asyncCallPendingOrders} asyncCallCompletedOrders={asyncCallCompletedOrders}
+                    //filterOrders={filterOrders}
+                    />
                 )
             }
             {
@@ -127,9 +180,10 @@ function OrderPage() {
                 )
             }
             {
-                orderList.map((order: IOrder) => {
+                orderList.map((orderDTO: IOrderDTO) => {
+                    //console.log(orderDTO)
                     return (
-                        <Order key={"order-block-"+order.orderId} {...order}/>
+                        <Order key={"order-block-"+orderDTO.order.orderId} {...orderDTO.order}/>
                     )
             }
             )}

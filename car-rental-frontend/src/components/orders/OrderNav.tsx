@@ -1,16 +1,17 @@
 interface InnerNavProps {
     asyncCallAllOrders: () => void,
     asyncCallPendingOrders: () => void,
-    asyncCallCompletedOrders: () => void
+    asyncCallCompletedOrders: () => void,
+    //filterOrders: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 function OrderNav(props: InnerNavProps) {
 
     return (
         <div>
-            <button onClick={props.asyncCallAllOrders}>All</button>
-            <button onClick={props.asyncCallPendingOrders}>Pending</button>
-            <button onClick={props.asyncCallCompletedOrders}>Completed</button>
+            <button value={"all"} onClick={props.asyncCallAllOrders}>All</button>
+            <button value={"pending"} onClick={props.asyncCallPendingOrders}>Pending</button>
+            <button value={"completed"} onClick={props.asyncCallCompletedOrders}>Completed</button>
         </div>
     )
 

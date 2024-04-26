@@ -92,17 +92,44 @@ public class OrderController {
     }
 
     @GetMapping("/pendingorders")
-    public ResponseEntity<List<Order>> getPendingOrdersHandler() {
-        return new ResponseEntity<>(os.getPendingOrders(), OK);
+    public ResponseEntity<List<OrderDTO>> getPendingOrdersHandler() {
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        List<Order> orderList = os.getPendingOrders();
+        for(Order order : orderList) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setOrder(order);
+            orderDTO.setUserId(order.getUser().getUserId());
+            orderDTOList.add(orderDTO);
+        }
+        return new ResponseEntity<>(orderDTOList, OK);
     }
 
     @GetMapping("/completedorders")
-    public ResponseEntity<List<Order>> getCompletedOrdersHandler() {
-        return new ResponseEntity<>(os.getCompletedOrders(), OK);
+    public ResponseEntity<List<OrderDTO>> getCompletedOrdersHandler() {
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        List<Order> orderList = os.getCompletedOrders();
+        for(Order order : orderList) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setOrder(order);
+            orderDTO.setUserId(order.getUser().getUserId());
+            orderDTOList.add(orderDTO);
+        }
+        return new ResponseEntity<>(orderDTOList, OK);
     }
 
     @GetMapping("/{username}") // get all orders for a user
-    public ResponseEntity<List<Order>> getAllOrdersForUser(@PathVariable String username) {
+    public ResponseEntity<List<OrderDTO>> getAllOrdersForUser(@PathVariable String username) {
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        List<Order> orderList = os.getAllOrdersForUser(username);
+        for(Order order : orderList) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setOrder(order);
+            orderDTO.setUserId(order.getUser().getUserId());
+            orderDTOList.add(orderDTO);
+        }
+        return new ResponseEntity<>(orderDTOList, OK);
+
+        /*
         List<Order> orderList;
         try {
             orderList = os.getAllOrdersForUser(username);
@@ -111,9 +138,11 @@ public class OrderController {
         }
 
         return new ResponseEntity<>(orderList, OK);
+        */
+
     }
 
-    @GetMapping("/{username}/current") // get all orders for a user
+    @GetMapping("/{username}/current") // get current order for a user
     public ResponseEntity<Order> getCurrentOrderForUser(@PathVariable String username) {
         Order order;
         try {
