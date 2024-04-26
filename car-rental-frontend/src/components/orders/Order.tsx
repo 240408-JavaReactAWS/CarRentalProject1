@@ -17,9 +17,7 @@ function Order(props: number | IOrder) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    approvalStatus: approval
-                })
+                body: JSON.stringify(approval)
             })
             .then((data) => data.json())
             .then((data) => setOrder(data))
@@ -58,15 +56,18 @@ function Order(props: number | IOrder) {
 
     },[])
 
+    // console.log(order.isCompleted)
+    console.log(order)
+
     return (
         <>
             <div>
                 <div>
                     <h1>Order Information</h1>
                     <p>Order Id: {order.orderId}</p>
-                    <p>User Id: {order.userId}</p>
+                    <p>User Id: {order.user}</p>
                     <p>Date and Time: {order.dateAndTime}</p>
-                    <p>Approved: {order.isComplete ? order.isApproved : "Pending"}</p>
+                    <p>Approved: {order.isCompleted ? order.isApproved ? "Approved" : "Rejected" : "Pending"}</p>
                 </div>
                 <div>
                     <VehicleInfo {...order.vehicle}/>

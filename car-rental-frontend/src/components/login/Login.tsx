@@ -35,7 +35,7 @@ function Login() {
             })
         }
 
-        console.log(localStorage.getItem('user'))
+        //console.log(localStorage.getItem('user'))
     }
 
     let createAccount = (isAdmin: boolean) => {

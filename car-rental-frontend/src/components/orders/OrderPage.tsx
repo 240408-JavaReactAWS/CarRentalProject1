@@ -127,7 +127,7 @@ function OrderPage() {
             {
                 orderList.map((order: IOrder) => {
                     return (
-                        <Order {...order}/>
+                        <Order key={"order-block-"+order.orderId} {...order}/>
                     )
             }
             )}
