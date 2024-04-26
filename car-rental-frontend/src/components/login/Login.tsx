@@ -1,4 +1,5 @@
 import React, { SyntheticEvent, useState } from 'react';
+import './Login.css';
 
 function Login() {
 
@@ -67,7 +68,7 @@ function Login() {
 
     return (
         <>
-            <div>
+            <div className='LoginPage'>
                 <h1>Login</h1>
                 <input type="text" placeholder="Username" onChange={changeUsername} />
                 <input type="password" placeholder="Password" onChange={changePassword} />

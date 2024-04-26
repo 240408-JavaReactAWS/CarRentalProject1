@@ -1,0 +1,30 @@
+/* Login.css */
+.LoginPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4%;
+}
+
+.LoginPage h1 {
+    font-size: 40px;
+    margin-bottom: 1rem;
+    padding: 5px;
+    color: rgb(121, 121, 121);
+}
+
+.LoginPage input {
+    font-size: 20px;
+    margin-bottom: 1rem;
+    padding: 5px;
+}
+
+.LoginPage button {
+    border: none;
+    color: white;
+    font-size: 20px;
+    margin-bottom: 1rem;
+    padding: 5px;
+    background-color: rgba(134, 141, 146, 0.61);
+}

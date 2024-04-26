@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+body {
+  background-image: linear-gradient( rgb(168, 168, 168), rgb(185, 194, 200));
+
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +40,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.header, .loginpage {
+  background-color: rgba(0, 0, 0, 0.800);
+  min-height: 15vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }

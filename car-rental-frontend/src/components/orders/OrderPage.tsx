@@ -4,6 +4,7 @@ import Order from './Order';
 import { IOrder } from '../../models/IOrder';
 import { IOrderDTO } from '../../models/IOrderDTO';
 import OrderNav from './OrderNav';
+import './OrderPage.css';
 
 
 
@@ -139,6 +140,7 @@ function OrderPage() {
 
     return (
         <>
+        <nav className='orderPage'>
             <h1>Orders</h1>
             {
                 (user.isAdmin) && (
@@ -162,6 +164,7 @@ function OrderPage() {
                     )
             }
             )}
+            </nav>
         </>
     )
 
