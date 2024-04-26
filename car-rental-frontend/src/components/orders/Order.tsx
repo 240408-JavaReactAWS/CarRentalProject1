@@ -8,7 +8,7 @@ import {Source, IButtonProps} from '../../models/IButtonProps'
 
 function Order(props: IOrderDTO) {
 
-    console.log(props)
+    //console.log(props)
 
     const [order, setOrder] = useState<any>(props.order);
     
@@ -34,6 +34,7 @@ function Order(props: IOrderDTO) {
 
     }
 
+    /*
     useEffect(() => {
 
         let asyncCall = async () => {
@@ -60,10 +61,22 @@ function Order(props: IOrderDTO) {
         }
 
     },[])
+    */
 
     // console.log(order.isCompleted)
     // console.log(order.vehicle)
-    console.log(order)
+    // console.log(order)
+
+    let approvalMessage: string
+    if (order.isCompleted) {
+        if (order.isApproved) {
+            approvalMessage = "Approved"
+        } else {
+            approvalMessage = "Rejected"
+        }
+    } else {
+        approvalMessage = "Pending"
+    }
 
     return (
         <>
@@ -73,7 +86,7 @@ function Order(props: IOrderDTO) {
                     <p>Order Id: {order.orderId}</p>
                     <p>User Id: {props.userId}</p>
                     <p>Date and Time: {order.dateAndTime}</p>
-                    <p>Approved: {order.isCompleted ? order.isApproved ? "Approved" : "Rejected" : "Pending"}</p>
+                    <p>Approved: {approvalMessage}</p>
                 </div>
                 <div>
                     <VehicleInfo {...order.vehicle}/>
