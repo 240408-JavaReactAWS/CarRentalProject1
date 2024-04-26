@@ -41,7 +41,9 @@ function Order(props: number | IOrder) {
                 },
             })
             .then((data) => data.json())
-            .then((data) => setOrder(data))
+            .then((data) => {
+                console.log(data)
+                setOrder(data)})
             .catch((error) => {
                 alert("There was an error loading order information")
                 console.log(error)
@@ -57,7 +59,7 @@ function Order(props: number | IOrder) {
     },[])
 
     // console.log(order.isCompleted)
-    console.log(order)
+    console.log(order.vehicle)
 
     return (
         <>

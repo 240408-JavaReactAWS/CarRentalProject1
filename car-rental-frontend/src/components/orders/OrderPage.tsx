@@ -24,7 +24,9 @@ function OrderPage() {
             },
         })
         .then((data) => data.json())
-        .then((data) => setOrderList(data))
+        .then((data) => {
+            console.log(data)
+            setOrderList(data)})
         .catch((error) => {
             alert("There was an error loading order list")
             console.log(error)

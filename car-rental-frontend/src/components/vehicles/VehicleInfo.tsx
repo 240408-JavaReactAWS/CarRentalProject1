@@ -14,7 +14,7 @@ function VehicleInfo(props: number | IVehicle) {
     // GOAL: Send an http request when this component shows up on the screen
     // The request should be a get request and should receive the information of a specific vehicle
 
-    const [vehicle, setVehicle] = useState<any>([]);
+    const [vehicle, setVehicle] = useState<any>(props);
 
     useEffect(() => {
 
