@@ -97,8 +97,14 @@ public class VehicleController {
     public ResponseEntity<Vehicle> pickupVehicleHandler(@RequestBody User credentials) throws FailedLoginException {
         User user = us.login(credentials);
         Order order = os.getCurrentOrderForUser(user.getUsername());
-        if(us.getCurrentCar(user.getUserId()).equals(order.getVehicle())) {
-            return new ResponseEntity<>(BAD_REQUEST); // User already has the vehicle
+        Vehicle vehicle;
+        try {
+            vehicle = us.getCurrentCar(user.getUserId());
+        } catch( EntityNotFoundException e) {
+            vehicle = null;
+        }
+        if(vehicle != null) { // Check if user already has a vehicle
+            return new ResponseEntity<>(BAD_REQUEST); // User already has a vehicle
         }
         vs.updateVehicleAvailability(order.getVehicle().getId(), false); // Mark vehicle as unavailable for others
         us.updateCurrentCar(user.getUserId(), order.getVehicle());  // Assign vehicle to user
@@ -115,14 +121,19 @@ public class VehicleController {
     @PatchMapping("/return")
     public ResponseEntity<Vehicle> returnVehicleHandler(@RequestBody User credentials) throws FailedLoginException {
         User user = us.login(credentials);
-        Vehicle currentVehicle = us.getCurrentCar(user.getUserId());
-        if(currentVehicle == null ) { // Check if user has a vehicle
-            return new ResponseEntity<>(BAD_REQUEST); // User has already returned the vehicle
+        Vehicle vehicle;
+        try {
+            vehicle = us.getCurrentCar(user.getUserId());
+        } catch( EntityNotFoundException e) {
+            vehicle = null;
+        }
+        if(vehicle == null ) { // Check if user has a vehicle
+            return new ResponseEntity<>(BAD_REQUEST); // User has no vehicle
         }
         us.updateCurrentCar(user.getUserId(), null); // Remove vehicle from user
-        os.updateOrderCompletionStatus(currentVehicle.getId(), true); // Mark order as completed
-        vs.updateVehicleAvailability(currentVehicle.getId(), true); // Mark vehicle as available for others
-        return new ResponseEntity<>(currentVehicle, OK);
+        os.updateOrderCompletionStatus(vehicle.getId(), true); // Mark order as completed
+        vs.updateVehicleAvailability(vehicle.getId(), true); // Mark vehicle as available for others
+        return new ResponseEntity<>(vehicle, OK);
     }
 
 
