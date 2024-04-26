@@ -95,8 +95,18 @@ public class VehicleController {
      */
     @PatchMapping("/pickup")
     public ResponseEntity<Vehicle> pickupVehicleHandler(@RequestBody User credentials) throws FailedLoginException {
-        User user = us.login(credentials);
-        Order order = os.getCurrentOrderForUser(user.getUsername());
+        User user;
+        try {
+            user = us.login(credentials);
+        } catch (FailedLoginException e) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        }
+        Order order;
+        try {
+            order = os.getCurrentOrderForUser(user.getUsername());
+        } catch( EntityNotFoundException e) {
+            return new ResponseEntity<>(NOT_FOUND); // User has no pending order
+        }
         Vehicle vehicle;
         try {
             vehicle = us.getCurrentCar(user.getUserId());
@@ -104,7 +114,7 @@ public class VehicleController {
             vehicle = null;
         }
         if(vehicle != null) { // Check if user already has a vehicle
-            return new ResponseEntity<>(BAD_REQUEST); // User already has a vehicle
+            return new ResponseEntity<>(CONFLICT); // User already has a vehicle
         }
         vs.updateVehicleAvailability(order.getVehicle().getId(), false); // Mark vehicle as unavailable for others
         us.updateCurrentCar(user.getUserId(), order.getVehicle());  // Assign vehicle to user
@@ -120,7 +130,18 @@ public class VehicleController {
      */
     @PatchMapping("/return")
     public ResponseEntity<Vehicle> returnVehicleHandler(@RequestBody User credentials) throws FailedLoginException {
-        User user = us.login(credentials);
+        User user;
+        try {
+            user = us.login(credentials);
+        } catch (FailedLoginException e) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        }
+        Order order;
+        try {
+            order = os.getCurrentOrderForUser(user.getUsername());
+        } catch( EntityNotFoundException e) {
+            return new ResponseEntity<>(NOT_FOUND); // User has no pending order
+        }
         Vehicle vehicle;
         try {
             vehicle = us.getCurrentCar(user.getUserId());
@@ -131,7 +152,7 @@ public class VehicleController {
             return new ResponseEntity<>(BAD_REQUEST); // User has no vehicle
         }
         us.updateCurrentCar(user.getUserId(), null); // Remove vehicle from user
-        os.updateOrderCompletionStatus(vehicle.getId(), true); // Mark order as completed
+        os.updateOrderCompletionStatus(order.getOrderId(), true); // Mark order as completed
         vs.updateVehicleAvailability(vehicle.getId(), true); // Mark vehicle as available for others
         return new ResponseEntity<>(vehicle, OK);
     }
