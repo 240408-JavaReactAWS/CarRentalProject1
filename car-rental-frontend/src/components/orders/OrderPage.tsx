@@ -4,6 +4,7 @@ import Order from './Order';
 import { IOrder } from '../../models/IOrder';
 import { IOrderDTO } from '../../models/IOrderDTO';
 import OrderNav from './OrderNav';
+import axios from 'axios';
 
 
 
@@ -14,7 +15,7 @@ function OrderPage() {
     let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {} as IUser
 
     const [orderList, setOrderList] = useState<any>([])
-    const [currentOrder, setCurrentOrder] = useState<IOrder>({} as IOrder)
+    const [currentOrder, setCurrentOrder] = useState<any>([])
 
     // GETs All Orders. 
     let asyncCallAllOrders = async () => {
@@ -109,17 +110,41 @@ function OrderPage() {
     // GETs Current User Order. Modify endpoint once defined
     let asyncCallCurrentUserOrder = async () => {
         // Check headers
+        /*
         let res = await fetch('http://localhost:8080/orders/' + user.username + '/current', {
             headers: {
                 'Content-Type': 'application/json'
             },
         })
         .then((data) => data.json())
-        .then((data) => setCurrentOrder(data))
-        .catch((error) => {
-            alert("There was an error loading order")
-            console.log(error)
+        .then((data) => {
+            if (data)
         })
+        .then((data) => {
+            console.log("Data: " + data)
+            currentOrder = data})
+        .catch((error) => {
+            console.log("Error: " + error)
+        })
+        */
+
+        try {
+            let res = await axios.get('http://localhost:8080/orders/' + user.username + '/current')
+            if (res.status != 200) {
+                throw new Error("Error: " + res.status)
+            }
+            setCurrentOrder(res.data)
+        } catch (error: any) {
+            let status = error.response.status
+            if (status === 404) {
+                console.log("No current order")
+                setCurrentOrder(null)
+            } else {
+                console.log("Error: " + error)
+            }
+        }
+
+        
     }
     
 
@@ -135,7 +160,7 @@ function OrderPage() {
     },[])
         
 
-    console.log(orderList)
+    //console.log(orderList)
 
     return (
         <>
@@ -156,7 +181,7 @@ function OrderPage() {
             }
             {
                 orderList.map((orderDTO: IOrderDTO) => {
-                    console.log(orderDTO)
+                    //console.log(orderDTO)
                     return (
                         <Order key={"order-block-"+orderDTO.order.orderId} {...orderDTO.order}/>
                     )
