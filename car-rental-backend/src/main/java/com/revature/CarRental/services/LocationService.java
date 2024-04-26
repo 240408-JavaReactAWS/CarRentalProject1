@@ -26,6 +26,14 @@ public class LocationService {
         return ld.findAll();
     }
 
+    public Location getLocationById(int id) {
+        Optional<Location> optLocation = ld.findById(id);
+        if(optLocation.isPresent()) {
+            return optLocation.get();
+        }
+        throw new EntityNotFoundException("No Location found with id: " + id);
+    }
+
     /**
      * VEHICLE RETRIEVING - ALL VEHICLES AT A LOCATION
      * @return `List of Vehicles` if exist `empty List` otherwise

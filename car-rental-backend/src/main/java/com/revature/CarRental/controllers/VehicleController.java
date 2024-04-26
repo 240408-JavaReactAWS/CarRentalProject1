@@ -6,6 +6,7 @@ import com.revature.CarRental.models.Order;
 import com.revature.CarRental.models.User;
 import com.revature.CarRental.models.Vehicle;
 import com.revature.CarRental.repos.OrderDAO;
+import com.revature.CarRental.services.LocationService;
 import com.revature.CarRental.services.OrderService;
 import com.revature.CarRental.services.UserService;
 import com.revature.CarRental.services.VehicleService;
@@ -27,6 +28,7 @@ import static org.springframework.http.HttpStatus.*;
 public class VehicleController {
 
     private VehicleService vs;
+    private LocationService ls;
     private UserService us;
     private OrderDAO od;
     private OrderService os;
@@ -45,8 +47,15 @@ public class VehicleController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<Vehicle> updateVehicleLocationHandler(@PathVariable int id, @RequestBody Location newLocation) {
+    public ResponseEntity<Vehicle> updateVehicleLocationHandler(@PathVariable int id, @RequestBody int newLocationId) {
         Vehicle vehicle;
+        Location newLocation;
+        try {
+            newLocation = ls.getLocationById(newLocationId);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(NOT_FOUND);
+        }
+
         try {
             vehicle = vs.updateVehicleLocation(id, newLocation);
         } catch (EntityNotFoundException e) {
