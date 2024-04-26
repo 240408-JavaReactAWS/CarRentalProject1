@@ -7,7 +7,7 @@ import {Source, IButtonProps} from '../../models/IButtonProps'
 
 function Order(props: number | IOrder) {
 
-    const [order, setOrder] = useState<any>([]);
+    const [order, setOrder] = useState<any>(props);
 
     let approveReject = (approval: boolean) => {
         
@@ -59,7 +59,7 @@ function Order(props: number | IOrder) {
     },[])
 
     // console.log(order.isCompleted)
-    console.log(order.vehicle)
+    // console.log(order.vehicle)
 
     return (
         <>

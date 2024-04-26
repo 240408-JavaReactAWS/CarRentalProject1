@@ -92,13 +92,29 @@ public class OrderController {
     }
 
     @GetMapping("/pendingorders")
-    public ResponseEntity<List<Order>> getPendingOrdersHandler() {
-        return new ResponseEntity<>(os.getPendingOrders(), OK);
+    public ResponseEntity<List<OrderDTO>> getPendingOrdersHandler() {
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        List<Order> orderList = os.getPendingOrders();
+        for(Order order : orderList) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setOrder(order);
+            orderDTO.setUserId(order.getUser().getUserId());
+            orderDTOList.add(orderDTO);
+        }
+        return new ResponseEntity<>(orderDTOList, OK);
     }
 
     @GetMapping("/completedorders")
-    public ResponseEntity<List<Order>> getCompletedOrdersHandler() {
-        return new ResponseEntity<>(os.getCompletedOrders(), OK);
+    public ResponseEntity<List<OrderDTO>> getCompletedOrdersHandler() {
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        List<Order> orderList = os.getCompletedOrders();
+        for(Order order : orderList) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setOrder(order);
+            orderDTO.setUserId(order.getUser().getUserId());
+            orderDTOList.add(orderDTO);
+        }
+        return new ResponseEntity<>(orderDTOList, OK);
     }
 
     @GetMapping("/{username}") // get all orders for a user

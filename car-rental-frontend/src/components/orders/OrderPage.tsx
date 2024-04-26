@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { IUser } from '../../models/IUser';
 import Order from './Order';
 import { IOrder } from '../../models/IOrder';
+import { IOrderDTO } from '../../models/IOrderDTO';
 import OrderNav from './OrderNav';
 
 
@@ -17,6 +18,7 @@ function OrderPage() {
 
     // GETs All Orders. 
     let asyncCallAllOrders = async () => {
+        console.log("Getting all orders")
         // Check headers
         let res = await fetch('http://localhost:8080/orders/allorders', {
             headers: {
@@ -25,7 +27,7 @@ function OrderPage() {
         })
         .then((data) => data.json())
         .then((data) => {
-            console.log(data)
+            // console.log(data)
             setOrderList(data)})
         .catch((error) => {
             alert("There was an error loading order list")
@@ -33,8 +35,29 @@ function OrderPage() {
         })
     }
 
+    /*
+    // Filter All Orders by isApproved
+    let filterOrders = (e: React.MouseEvent<HTMLButtonElement>) => {
+        asyncCallAllOrders()
+
+        console.log((e.target as HTMLButtonElement).value)
+
+        let filteredOrders = orderList.filter((orderDTO: IOrderDTO) => {
+            if ((e.target as HTMLButtonElement).value == "all") {
+                return orderDTO;
+            } else if ((e.target as HTMLButtonElement).value == "pending") {
+                return orderDTO.order.isCompleted == false;
+            } else if ((e.target as HTMLButtonElement).value == "completed") {
+                return orderDTO.order.isCompleted == true;                
+            }
+        })
+        setOrderList(filteredOrders)
+    }
+    */
+
     // GETs All Pending Orders. Modify endpoint once defined
     let asyncCallPendingOrders = async () => {
+        console.log("Getting pending orders")
         // Check headers
         let res = await fetch('http://localhost:8080/orders/pendingorders', {
             headers: {
@@ -52,6 +75,7 @@ function OrderPage() {
 
     // GETs All Completed Orders. Modify endpoint once defined
     let asyncCallCompletedOrders = async () => {
+        console.log("Getting completed orders")
         // Check headers
         let res = await fetch('http://localhost:8080/orders/completedorders', {
             headers: {
@@ -111,12 +135,16 @@ function OrderPage() {
     },[])
         
 
+    console.log(orderList)
+
     return (
         <>
             <h1>Orders</h1>
             {
                 (user.isAdmin) && (
-                    <OrderNav asyncCallAllOrders={asyncCallAllOrders} asyncCallPendingOrders={asyncCallPendingOrders} asyncCallCompletedOrders={asyncCallCompletedOrders}/>
+                    <OrderNav asyncCallAllOrders={asyncCallAllOrders} asyncCallPendingOrders={asyncCallPendingOrders} asyncCallCompletedOrders={asyncCallCompletedOrders}
+                    //filterOrders={filterOrders}
+                    />
                 )
             }
             {
@@ -127,9 +155,10 @@ function OrderPage() {
                 )
             }
             {
-                orderList.map((order: IOrder) => {
+                orderList.map((orderDTO: IOrderDTO) => {
+                    console.log(orderDTO)
                     return (
-                        <Order key={"order-block-"+order.orderId} {...order}/>
+                        <Order key={"order-block-"+orderDTO.order.orderId} {...orderDTO.order}/>
                     )
             }
             )}
