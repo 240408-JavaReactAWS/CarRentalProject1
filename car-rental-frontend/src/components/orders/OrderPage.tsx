@@ -15,7 +15,7 @@ function OrderPage() {
     let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {} as IUser
 
     const [orderList, setOrderList] = useState<any>([])
-    const [currentOrder, setCurrentOrder] = useState<any>([])
+    const [currentOrder, setCurrentOrder] = useState<any>(null)
 
     // GETs All Orders. 
     let asyncCallAllOrders = async () => {
@@ -161,6 +161,7 @@ function OrderPage() {
         
 
     //console.log(orderList)
+    console.log(currentOrder)
 
     return (
         <>
@@ -174,7 +175,7 @@ function OrderPage() {
             }
             {
                 (!user.isAdmin && currentOrder !== null) && (
-                    <div className='currentOrder'>
+                    <div style={{backgroundColor:'grey'}} className='currentOrder'>
                         <Order {...currentOrder}/>
                     </div>
                 )
@@ -183,7 +184,7 @@ function OrderPage() {
                 orderList.map((orderDTO: IOrderDTO) => {
                     //console.log(orderDTO)
                     return (
-                        <Order key={"order-block-"+orderDTO.order.orderId} {...orderDTO.order}/>
+                        <Order key={"order-block-"+orderDTO.order.orderId} {...orderDTO}/>
                     )
             }
             )}
