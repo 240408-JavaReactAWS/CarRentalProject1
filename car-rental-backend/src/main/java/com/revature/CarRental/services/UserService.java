@@ -1,7 +1,9 @@
 package com.revature.CarRental.services;
 
 import com.revature.CarRental.models.User;
+import com.revature.CarRental.models.Vehicle;
 import com.revature.CarRental.repos.UserDAO;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.CarRental.models.User;
@@ -34,4 +36,15 @@ public class UserService {
         throw new FailedLoginException("Incorrect Username or Password");
     }
 
+    public void updateCurrentCar(int userId, Vehicle vehicle) {
+        Optional<User> optionalUser = ud.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setCurrentCar(vehicle);
+            ud.save(user);
+        }else {
+            throw new EntityNotFoundException("No User found with id: " + userId);
+        }
+
+    }
 }
