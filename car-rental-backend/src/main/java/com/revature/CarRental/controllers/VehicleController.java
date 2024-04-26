@@ -107,6 +107,9 @@ public class VehicleController {
         } catch( EntityNotFoundException e) {
             return new ResponseEntity<>(NOT_FOUND); // User has no pending order
         }
+        if(!order.getApproved()) {
+            return new ResponseEntity<>(BAD_REQUEST); // Order is not approved
+        }
         Vehicle vehicle;
         try {
             vehicle = us.getCurrentCar(user.getUserId());
