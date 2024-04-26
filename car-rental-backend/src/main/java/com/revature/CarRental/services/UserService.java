@@ -36,6 +36,18 @@ public class UserService {
         throw new FailedLoginException("Incorrect Username or Password");
     }
 
+    public Vehicle getCurrentCar(int userId) {
+        Optional<User> optionalUser = ud.findById(userId);
+        if (optionalUser.isPresent()) {
+            if(optionalUser.get().getCurrentCar() == null){
+                throw new EntityNotFoundException("User with id has no current car : " + userId);
+            }
+            return optionalUser.get().getCurrentCar();
+        } else {
+            throw new EntityNotFoundException("No User found with id: " + userId);
+        }
+    }
+
     public void updateCurrentCar(int userId, Vehicle vehicle) {
         Optional<User> optionalUser = ud.findById(userId);
         if (optionalUser.isPresent()) {
@@ -47,4 +59,6 @@ public class UserService {
         }
 
     }
+
+
 }
