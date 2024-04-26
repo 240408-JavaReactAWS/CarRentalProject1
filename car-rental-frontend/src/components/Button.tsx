@@ -56,8 +56,8 @@ function Button(props: IButtonProps) {
             return (
                 <>
                     <div>
-                        <button onClick={() => props.methods.approveReject(true)}>Approve</button>
-                        <button onClick={() => props.methods.approveReject(false)}>Reject</button>
+                        <button onClick={() => props.methods?.approveReject?.(true)}>Approve</button>
+                        <button onClick={() => props.methods?.approveReject?.(false)}>Reject</button>
                     </div>
                 </>
             )

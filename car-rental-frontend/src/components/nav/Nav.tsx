@@ -11,6 +11,9 @@ function Nav() {
             </li>
             <li>
                 <Link to="/orders">Orders</Link>
+            </li>            
+            <li>
+                <Link to="/locations">Locations</Link>
             </li>
             <li>    
                 <Link to="/login">Login</Link>

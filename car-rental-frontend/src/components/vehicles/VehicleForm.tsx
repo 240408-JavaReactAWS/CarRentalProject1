@@ -12,7 +12,7 @@ interface Vehicle {
 
 const VehicleForm = () => {
 
-    const [currentLocation, setCurrentLocation] = useState<number>(1);
+    const [currentLocation, setCurrentLocation] = useState<number>();
     const [locations, setLocations] = useState<ILocation[]>([]);
     const [vehicle, setVehicle] = useState<Vehicle>({
         make: '',
@@ -25,8 +25,9 @@ const VehicleForm = () => {
         const fetchLocations = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/locations')
-                console.log(response.data);
+                //console.log(response.data);
                 setLocations(response.data);
+                setCurrentLocation(response.data[0].locationId)
             } catch (e) {
                 console.log(e)
             }
@@ -41,7 +42,7 @@ const VehicleForm = () => {
 
     const handleChangeVehicle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setVehicle({...vehicle, [e.target.name]: e.target.value});
-        console.log(e.target.value);
+        //console.log(e.target.value);
     }
 
     /*
@@ -54,8 +55,8 @@ const VehicleForm = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(vehicle);
-        console.log(`http://localhost:8080/vehicles/${currentLocation}/add`);
+        //console.log(vehicle);
+        //console.log(`http://localhost:8080/vehicles/${currentLocation}/add`);
         try {
             axios.post(`http://localhost:8080/vehicles/${currentLocation}/add`, vehicle);
         } catch (e) {
@@ -76,7 +77,7 @@ const VehicleForm = () => {
             <label htmlFor="location">Location</label>
             <select name="location" id="location" onChange={handleChangeLocation}>
                 {locations.map(location => (
-                    <option key={location.locationId} value={location.locationId}>{`${location.streetAddress}, ${location.city} ${location.state}`}</option>
+                    <option key={`loc-${location.locationId}`} value={location.locationId}>{`${location.streetAddress}, ${location.city} ${location.state}`}</option>
                 ))};
             </select>
             <button type="submit">Submit</button>

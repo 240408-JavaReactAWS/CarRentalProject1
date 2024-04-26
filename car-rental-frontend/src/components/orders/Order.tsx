@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react'
 import VehicleInfo from '../vehicles/VehicleInfo'
 import Button from '../Button'
 import { IOrder } from '../../models/IOrder'
+import { IOrderDTO } from '../../models/IOrderDTO'
 import {Source, IButtonProps} from '../../models/IButtonProps'
 
 
-function Order(props: number | IOrder) {
+function Order(props: IOrderDTO) {
 
-    const [order, setOrder] = useState<any>(props);
+    //console.log(props)
 
+    const [order, setOrder] = useState<any>(props.order);
+    
     let approveReject = (approval: boolean) => {
         
         let asyncCall = async () => {
@@ -31,6 +34,7 @@ function Order(props: number | IOrder) {
 
     }
 
+    /*
     useEffect(() => {
 
         let asyncCall = async () => {
@@ -57,9 +61,22 @@ function Order(props: number | IOrder) {
         }
 
     },[])
+    */
 
     // console.log(order.isCompleted)
     // console.log(order.vehicle)
+    // console.log(order)
+
+    let approvalMessage: string
+    if (order.isCompleted) {
+        if (order.isApproved) {
+            approvalMessage = "Approved"
+        } else {
+            approvalMessage = "Rejected"
+        }
+    } else {
+        approvalMessage = "Pending"
+    }
 
     return (
         <>
@@ -67,9 +84,9 @@ function Order(props: number | IOrder) {
                 <div>
                     <h1>Order Information</h1>
                     <p>Order Id: {order.orderId}</p>
-                    <p>User Id: {order.user}</p>
+                    <p>User Id: {props.userId}</p>
                     <p>Date and Time: {order.dateAndTime}</p>
-                    <p>Approved: {order.isCompleted ? order.isApproved ? "Approved" : "Rejected" : "Pending"}</p>
+                    <p>Approved: {approvalMessage}</p>
                 </div>
                 <div>
                     <VehicleInfo {...order.vehicle}/>

@@ -8,6 +8,12 @@ export interface IButtonProps {
     sourceId: number,
     shouldDisplay: boolean,
     methods : {
-        approveReject: (approval: boolean) => void
+        approveReject?: (approval: boolean) => void,
+        // cancelOrder?: () => void,
+        // pickUpOrder?: () => void,
+        // returnOrder?: () => void,
+        transferVehicle?: (newLocationId: number) => void,
+        // editVehicle?: () => void
+        // orderVehicle?: () => void
     }
 }
