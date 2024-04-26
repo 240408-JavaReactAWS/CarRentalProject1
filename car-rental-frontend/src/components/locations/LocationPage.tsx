@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { ILocation } from '../../models/ILocation'
+import Location from './Location'
 
 function LocationPage() {
 
     const [locations, setLocations] = useState<ILocation[]>([])
-    const [selectedLocation, setSelectedLocation] = useState<ILocation | null | undefined>(null)
+    const [selectedLocation, setSelectedLocation] = useState<ILocation | null>(null)
 
     useEffect(() => {
         let asyncCall = async () => {
@@ -22,7 +23,11 @@ function LocationPage() {
     }, [])
 
     const setSelectedLocationHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        let location: ILocation | undefined = locations.find(location => location.locationId == parseInt(e.target.value))
+        if(parseInt(e.target.value) === 0) {
+            setSelectedLocation(null)
+            return;
+        }
+        let location: ILocation = locations.find(location => location.locationId == parseInt(e.target.value)) as ILocation
         setSelectedLocation(location)
     }
 
@@ -38,8 +43,7 @@ function LocationPage() {
                 )
             })}
         </select>
-        <h1>Selected location ID: {selectedLocation?.locationId}</h1>
-        <h1>Selected location: {selectedLocation?.streetAddress}</h1>
+        {(selectedLocation != null) ? <Location {...selectedLocation}/> : null}
     </div>
   )
 }
