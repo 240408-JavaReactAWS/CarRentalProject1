@@ -30,14 +30,18 @@ const VehicleList = () => {
         fetchVehicles();
     }, []);
 
-    const handleDeleteVehicle = async (id: number) => {
+    //  This function will handle the deletion of a vehicle from the database.
+    //  The function will take in the vehicle id and the location of the vehicle.
+
+    const handleDeleteVehicle = async (vId: number, selectedLocation: ILocation) => {
         try {
-            //await axios.delete(`http://localhost:8080/vehicles/remove/${id}`);
-            //console.log(locations);
-            //for (let location of locations) {
-                //location.vehicleStock.filter((vehicle: Vehicle) => {
-                    //vehicle.id != id})};
-            console.log(id);
+            //  Filter out the vehicle that is being deleted from the selected location.
+            const updatedStock = selectedLocation.vehicleStock.filter((vehicle: IVehicle) => vehicle.id !== vId);
+            //  Update the selected location with the new vehicle stock.
+            const updatedLocation = {...selectedLocation, vehicleStock: updatedStock};
+            //  Update the locations array with the updated location.
+            setLocations(locations.map(location => location.locationId === selectedLocation.locationId ? updatedLocation : location));
+            await axios.delete(`http://localhost:8080/vehicles/remove/${vId}`);
         } catch (e) {
             console.log(e);
         }
@@ -56,7 +60,7 @@ const VehicleList = () => {
                                 <p>Vehicle Make: {vehicle.make}</p>
                                 <p>Vehicle Model: {vehicle.model}</p>
                                 <p>Vehicle Year: {vehicle.year}</p>
-                                <button onClick={() => handleDeleteVehicle(vehicle.id)}>Delete</button>
+                                <button onClick={() => handleDeleteVehicle(vehicle.id, location)}>Delete</button>
                                 <h2>Location: {`${location.streetAddress} ${location.city} ${location.state}`} </h2>
                             </div>
                         ))}

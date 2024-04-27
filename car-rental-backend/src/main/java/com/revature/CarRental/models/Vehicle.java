@@ -24,7 +24,7 @@ public class Vehicle {
     @Column(nullable = false)
     private String year;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(nullable = false, name = "location_id")
     @JsonBackReference("location")
     private Location location;
