@@ -4,7 +4,7 @@
 
 body {
   background-image: linear-gradient( rgb(168, 168, 168), rgb(185, 194, 200));
-
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -43,12 +43,48 @@ body {
 }
 
 .header, .loginpage {
-  background-color: rgba(0, 0, 0, 0.800);
+  background-color: rgb(48, 48, 48);
   min-height: 15vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.contentHeading {
+  font-size: 40px;
+  margin-bottom: 1rem;
+  padding: 5px;
+  color: rgb(95, 95, 95);
+  text-align: center;
+}
+
+.contentBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4%;
+}
+
+.contentBody input,.contentBody select {
+  font-size: 20px;
+  margin-bottom: 1rem;
+  padding: 5px;
+}
+
+.contentBody button {
+  border-radius: 4px;
+  border: none;
+  color: white;
+  font-size: 15px;
+  margin-bottom: 1rem;
+  padding: 5px;
+}
+
+.contentBody button:hover {
+ text-shadow: 0 0 1px white, 0 0 3px rgba(255, 255, 255, 0.524);
   color: white;
 }

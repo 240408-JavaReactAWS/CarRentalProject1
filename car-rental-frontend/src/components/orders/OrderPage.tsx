@@ -166,31 +166,31 @@ function OrderPage() {
 
     return (
         <>
-        <nav className='orderPage'>
-            <h1>Orders</h1>
-            {
-                (user.isAdmin) && (
-                    <OrderNav asyncCallAllOrders={asyncCallAllOrders} asyncCallPendingOrders={asyncCallPendingOrders} asyncCallCompletedOrders={asyncCallCompletedOrders}
-                    //filterOrders={filterOrders}
-                    />
-                )
-            }
-            {
-                (!user.isAdmin && currentOrder !== null) && (
-                    <div style={{backgroundColor:'grey'}} className='currentOrder'>
-                        <Order {...currentOrder}/>
-                    </div>
-                )
-            }
-            {
-                orderList.map((orderDTO: IOrderDTO) => {
-                    //console.log(orderDTO)
-                    return (
-                        <Order key={"order-block-"+orderDTO.order.orderId} {...orderDTO}/>
+            <h1 className='contentHeading'>Orders</h1>
+            <div className='contentBody'>
+                {
+                    (user.isAdmin) && (
+                        <OrderNav asyncCallAllOrders={asyncCallAllOrders} asyncCallPendingOrders={asyncCallPendingOrders} asyncCallCompletedOrders={asyncCallCompletedOrders}
+                        //filterOrders={filterOrders}
+                        />
                     )
-            }
-            )}
-            </nav>
+                }
+                {
+                    (!user.isAdmin && currentOrder !== null) && (
+                        <div style={{ backgroundColor: 'grey' }} className='currentOrder'>
+                            <Order {...currentOrder} />
+                        </div>
+                    )
+                }
+                {
+                    orderList.map((orderDTO: IOrderDTO) => {
+                        //console.log(orderDTO)
+                        return (
+                            <Order key={"order-block-" + orderDTO.order.orderId} {...orderDTO} />
+                        )
+                    }
+                    )}
+            </div>
         </>
     )
 

@@ -32,20 +32,22 @@ function LocationPage() {
     }
 
 
-  return (
-    <div>
-        <h1>Locations</h1>
-        <select name="locations" onChange={setSelectedLocationHandler}>
-            <option value="0">Select a location</option>
-            {locations.map((location) => {
-                return (
-                    <option value={location.locationId} key={"location"+location.locationId}>{location.streetAddress}, {location.city}, {location.state} {location.postalCode}</option>
-                )
-            })}
-        </select>
-        {(selectedLocation != null) ? <Location {...selectedLocation}/> : null}
-    </div>
-  )
+    return (
+        <>
+            <h1 className='contentHeading'>Locations</h1>
+            <div className='contentBody'>
+                <select name="locations" onChange={setSelectedLocationHandler}>
+                    <option value="0">Select a location</option>
+                    {locations.map((location) => {
+                        return (
+                            <option value={location.locationId} key={"location" + location.locationId}>{location.streetAddress}, {location.city}, {location.state} {location.postalCode}</option>
+                        )
+                    })}
+                </select>
+                {(selectedLocation != null) ? <Location {...selectedLocation} /> : null}
+            </div>
+        </>
+    )
 }
 
 export default LocationPage

@@ -68,12 +68,14 @@ function Login() {
 
     return (
         <>
-            <div className='LoginPage'>
-                <h1>Login</h1>
+            <h1 className='contentHeading'>Login</h1>
+            <div className='contentBody'>
                 <input type="text" placeholder="Username" onChange={changeUsername} />
                 <input type="password" placeholder="Password" onChange={changePassword} />
-                <button onClick={login}>Login</button>
-                <button onClick={() => createAccount(false)}>Create Account</button>
+                <div className='buttonSet'>
+                    <button onClick={login}>Login</button>
+                    <button onClick={() => createAccount(false)}>Create Account</button><br />
+                </div>
                 <button onClick={() => createAccount(true)}>Create Admin Account</button>
             </div>
         </>
