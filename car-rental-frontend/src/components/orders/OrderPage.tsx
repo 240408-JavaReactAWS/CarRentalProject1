@@ -32,7 +32,7 @@ function OrderPage() {
             // console.log(data)
             setOrderList(data)})
         .catch((error) => {
-            alert("There was an error loading order list")
+            // alert("There was an error loading order list")
             console.log(error)
         })
     }
@@ -69,7 +69,7 @@ function OrderPage() {
         .then((data) => data.json())
         .then((data) => setOrderList(data))
         .catch((error) => {
-            alert("There was an error loading order list")
+            // alert("There was an error loading order list")
             console.log(error)
         })
     }
@@ -87,7 +87,7 @@ function OrderPage() {
         .then((data) => data.json())
         .then((data) => setOrderList(data))
         .catch((error) => {
-            alert("There was an error loading order list")
+            // alert("There was an error loading order list")
             console.log(error)
         })
     }
@@ -95,7 +95,7 @@ function OrderPage() {
     // GETs All User Orders.
     let asyncCallUserOrders = async () => {
         // Check headers
-        let res = await fetch('http://localhost:8080/orders/' + user.username, {
+        let res = await fetch('http://localhost:8080/orders/myorders', {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -103,7 +103,7 @@ function OrderPage() {
         .then((data) => data.json())
         .then((data) => setOrderList(data))
         .catch((error) => {
-            alert("There was an error loading order list")
+            // alert("There was an error loading order list")
             console.log(error)
         })
     }
@@ -130,7 +130,7 @@ function OrderPage() {
         */
 
         try {
-            let res = await axios.get('http://localhost:8080/orders/' + user.username + '/current')
+            let res = await axios.get('http://localhost:8080/orders/current')
             if (res.status != 200) {
                 throw new Error("Error: " + res.status)
             }

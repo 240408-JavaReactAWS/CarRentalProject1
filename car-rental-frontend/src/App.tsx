@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import Home from './components/home/Home';
 import OrderPage from './components/orders/OrderPage';
 import Nav from './components/nav/Nav';
 import Login from './components/login/Login';
@@ -21,7 +22,7 @@ function App() {
         {/* Replace with Nav Component */}
         <Nav />
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Home />} />
           {/* <Route path="/vehicles" element={<VehiclePage />} /> */}
           <Route path="/orders" element={<OrderPage {...localStorage.user} />} />
           <Route path="/locations" element={<LocationPage />} />

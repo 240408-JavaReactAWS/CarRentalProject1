@@ -41,7 +41,7 @@ function Login() {
 
     let createAccount = (isAdmin: boolean) => {
         if (storedUsername != "" && storedPassword != "") {
-            let res = fetch('http://localhost:8080/users', {
+            let res = fetch('http://localhost:8080/users/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -15,7 +15,7 @@ function Order(props: IOrderDTO) {
     let approveReject = (approval: boolean) => {
         
         let asyncCall = async () => {
-            let res = await fetch('http://localhost:8080/orders/' + order.orderId, { 
+            let res = await fetch('http://localhost:8080/orders/myOrder' + order.orderId, { 
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
