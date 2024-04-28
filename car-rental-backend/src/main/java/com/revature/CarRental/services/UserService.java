@@ -3,11 +3,13 @@ package com.revature.CarRental.services;
 import com.revature.CarRental.models.User;
 import com.revature.CarRental.models.Vehicle;
 import com.revature.CarRental.repos.UserDAO;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.CarRental.models.User;
 import javax.security.auth.login.FailedLoginException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,8 +22,12 @@ public class UserService {
         this.ud = ud;
     }
 
-    public User createUser(User user) {
-        return ud.save(user);
+    public User createUser(User credentials) throws EntityExistsException {
+        Optional<User> optionalUser = ud.findByUsername(credentials.getUsername());
+        if (optionalUser.isPresent()) {
+            throw new EntityExistsException(credentials.getUsername()+" already exists");
+        }
+        return ud.save(credentials);
     }
 
     public User login(User loginAttempt) throws FailedLoginException {
@@ -60,5 +66,8 @@ public class UserService {
 
     }
 
+    public List<User> getAllUsers() {
+        return ud.findAll();
+    }
 
 }

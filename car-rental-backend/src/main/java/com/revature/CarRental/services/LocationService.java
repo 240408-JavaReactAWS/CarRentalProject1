@@ -38,16 +38,16 @@ public class LocationService {
      * VEHICLE RETRIEVING - ALL VEHICLES AT A LOCATION
      * @return `List of Vehicles` if exist `empty List` otherwise
      */
-    public List<Vehicle> getAllVehiclesAtLocation(String city, String state) {
+    public List<Vehicle> getAllVehiclesAtLocation(int locationId) {
 
-        List<Location> locations = ld.findAllByCityAndState(city, state);
+        List<Location> locations = ld.findAllBylocationId(locationId);
         ArrayList<Vehicle> vehicles = new ArrayList<>();
         locations.forEach( (loc) -> {vehicles.addAll( loc.getVehicleStock());} );
         return vehicles;
     }
 
-    public void addLocation(Location location) {
-        ld.save(location);
+    public Location addLocation(Location location) {
+        return ld.save(location);
     }
 
     public void removeLocation(int id) {

@@ -10,7 +10,7 @@ public interface LocationDAO extends JpaRepository<Location, Integer> {
     /**
      * RETRIEVE ALL LOCATION BY CITY AND STATE
      */
-    List<Location> findAllByCityAndState(String city, String state);
+    List<Location> findAllBylocationId(int locationId);
 
 
 }

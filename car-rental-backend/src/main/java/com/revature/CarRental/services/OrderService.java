@@ -59,26 +59,19 @@ public class OrderService {
      * ORDER CANCELLATION by USER
      * @return DELETED ORDER if deleted throws exception otherwise
      */
-    public Order deleteOrder(User credentials) throws FailedLoginException {
-        Optional<User> user_w_username = ud.findByUsername(credentials.getUsername()); // ud = UserDAO
+    public Order deleteOrder(User user) {
         Order deletedOrder;
-        if (user_w_username.isPresent()) {
-            User user = user_w_username.get();
-            if (credentials.getPassword().equals(user.getPassword())) {
-                try {
-                    deletedOrder = this.getCurrentOrderForUser(user.getUsername());
-                    if(deletedOrder.getApproved()) {
-                        throw new EntityExistsException("Cannot delete an approved order.");
-                    }
-                } catch(EntityNotFoundException e) {
-                    throw new EntityNotFoundException("No current order found for user: " + user.getUsername());
-                }
-                deletedOrder=od.getByUserAndIsCompleted(user, false); // od = OrderDAO
-                od.deleteByUserAndIsCompleted(user, false); // od = OrderDAO
-                return deletedOrder;
-            }
+        try {
+            deletedOrder = this.getCurrentOrderForUser(user.getUsername());
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("No current order found for user: " + user.getUsername());
         }
-        throw new FailedLoginException("Invalid credentials provided.");
+        if (deletedOrder.getApproved()) {
+            throw new EntityExistsException("Cannot delete an approved order.");
+        }
+        deletedOrder = od.getByUserAndIsCompleted(user, false); // od = OrderDAO
+        od.deleteByUserAndIsCompleted(user, false); // od = OrderDAO
+        return deletedOrder;
     }
 
 
@@ -116,26 +109,21 @@ public class OrderService {
         throw new EntityNotFoundException("No User found with username: " + username);
     }
 
-    public Order createOrder(int vehicleId, User login) throws FailedLoginException {
-        Optional<Vehicle> optionalVehicle = vd.findById(vehicleId);
-        Optional<User> optionalUser = ud.findByUsername(login.getUsername());
-        if(optionalVehicle.isPresent() &&
-                optionalUser.isPresent() && login.getPassword().equals(optionalUser.get().getPassword())) {
-            List<Order> orders = od.findAllByUser(optionalUser.get());
+    public Order createOrder(int vehicleId, User user) {
+
+        Optional<Vehicle> optionalVehicle = Optional.ofNullable(vd.getById(vehicleId));
+        if(optionalVehicle.isPresent() && optionalVehicle.get().getAvailable()) {
+            List<Order> orders = od.findAllByUser(user);
+
             for(Order order : orders) {
                 if(!order.getCompleted()) {
                     throw new EntityExistsException("User already has a pending order.");
                 }
             }
-            Order order = new Order(optionalVehicle.get(), optionalUser.get());
+            Order order = new Order(optionalVehicle.get(), user);
             return od.save(order);
-        } else if(optionalVehicle.isPresent() &&
-                optionalUser.isPresent() && !login.getPassword().equals(optionalUser.get().getPassword())) {
-            throw new FailedLoginException("Incorrect Username or Password");
-        } else if(optionalUser.isEmpty()) {
-            throw new EntityNotFoundException("No User found with username: " + login.getUsername());
         }
-        throw new EntityNotFoundException("No Vehicle found with id: " + vehicleId);
+        throw new EntityNotFoundException("No available Vehicle found with id: " + vehicleId);
     }
 
     public void updateOrderCompletionStatus(int id, Boolean completionStatus) {

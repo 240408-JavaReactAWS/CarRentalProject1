@@ -11,6 +11,7 @@ import com.revature.CarRental.services.OrderService;
 import com.revature.CarRental.services.UserService;
 import com.revature.CarRental.services.VehicleService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,13 +42,23 @@ public class VehicleController {
         this.os = os;
     }
 
+    /**
+     * USER - VIEW ALL VEHICLES
+     **/
     @GetMapping
     public ResponseEntity<List<Vehicle>> viewAllVehiclesHandler() {
         return new ResponseEntity<>(vs.getAllVehicles(), OK);
     }
 
+    /**
+     * ADMIN - UPDATE VEHICLE'S LOCATION
+     **/
     @PatchMapping("{id}")
-    public ResponseEntity<Vehicle> updateVehicleLocationHandler(@PathVariable int id, @RequestBody int newLocationId) {
+    public ResponseEntity<Vehicle> updateVehicleLocationHandler(@PathVariable int id, @RequestBody int newLocationId, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.getAdmin()) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        }
         Vehicle vehicle;
         Location newLocation;
         try {
@@ -64,9 +75,16 @@ public class VehicleController {
         return new ResponseEntity<>(vehicle, OK);
     }
 
+    /**
+     * ADMIN - ADD VEHICLE
+     **/
     //The id field here is for location id.
     @PostMapping("/{id}/add")
-    public ResponseEntity<Vehicle> addVehicleHandler(@PathVariable int id, @RequestBody Vehicle vehicle) {
+    public ResponseEntity<Vehicle> addVehicleHandler(@PathVariable int id, @RequestBody Vehicle vehicle, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.getAdmin()) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        }
         try { // Check if location exists
             vs.addVehicle(id, vehicle);
         } catch (EntityNotFoundException e) {
@@ -75,8 +93,15 @@ public class VehicleController {
         return new ResponseEntity<>(vehicle, CREATED);
     }
 
+    /**
+     * ADMIN - REMOVE VEHICLE
+     **/
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<Vehicle> removeVehicleHandler(@PathVariable int id) {
+    public ResponseEntity<Vehicle> removeVehicleHandler(@PathVariable int id, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.getAdmin()) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        }
         try {
             vs.removeVehicle(id);
         } catch (EntityNotFoundException e) {
@@ -85,8 +110,15 @@ public class VehicleController {
         return new ResponseEntity<>(NO_CONTENT);
     }
 
+    /**
+     * ADMIN - UPDATE VEHICLE
+     **/
     @PutMapping("/update/{id}")
-    public ResponseEntity<Vehicle> updateVehicleHandler(@PathVariable int id, @RequestBody Vehicle vehicle) {
+    public ResponseEntity<Vehicle> updateVehicleHandler(@PathVariable int id, @RequestBody Vehicle vehicle, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.getAdmin()) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        }
         try {
             vs.updateVehicle(id, vehicle);
         } catch (EntityNotFoundException e) {
@@ -96,37 +128,31 @@ public class VehicleController {
     }
 
     /**
-     * VEHICLE PICKUP by USER
-     * Endpoint: GET localhost:8080/vehicles/pickup.
-     *
-     * @ResponseBody JSON of the vehicle being picked up by the user.
-     * @ResponseStatus default, 200 (OK).
+     * USER - PICKUP VEHICLE
      */
     @PatchMapping("/pickup")
-    public ResponseEntity<Vehicle> pickupVehicleHandler(@RequestBody User credentials) throws FailedLoginException {
-        User user;
-        try {
-            user = us.login(credentials);
-        } catch (FailedLoginException e) {
+    public ResponseEntity<Vehicle> pickupVehicleHandler(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
             return new ResponseEntity<>(UNAUTHORIZED);
         }
         Order order;
         try {
             order = os.getCurrentOrderForUser(user.getUsername());
-        } catch( EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(NOT_FOUND); // User has no pending order
         }
-        if(!order.getApproved()) {
+        if (!order.getApproved()) {
             return new ResponseEntity<>(BAD_REQUEST); // Order is not approved
         }
         Vehicle vehicle;
         try {
             vehicle = us.getCurrentCar(user.getUserId());
-        } catch( EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             vehicle = null;
         }
-        if(vehicle != null) { // Check if user already has a vehicle
-            return new ResponseEntity<>(CONFLICT); // User already has a vehicle
+        if (vehicle != null) { // Check if user already has taken a vehicle
+            return new ResponseEntity<>(CONFLICT); // User already has taken a vehicle
         }
         vs.updateVehicleAvailability(order.getVehicle().getId(), false); // Mark vehicle as unavailable for others
         us.updateCurrentCar(user.getUserId(), order.getVehicle());  // Assign vehicle to user
@@ -134,33 +160,27 @@ public class VehicleController {
     }
 
     /**
-     * VEHICLE RETURN by USER
-     * Endpoint: GET localhost:8080/vehicles/return
-     *
-     * @ResponseBody JSON of the vehicle being returned by the user.
-     * @ResponseStatus default, 200 (OK).
+     * USER - RETURN VEHICLE
      */
     @PatchMapping("/return")
-    public ResponseEntity<Vehicle> returnVehicleHandler(@RequestBody User credentials) throws FailedLoginException {
-        User user;
-        try {
-            user = us.login(credentials);
-        } catch (FailedLoginException e) {
+    public ResponseEntity<Vehicle> returnVehicleHandler(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
             return new ResponseEntity<>(UNAUTHORIZED);
         }
         Order order;
         try {
             order = os.getCurrentOrderForUser(user.getUsername());
-        } catch( EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(NOT_FOUND); // User has no pending order
         }
         Vehicle vehicle;
         try {
             vehicle = us.getCurrentCar(user.getUserId());
-        } catch( EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             vehicle = null;
         }
-        if(vehicle == null ) { // Check if user has a vehicle
+        if (vehicle == null) { // Check if user has a vehicle
             return new ResponseEntity<>(BAD_REQUEST); // User has no vehicle
         }
         us.updateCurrentCar(user.getUserId(), null); // Remove vehicle from user
@@ -168,8 +188,6 @@ public class VehicleController {
         vs.updateVehicleAvailability(vehicle.getId(), true); // Mark vehicle as available for others
         return new ResponseEntity<>(vehicle, OK);
     }
-
-
 
 
 }

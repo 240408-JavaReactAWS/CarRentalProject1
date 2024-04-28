@@ -1,8 +1,10 @@
 package com.revature.CarRental.controllers;
 
 import com.revature.CarRental.models.Location;
+import com.revature.CarRental.models.User;
 import com.revature.CarRental.models.Vehicle;
 import com.revature.CarRental.services.LocationService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,28 +30,37 @@ public class LocationController {
         return ls.getAllLocations();
     }
 
-     /**
-     * VEHICLE VIEWING - ALL VEHICLES AT A LOCATION
-     * Endpoint: GET localhost:8080/locations/{State}/{City}/v.
-     *
-     * @ResponseBody JSON of a list containing all vehicles at a location retrieved from the database or Empty list if there are no vehicles.
-     * @ResponseStatus default, 200 (OK).
+    /**
+     * USER - VIEW ALL VEHICLES AT A LOCATION
      */
-     // NOTE FROM DEVON - I don't think we need to pass in the state and city as path variables. We can probably just use the id.
-    @GetMapping("/{state}/{city}/v")
+    @GetMapping("/{locationId}/vehicles")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody List<Vehicle> viewAllVehiclesAtLocationHandler(@PathVariable String city, @PathVariable String state) {
-        return ls.getAllVehiclesAtLocation(city, state); // ls = LocationService
+    public @ResponseBody List<Vehicle> viewAllVehiclesAtLocationHandler(@PathVariable int locationId) {
+        return ls.getAllVehiclesAtLocation(locationId); // ls = LocationService
     }
 
+    /**
+     * ADMIN - ADD LOCATION
+     */
     @PostMapping("/add")
-    public ResponseEntity<Location> addLocationHandler(@RequestBody Location location) {
-        ls.addLocation(location);
-        return new ResponseEntity<>(location, HttpStatus.CREATED);
+    public ResponseEntity<Location> addLocationHandler(@RequestBody Location location, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.getAdmin()) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        Location addedLoc = ls.addLocation(location);
+        return new ResponseEntity<>(addedLoc, HttpStatus.CREATED);
     }
 
+    /**
+     * ADMIN - REMOVE LOCATION
+     */
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<Location> removeLocationHandler(@PathVariable int id) {
+    public ResponseEntity<Location> removeLocationHandler(@PathVariable int id, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.getAdmin()) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         try {
             ls.removeLocation(id);
         } catch (Exception e) {
@@ -58,8 +69,15 @@ public class LocationController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    /**
+     * ADMIN - UPDATE LOCATION
+     */
     @PutMapping("/update/{id}")
-    public ResponseEntity<Location> updateLocationHandler(@PathVariable int id, @RequestBody Location location) {
+    public ResponseEntity<Location> updateLocationHandler(@PathVariable int id, @RequestBody Location location, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.getAdmin()) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         try {
             ls.updateLocation(id, location);
         } catch (Exception e) {

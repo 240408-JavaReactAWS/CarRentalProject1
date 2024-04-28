@@ -5,13 +5,16 @@ import com.revature.CarRental.models.User;
 import com.revature.CarRental.services.OrderService;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.security.auth.login.FailedLoginException;
 
@@ -31,8 +34,15 @@ public class OrderController {
     }
 
 
+    /**
+     * ADMIN - ORDER APPROVAL
+     */
     @PatchMapping("{id}")
-    public ResponseEntity<Order> updateOrderApprovalStatusHandler(@PathVariable int id, @RequestBody Boolean approvalStatus) {
+    public ResponseEntity<Order> updateOrderApprovalStatusHandler(@PathVariable int id, @RequestBody Boolean approvalStatus, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.getAdmin() ) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        }
         Order order;
         try {
             order = os.updateOrderApprovalStatus(id, approvalStatus);
@@ -43,127 +53,104 @@ public class OrderController {
         return new ResponseEntity<>(order, OK);
     }
 
+    /**
+     * ADMIN - ORDER COMPLETION
+     */
     @PatchMapping("/complete/{id}")
-    public ResponseEntity<Order> updateOrderCompleteStatusHandler(@PathVariable int id, @RequestBody Boolean completeStatus) {
+    public ResponseEntity<Order> updateOrderCompleteStatusHandler(@PathVariable int id, @RequestBody Boolean completeStatus, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.getAdmin() ) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        }
         Order order;
         try {
             order = os.updateOrderCompleteStatus(id, completeStatus);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(NOT_FOUND);
         }
-
         return new ResponseEntity<>(order, OK);
     }
 
     /**
-     * ORDER CANCELLATION by USER
-     * Endpoint: DELETE localhost:8080/orders/myorder.
-     *
-     * @ResponseBody JSON of the deleted Order.
-     * @ResponseStatus NO_CONTENT (204) if successfully deleted, NOT_FOUND (404) otherwise .
+     * ADMIN - VIEW ALL ORDERS
      */
-    @DeleteMapping("/myorder")
-    public ResponseEntity<Order> cancelOrderHandler(@RequestBody User credentials) {
-        Order order;
-        try {
-            order = os.deleteOrder(credentials); // os = OrderService
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(NOT_FOUND);
-        } catch (FailedLoginException e) {
-            return new ResponseEntity<>(UNAUTHORIZED);
-        } catch (EntityExistsException e) {
-            return new ResponseEntity<>(CONFLICT);
-        }
-        return new ResponseEntity<>(order, NO_CONTENT);
-    }
-
-
     @GetMapping("/allorders")
-    public ResponseEntity<List<OrderDTO>> getCurrentAndPastOrdersHandler() {
-        List<OrderDTO> orderDTOList = new ArrayList<>();
-        List<Order> orderList = os.getCurrentAndPastOrders();
-        for(Order order : orderList) {
-            OrderDTO orderDTO = new OrderDTO();
-            orderDTO.setOrder(order);
-            orderDTO.setUserId(order.getUser().getUserId());
-            orderDTOList.add(orderDTO);
-        }
-        return new ResponseEntity<>(orderDTOList, OK);
+    public ResponseEntity<List<Order>> getCurrentAndPastOrdersHandler(HttpSession session) {
+      User user = (User) session.getAttribute("user");
+      if (user == null || !user.getAdmin() ) {
+          return new ResponseEntity<>(UNAUTHORIZED);
+      }
+      return new ResponseEntity<>(os.getCurrentAndPastOrders(), OK);
     }
 
+    /**
+     * ADMIN - VIEW PENDING ORDERS
+     */
     @GetMapping("/pendingorders")
-    public ResponseEntity<List<OrderDTO>> getPendingOrdersHandler() {
-        List<OrderDTO> orderDTOList = new ArrayList<>();
-        List<Order> orderList = os.getPendingOrders();
-        for(Order order : orderList) {
-            OrderDTO orderDTO = new OrderDTO();
-            orderDTO.setOrder(order);
-            orderDTO.setUserId(order.getUser().getUserId());
-            orderDTOList.add(orderDTO);
-        }
-        return new ResponseEntity<>(orderDTOList, OK);
+    public ResponseEntity<List<Order>> getPendingOrdersHandler(HttpSession session) {
+      User user = (User) session.getAttribute("user");
+      if (user == null || !user.getAdmin() ) {
+          return new ResponseEntity<>(UNAUTHORIZED);
+      }
+      return new ResponseEntity<>(os.getPendingOrders(), OK);
     }
 
+    /**
+     * ADMIN - VIEW COMPLETED ORDERS
+     */
     @GetMapping("/completedorders")
-    public ResponseEntity<List<OrderDTO>> getCompletedOrdersHandler() {
-        List<OrderDTO> orderDTOList = new ArrayList<>();
-        List<Order> orderList = os.getCompletedOrders();
-        for(Order order : orderList) {
-            OrderDTO orderDTO = new OrderDTO();
-            orderDTO.setOrder(order);
-            orderDTO.setUserId(order.getUser().getUserId());
-            orderDTOList.add(orderDTO);
-        }
-        return new ResponseEntity<>(orderDTOList, OK);
+    public ResponseEntity<List<Order>> getCompletedOrdersHandler(HttpSession session) {
+      User user = (User) session.getAttribute("user");
+      if (user == null || !user.getAdmin() ) {
+          return new ResponseEntity<>(UNAUTHORIZED);
+      }
+      return new ResponseEntity<>(os.getCompletedOrders(), OK);
     }
 
-    @GetMapping("/{username}") // get all orders for a user
-    public ResponseEntity<List<OrderDTO>> getAllOrdersForUser(@PathVariable String username) {
-        List<OrderDTO> orderDTOList = new ArrayList<>();
-        List<Order> orderList = os.getAllOrdersForUser(username);
-        for(Order order : orderList) {
-            OrderDTO orderDTO = new OrderDTO();
-            orderDTO.setOrder(order);
-            orderDTO.setUserId(order.getUser().getUserId());
-            orderDTOList.add(orderDTO);
-        }
-        return new ResponseEntity<>(orderDTOList, OK);
-
-        /*
-        List<Order> orderList;
-        try {
-            orderList = os.getAllOrdersForUser(username);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(orderList, OK);
-        */
-
+    /**
+     * USER - VIEW ALL ORDERS
+     */
+    @GetMapping("/myOrder")
+    public ResponseEntity<List<Order>> getAllOrdersForUser(HttpSession session) {
+      User user = (User) session.getAttribute("user");
+      if (user == null) {
+          return new ResponseEntity<>(UNAUTHORIZED);
+      }
+      return new ResponseEntity<>(os.getAllOrdersForUser(user.getUsername()), OK);
     }
 
-    @GetMapping("/{username}/current") // get current order for a user
-    public ResponseEntity<OrderDTO> getCurrentOrderForUser(@PathVariable String username) {
-        OrderDTO orderDTO = new OrderDTO();
-        try {
-            orderDTO.setOrder(os.getCurrentOrderForUser(username));
-            orderDTO.setUserId(orderDTO.getOrder().getUser().getUserId());
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(NOT_FOUND);
+    /**
+     * USER - VIEW CURRENT ORDER
+     */
+    @GetMapping("/current")
+    public ResponseEntity<Order> getCurrentOrderForUser(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return new ResponseEntity<>(UNAUTHORIZED);
         }
-
-        return new ResponseEntity<>(orderDTO, OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<Order> createOrderHandler(@RequestBody VehicleUserDTO orderDTO) {
         Order order;
         try {
-            order = os.createOrder(orderDTO.vehicleId, orderDTO.login);
+            order = os.getCurrentOrderForUser( user.getUsername() );
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(NOT_FOUND);
-        } catch (FailedLoginException e) {
+        }
+        return new ResponseEntity<>(order, OK);
+    }
+
+    /**
+     * USER - ORDER CREATION
+     */
+    @PostMapping("/placeorder/{vehicleId}")
+    public ResponseEntity<Order> createOrderHandler(@PathVariable int vehicleId, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
             return new ResponseEntity<>(UNAUTHORIZED);
+        }
+        Order order;
+        try {
+            order = os.createOrder(vehicleId, user);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(NOT_FOUND);
         } catch (EntityExistsException e) {
             return new ResponseEntity<>(CONFLICT);
         }
@@ -171,46 +158,24 @@ public class OrderController {
     }
 
 
-}
-
-class VehicleUserDTO {
-    int vehicleId;
-    User login;
-
-    public void setLogin(User login) {
-        this.login = login;
+    /**
+     * USER - ORDER CANCELLATION
+     */
+    @DeleteMapping("/current")
+    public ResponseEntity<Order> cancelOrderHandler(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        }
+        Order order;
+        try {
+            order = os.deleteOrder(user); // os = OrderService
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(NOT_FOUND);
+        } catch (EntityExistsException e) {
+            return new ResponseEntity<>(CONFLICT);
+        }
+        return new ResponseEntity<>(order, NO_CONTENT);
     }
 
-    public User getLogin() {
-        return login;
-    }
-
-    public void setVehicleId(int vehicleId) {
-        this.vehicleId = vehicleId;
-    }
-
-    public int getVehicleId() {
-        return vehicleId;
-    }
-}
-
-class OrderDTO {
-    Order order;
-    int userId;
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
 }
