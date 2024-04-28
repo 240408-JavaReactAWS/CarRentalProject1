@@ -45,7 +45,6 @@ public class UserController {
     public ResponseEntity<User> loginHandler(@RequestBody User loginAttempt, HttpSession session) {
         User user;
         try {
-
             user = us.login(loginAttempt);
             session.setAttribute("user", user); // Store the user in the session
         } catch (FailedLoginException e) {
