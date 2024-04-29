@@ -1,5 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react';
 import './Login.css';
+import axios from 'axios';
 
 function Login() {
 
@@ -16,53 +17,85 @@ function Login() {
 
     let login = async () => {
         if (storedUsername != "" && storedPassword != "") {
-            let res = await fetch('http://localhost:8080/users/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
+            // let res = await fetch('http://localhost:8080/users/login', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         username: storedUsername,
+            //         password: storedPassword
+            //     }),
+            //     credentials: 'include'
+            // })
+            // .then((data) => data.json())
+            // .then((data) => {
+            //     localStorage.setItem('user', JSON.stringify(data))
+            // })
+            // .catch((error) => {
+            //     alert("There was an error logging in")
+            //     console.log(error)
+            // })
+
+            try {
+                let res = await axios.post('http://localhost:8080/users/login', {
                     username: storedUsername,
                     password: storedPassword
-                }),
-                credentials: 'include'
-            })
-            .then((data) => data.json())
-            .then((data) => {
-                localStorage.setItem('user', JSON.stringify(data))
-            })
-            .catch((error) => {
+                }, {
+                    withCredentials: true
+                });
+                if (res.status === 200) {
+                    console.log("Login Successful")
+                }
+            } catch (error) {
                 alert("There was an error logging in")
                 console.log(error)
-            })
+            }
+
         }
 
         //console.log(localStorage.getItem('user'))
     }
 
-    let createAccount = (isAdmin: boolean) => {
+    let createAccount = async (isAdmin: boolean) => {
         if (storedUsername != "" && storedPassword != "") {
-            let res = fetch('http://localhost:8080/users/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
+            // let res = fetch('http://localhost:8080/users/register', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         username: storedUsername,
+            //         password: storedPassword,
+            //         isAdmin: isAdmin
+            //     }),
+            //     credentials: 'include'
+            // })
+            // .then((data) => data.json())
+            // .then((data) => {
+            //     localStorage.setItem('userId', JSON.stringify(data.userId))
+            //     localStorage.setItem('admin', JSON.stringify(data.isAdmin))
+            // })
+            // .catch((error) => {
+            //     alert("There was an error creating an account")
+            //     console.log(error)
+            // })
+
+            try {
+                let res = await axios.post('http://localhost:8080/users/login', {
                     username: storedUsername,
                     password: storedPassword,
                     isAdmin: isAdmin
-                }),
-                credentials: 'include'
-            })
-            .then((data) => data.json())
-            .then((data) => {
-                localStorage.setItem('userId', JSON.stringify(data.userId))
-                localStorage.setItem('admin', JSON.stringify(data.isAdmin))
-            })
-            .catch((error) => {
-                alert("There was an error creating an account")
+                }, {
+                    withCredentials: true
+                });
+                if (res.status === 200) {
+                    console.log("Login Successful")
+                }
+            } catch (error) {
+                alert("There was an error creating account")
                 console.log(error)
-            })
+            }
         }
 
         //console.log(localStorage.getItem('user'))
