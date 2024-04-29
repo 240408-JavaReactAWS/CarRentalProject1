@@ -104,6 +104,19 @@ public class UserController {
         }
     }
 
+    // Verify if User with Credentials has a Car
+    @GetMapping("/hascar")
+    public ResponseEntity<Boolean> validateHasCar(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        } else if (user.getCurrentCar() == null) {
+            return new ResponseEntity<>(FORBIDDEN);
+        } else {
+            return new ResponseEntity<>(true, OK);
+        }
+    }
+
 
 
 
