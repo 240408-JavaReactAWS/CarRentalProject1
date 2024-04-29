@@ -11,6 +11,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,86 +73,98 @@ public class OrderController {
      * ADMIN - VIEW ALL ORDERS
      */
     @GetMapping("/allorders")
-    public ResponseEntity<Map<Integer, Order>> getCurrentAndPastOrdersHandler(HttpSession session) {
+    public ResponseEntity<List<OrderDTO>> getCurrentAndPastOrdersHandler(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null || !user.getAdmin()) {
             return new ResponseEntity<>(UNAUTHORIZED);
         }
-        Map<Integer, Order> orderDTOMap = new HashMap<>();
-
-        os.getCurrentAndPastOrders().forEach(
-                order -> orderDTOMap.put(order.getUser().getUserId(), order)
-        );
-        return new ResponseEntity<>(orderDTOMap, OK);
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        List<Order> orderList = os.getCurrentAndPastOrders();
+        for(Order order : orderList) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setOrder(order);
+            orderDTO.setUserId(order.getUser().getUserId());
+            orderDTOList.add(orderDTO);
+        }
+        return new ResponseEntity<>(orderDTOList, OK);
     }
 
     /**
      * ADMIN - VIEW PENDING ORDERS
      */
     @GetMapping("/pendingorders")
-    public ResponseEntity<Map<Integer, Order>> getPendingOrdersHandler(HttpSession session) {
+    public ResponseEntity<List<OrderDTO>> getPendingOrdersHandler(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null || !user.getAdmin()) {
             return new ResponseEntity<>(UNAUTHORIZED);
         }
-        Map<Integer, Order> orderDTOMap = new HashMap<>();
-
-        os.getPendingOrders().forEach(
-                order -> orderDTOMap.put(order.getUser().getUserId(), order)
-        );
-        return new ResponseEntity<>(orderDTOMap, OK);
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        List<Order> orderList = os.getPendingOrders();
+        for(Order order : orderList) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setOrder(order);
+            orderDTO.setUserId(order.getUser().getUserId());
+            orderDTOList.add(orderDTO);
+        }
+        return new ResponseEntity<>(orderDTOList, OK);
     }
 
     /**
      * ADMIN - VIEW COMPLETED ORDERS
      */
     @GetMapping("/completedorders")
-    public ResponseEntity<Map<Integer, Order>> getCompletedOrdersHandler(HttpSession session) {
+    public ResponseEntity<List<OrderDTO>> getCompletedOrdersHandler(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null || !user.getAdmin()) {
             return new ResponseEntity<>(UNAUTHORIZED);
         }
-        Map<Integer, Order> orderDTOMap = new HashMap<>();
-
-        os.getCompletedOrders().forEach(
-                order -> orderDTOMap.put(order.getUser().getUserId(), order)
-        );
-        return new ResponseEntity<>(orderDTOMap, OK);
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        List<Order> orderList = os.getCompletedOrders();
+        for(Order order : orderList) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setOrder(order);
+            orderDTO.setUserId(order.getUser().getUserId());
+            orderDTOList.add(orderDTO);
+        }
+        return new ResponseEntity<>(orderDTOList, OK);
     }
 
     /**
      * USER - VIEW ALL ORDERS
      */
     @GetMapping("/myorders")
-    public ResponseEntity<Map<Integer, Order>> getAllOrdersForUser(HttpSession session) {
+    public ResponseEntity<List<OrderDTO>> getAllOrdersForUser(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return new ResponseEntity<>(UNAUTHORIZED);
         }
-        Map<Integer, Order> orderDTOMap = new HashMap<>();
-
-        os.getAllOrdersForUser(user.getUsername()).forEach(
-                order -> orderDTOMap.put(order.getUser().getUserId(), order)
-        );
-        return new ResponseEntity<>(orderDTOMap, OK);
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        List<Order> orderList = os.getAllOrdersForUser(user.getUsername());
+        for(Order order : orderList) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setOrder(order);
+            orderDTO.setUserId(order.getUser().getUserId());
+            orderDTOList.add(orderDTO);
+        }
+        return new ResponseEntity<>(orderDTOList, OK);
     }
 
     /**
      * USER - VIEW CURRENT ORDER
      */
     @GetMapping("/current")
-    public ResponseEntity<Map.Entry<Integer, Order>> getCurrentOrderForUser(HttpSession session) {
+    public ResponseEntity<OrderDTO> getCurrentOrderForUser(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return new ResponseEntity<>(UNAUTHORIZED);
         }
-        Order order;
+        OrderDTO orderDTO = new OrderDTO();
         try {
-            order = os.getCurrentOrderForUser(user.getUsername());
+            orderDTO.setOrder(os.getCurrentOrderForUser(user.getUsername()));
+            orderDTO.setUserId(orderDTO.getOrder().getUser().getUserId());
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(NOT_FOUND);
         }
-        Map.Entry<Integer, Order> orderDTO = Map.entry(order.getUser().getUserId(), order);
         return new ResponseEntity<>(orderDTO, OK);
     }
 
@@ -196,4 +209,47 @@ public class OrderController {
         return new ResponseEntity<>(order, NO_CONTENT);
     }
 
+}
+
+
+class VehicleUserDTO {
+    int vehicleId;
+    User login;
+
+    public void setLogin(User login) {
+        this.login = login;
+    }
+
+    public User getLogin() {
+        return login;
+    }
+
+    public void setVehicleId(int vehicleId) {
+        this.vehicleId = vehicleId;
+    }
+
+    public int getVehicleId() {
+        return vehicleId;
+    }
+}
+
+class OrderDTO {
+    Order order;
+    int userId;
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
 }
