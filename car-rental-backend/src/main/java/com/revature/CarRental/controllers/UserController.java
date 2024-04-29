@@ -80,4 +80,30 @@ public class UserController {
         return new ResponseEntity<>(us.getAllUsers(), OK);
     }
 
+    // Validate Session
+    @GetMapping("/session")
+    public ResponseEntity<User> validateSession(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(user, OK);
+    }
+
+    // Verify if User with Credentials is Admin
+    @GetMapping("/admin")
+    public ResponseEntity<User> validateAdmin(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return new ResponseEntity<>(UNAUTHORIZED);
+        } else if (!user.getAdmin()) {
+            return new ResponseEntity<>(FORBIDDEN);
+        } else {
+            return new ResponseEntity<>(user, OK);
+        }
+    }
+
+
+
+
 }
