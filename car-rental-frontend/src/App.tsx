@@ -24,8 +24,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           {/* <Route path="/vehicles" element={<VehiclePage />} /> */}
-          <Route path="/orders" element={<OrderPage {...localStorage.user} />} />
           <Route path="/locations" element={<LocationPage />} />
+          <Route path="/orders" element={<OrderPage {...localStorage.user} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin/vehicles" element={<VehicleDashboard />} />
         </Routes>

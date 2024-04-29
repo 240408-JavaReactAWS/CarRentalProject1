@@ -54,7 +54,7 @@ function Login() {
             })
             .then((data) => data.json())
             .then((data) => {
-                localStorage.setItem('user', JSON.stringify(data))
+                localStorage.setItem('admin', JSON.stringify(data.isAdmin))
             })
             .catch((error) => {
                 alert("There was an error creating an account")
@@ -62,7 +62,7 @@ function Login() {
             })
         }
 
-        console.log(localStorage.getItem('user'))
+        //console.log(localStorage.getItem('user'))
     }
 
 

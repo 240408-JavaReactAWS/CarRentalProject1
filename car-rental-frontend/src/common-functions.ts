@@ -19,4 +19,18 @@ export const commonFunctions = {
             return false;
         }
     },
+    isAdmin: async () => {
+        try {
+            let res = await axios.get('http://localhost:8080/users/validateAdmin', {
+                withCredentials: true
+            });
+            if (res.status === 200) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            return false;
+        }
+    },
 }

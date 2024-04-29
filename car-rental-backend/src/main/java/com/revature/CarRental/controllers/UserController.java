@@ -92,14 +92,14 @@ public class UserController {
 
     // Verify if User with Credentials is Admin
     @GetMapping("/admin")
-    public ResponseEntity<User> validateAdmin(HttpSession session) {
+    public ResponseEntity<Boolean> validateAdmin(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return new ResponseEntity<>(UNAUTHORIZED);
         } else if (!user.getAdmin()) {
             return new ResponseEntity<>(FORBIDDEN);
         } else {
-            return new ResponseEntity<>(user, OK);
+            return new ResponseEntity<>(user.getAdmin(), OK);
         }
     }
 

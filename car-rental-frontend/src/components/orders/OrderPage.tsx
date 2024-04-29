@@ -6,6 +6,7 @@ import { IOrderDTO } from '../../models/IOrderDTO';
 import OrderNav from './OrderNav';
 import './OrderPage.css';
 import axios from 'axios';
+import { commonFunctions } from '../../common-functions';
 
 
 
@@ -13,8 +14,8 @@ function OrderPage() {
     
     //console.log(props)
     //console.log(localStorage.user)
-    let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {} as IUser
 
+    const [adminStatus, setAdminStatus] = useState<boolean>(false)
     const [orderList, setOrderList] = useState<any>([])
     const [currentOrder, setCurrentOrder] = useState<any>(null)
 
@@ -151,12 +152,32 @@ function OrderPage() {
 
     useEffect(() => {
 
+        let asyncCall = async () => {
+            let isValidSession = await commonFunctions.validateSession();
+            let adminStatus = await commonFunctions.isAdmin();
+            if (!isValidSession) {
+                // Redirect to login
+
+            } else if (adminStatus) {
+                await asyncCallAllOrders()
+            } else {
+                await asyncCallUserOrders()
+                await asyncCallCurrentUserOrder()
+            }
+
+            setAdminStatus(adminStatus)
+        }
+
+        /*
         if (user.isAdmin) {
             asyncCallAllOrders()
         } else {
             asyncCallUserOrders()
             asyncCallCurrentUserOrder()
         }
+        */
+
+        asyncCall()
     
     },[])
         
@@ -169,14 +190,14 @@ function OrderPage() {
             <h1 className='contentHeading'>Orders</h1>
             <div className='contentBody'>
                 {
-                    (user.isAdmin) && (
+                    (adminStatus) && (
                         <OrderNav asyncCallAllOrders={asyncCallAllOrders} asyncCallPendingOrders={asyncCallPendingOrders} asyncCallCompletedOrders={asyncCallCompletedOrders}
                         //filterOrders={filterOrders}
                         />
                     )
                 }
                 {
-                    (!user.isAdmin && currentOrder !== null) && (
+                    (!adminStatus && currentOrder !== null) && (
                         <div style={{ backgroundColor: 'grey' }} className='currentOrder'>
                             <Order {...currentOrder} />
                         </div>
