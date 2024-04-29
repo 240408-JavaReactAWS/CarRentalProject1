@@ -29,7 +29,9 @@ function OrderPage() {
             if (res.status != 200) {
                 throw new Error("Error: " + res.status)
             } else {
-                setOrderList(res.data)
+                setOrderList(res.data.sort((a: IOrderDTO, b: IOrderDTO) => {
+                    return b.order.orderId - a.order.orderId
+                }))
             }
         } catch (error: any) {
             let status = error.response.status
@@ -69,7 +71,9 @@ function OrderPage() {
             if (res.status != 200) {
                 throw new Error("Error: " + res.status)
             } else {
-                setOrderList(res.data)
+                setOrderList(res.data.sort((a: IOrderDTO, b: IOrderDTO) => {
+                    return b.order.orderId - a.order.orderId
+                }))
             }
         } catch (error: any) {
             let status = error.response.status
@@ -90,7 +94,9 @@ function OrderPage() {
             if (res.status != 200) {
                 throw new Error("Error: " + res.status)
             } else {
-                setOrderList(res.data)
+                setOrderList(res.data.sort((a: IOrderDTO, b: IOrderDTO) => {
+                    return b.order.orderId - a.order.orderId
+                }))
             }
         } catch (error: any) {
             let status = error.response.status
@@ -111,7 +117,9 @@ function OrderPage() {
             if (res.status != 200) {
                 throw new Error("Error: " + res.status)
             } else {
-                setOrderList(res.data)
+                setOrderList(res.data.sort((a: IOrderDTO, b: IOrderDTO) => {
+                    return b.order.orderId - a.order.orderId
+                }))
             }
         } catch (error: any) {
             let status = error.response.status
@@ -213,7 +221,7 @@ function OrderPage() {
                 }
                 {
                     (!adminStatus && currentOrder !== null) && (
-                        <div style={{ backgroundColor: 'grey' }} className='currentOrder'>
+                        <div className='currentOrder'>
                             <Order {...currentOrder} />
                         </div>
                     )

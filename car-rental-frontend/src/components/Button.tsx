@@ -4,6 +4,7 @@ import { IButtonProps, Source } from '../models/IButtonProps';
 import { IUser } from '../models/IUser';
 import axios from 'axios';
 import { commonFunctions } from '../common-functions';
+import './Button.css';
 
 function Button(props: IButtonProps) {
 
@@ -44,7 +45,7 @@ function Button(props: IButtonProps) {
             // Transfer Button - Should open a modal with a dropdown of all locations. The user should be able to select a location and click submit to transfer the vehicle to that location.
             return (
                 <>
-                    <div>
+                    <div className='ButtonDiv'>
                         <button>Edit</button>
                         <button>Transfer</button>
                     </div>
@@ -58,7 +59,7 @@ function Button(props: IButtonProps) {
             // Order Button - Should submit a post request to the server to create a new order.
             return (
                 <>
-                    <div>
+                    <div className='ButtonDiv'>
                         <button>Order</button>
                     </div>
                 </>
@@ -76,7 +77,7 @@ function Button(props: IButtonProps) {
             // Both Buttons - Call a function that will send a patch request to the server, updating either the order status to approved or the order completion status to true.
             return (
                 <>
-                    <div>
+                    <div className='ButtonDiv'>
                         <button onClick={() => props.methods?.approveReject?.(true)}>Approve</button>
                         <button onClick={() => props.methods?.approveReject?.(false)}>Reject</button>
                     </div>
@@ -94,7 +95,7 @@ function Button(props: IButtonProps) {
                     // Pick Up Button - Should submit a patch request to the server to update the user's current car to the vehicle in the order.
                     return (
                         <>
-                            <div>
+                            <div className='ButtonDiv'>
                                 <button>Cancel</button>
                                 <button>Pick Up</button>
                             </div>
@@ -106,7 +107,7 @@ function Button(props: IButtonProps) {
                     // Return Button - Should submit a patch request to the server to update the user's current car to null and mark the order as complete.
                     return (
                         <>
-                            <div>
+                            <div className='ButtonDiv'>
                                 <button>Return</button>
                             </div>
                         </>

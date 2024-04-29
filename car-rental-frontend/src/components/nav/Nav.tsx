@@ -21,7 +21,7 @@ function Nav() {
     }, [window.location.pathname]);
 
   return (
-    <nav>
+    <nav className='mainNav'>
         <ul>
             <li>
                 <Link to="/">Home</Link>

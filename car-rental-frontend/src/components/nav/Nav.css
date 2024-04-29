@@ -1,7 +1,18 @@
-nav{
+nav {
     /* background-color: blueviolet; */
-
+    border-top: 2px solid black;
     border-bottom: 2px solid black;
+
+    padding-left: 128px;
+    padding-right: 128px;
+
+    background-color: #333;
+}
+
+.mainNav {
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 nav ul{

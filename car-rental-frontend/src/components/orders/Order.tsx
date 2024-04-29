@@ -5,6 +5,7 @@ import { IOrder } from '../../models/IOrder'
 import { IOrderDTO } from '../../models/IOrderDTO'
 import {Source, IButtonProps} from '../../models/IButtonProps'
 import axios from 'axios'
+import './Order.css'
 
 
 function Order(props: IOrderDTO) {
@@ -95,9 +96,9 @@ function Order(props: IOrderDTO) {
 
     return (
         <>
-            <div>
+            <div className='orderBlock'>
                 <div>
-                    <h1>Order Information</h1>
+                    <h2>Order Information</h2>
                     <p>Order Id: {order.orderId}</p>
                     <p>User Id: {props.userId}</p>
                     <p>Date and Time: {order.dateAndTime}</p>

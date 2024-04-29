@@ -1,0 +1,18 @@
+.ButtonDiv {
+    display: flex;
+    justify-content: right;
+    width: 100%;
+}
+
+.ButtonDiv button {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(95,95,95,1);
+    border: 2px solid #aaa;
+    cursor: pointer;
+}
+
+.ButtonDiv button:hover {
+    background-color: rgba(45,45,45,1);
+}

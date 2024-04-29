@@ -1,3 +1,5 @@
+import './OrderNav.css'
+
 interface InnerNavProps {
     asyncCallAllOrders: () => void,
     asyncCallPendingOrders: () => void,
@@ -8,7 +10,7 @@ interface InnerNavProps {
 function OrderNav(props: InnerNavProps) {
 
     return (
-        <div>
+        <div className='orderNav'>
             <button value={"all"} onClick={props.asyncCallAllOrders}>All</button>
             <button value={"pending"} onClick={props.asyncCallPendingOrders}>Pending</button>
             <button value={"completed"} onClick={props.asyncCallCompletedOrders}>Completed</button>
