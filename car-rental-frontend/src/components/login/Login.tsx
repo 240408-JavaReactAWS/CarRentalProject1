@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 function Login() {
 
     const location = useLocation();
-    const {isLoggedIn} = location.state.isLoggedIn;
+    const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(location.state.isLoggedIn);
 
     const [storedUsername, setStoredUsername] = useState<string>('')
     const [storedPassword, setStoredPassword] = useState<string>('')
@@ -27,6 +27,7 @@ function Login() {
                 })
                 if (res.status === 200) {
                     console.log("Logout Successful")
+                    setIsLoggedIn(false)
                 }
             } catch (error) {
                 alert("There was an error logging out")
@@ -70,6 +71,7 @@ function Login() {
                 });
                 if (res.status === 200) {
                     console.log("Login Successful")
+                    setIsLoggedIn(true)
                 }
             } catch (error) {
                 alert("There was an error logging in")
@@ -118,6 +120,7 @@ function Login() {
                 });
                 if (res.status === 200) {
                     console.log("Login Successful")
+                    setIsLoggedIn(true)
                 }
             } catch (error) {
                 alert("There was an error creating account")
