@@ -2,9 +2,13 @@ import React, {SyntheticEvent, useEffect, useState} from 'react';
 
 import { IButtonProps, Source } from '../models/IButtonProps';
 import { IUser } from '../models/IUser';
+import axios from 'axios';
+import { commonFunctions } from '../common-functions';
 
 function Button(props: IButtonProps) {
 
+
+    /*
     let user : IUser;
 
     if (!localStorage.getItem('user')) {
@@ -12,11 +16,28 @@ function Button(props: IButtonProps) {
     } else {
         user = JSON.parse(localStorage.getItem('user') || '{}');
     }
+    */
+
+    let [isAdmin, setIsAdmin] = useState<boolean>(false)
+    let [hasCar, setHasCar] = useState<boolean>(false)
+
+    useEffect(() => {
+
+        let asyncCall = async () => {
+            isAdmin = await commonFunctions.isAdmin();
+            hasCar = await commonFunctions.hasCar();
+            setIsAdmin(isAdmin);
+            setHasCar(hasCar);
+        }
+
+        asyncCall();
+
+     })
 
     // If Button is A Part of the Vehicle Component
     if (props.source == Source.Vehicle) {
         // If User is Admin
-        if (user.isAdmin) {
+        if (isAdmin) {
             // Display Edit/Transfer Buttons
 
             // Edit Button - Should open a modal with input fields for the user to edit the vehicle information. This should also include a submit button to save the changes.
@@ -48,7 +69,7 @@ function Button(props: IButtonProps) {
     // If Button is A Part of the Order Component
     else if (props.source == Source.Order) {
         // If User is Admin
-        if (user.isAdmin && props.shouldDisplay) {
+        if (isAdmin && props.shouldDisplay) {
             // If Order isCompleted is False
             // Display Approve/Reject Buttons
 
@@ -66,7 +87,7 @@ function Button(props: IButtonProps) {
         else if (props.shouldDisplay) {
             // If Order isCompleted is False
                 // If User Current Car is Null
-                if (user.currentCar == null) {
+                if (!hasCar) {
                     // Display Cancel Button and Pick Up Button
 
                     // Cancel Button - Does this delete the order or simply mark complete?

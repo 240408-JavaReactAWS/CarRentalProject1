@@ -7,6 +7,7 @@ import OrderNav from './OrderNav';
 import './OrderPage.css';
 import axios from 'axios';
 import { commonFunctions } from '../../common-functions';
+import { redirect, useNavigate } from 'react-router-dom';
 
 
 
@@ -18,6 +19,8 @@ function OrderPage() {
     const [adminStatus, setAdminStatus] = useState<boolean>(false)
     const [orderList, setOrderList] = useState<any>([])
     const [currentOrder, setCurrentOrder] = useState<any>(null)
+
+    const navigate = useNavigate()
 
     // GETs All Orders. 
     let asyncCallAllOrders = async () => {
@@ -169,7 +172,7 @@ function OrderPage() {
             let adminStatus = await commonFunctions.isAdmin();
             if (!isValidSession) {
                 // Redirect to login
-
+                navigate('/login', {state:{isLoggedIn: false}})
             } else if (adminStatus) {
                 await asyncCallAllOrders()
             } else {

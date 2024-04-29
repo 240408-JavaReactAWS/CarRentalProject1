@@ -33,4 +33,18 @@ export const commonFunctions = {
             return false;
         }
     },
+    hasCar: async () => {
+        try {
+            let res = await axios.get('http://localhost:8080/users/hascar', {
+                withCredentials: true
+            });
+            if (res.status === 200) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            return false;
+        }
+    }
 }
