@@ -1,19 +1,43 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useState, useEffect } from 'react';
 import './Login.css';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 function Login() {
 
-    let storedUsername = ''
-    let storedPassword = ''
+    const location = useLocation();
+    const {isLoggedIn} = location.state.isLoggedIn;
+
+    const [storedUsername, setStoredUsername] = useState<string>('')
+    const [storedPassword, setStoredPassword] = useState<string>('')
 
     let changeUsername = (e: SyntheticEvent) => {
-        storedUsername = (e.target as HTMLInputElement).value
+        setStoredUsername((e.target as HTMLInputElement).value)
     }
 
     let changePassword = (e: SyntheticEvent) => {
-        storedPassword = (e.target as HTMLInputElement).value
+        setStoredPassword((e.target as HTMLInputElement).value)
     }
+
+    useEffect(() => { 
+        let logout = async () => {
+            try {
+                let res = await axios.get('http://localhost:8080/users/logout', {
+                    withCredentials: true
+                })
+                if (res.status === 200) {
+                    console.log("Logout Successful")
+                }
+            } catch (error) {
+                alert("There was an error logging out")
+                console.log(error)
+            }
+        }
+
+        if (isLoggedIn) {
+            logout()
+        }
+    },[])
 
     let login = async () => {
         if (storedUsername != "" && storedPassword != "") {
@@ -51,6 +75,9 @@ function Login() {
                 alert("There was an error logging in")
                 console.log(error)
             }
+
+            setStoredUsername('')
+            setStoredPassword('')
 
         }
 
@@ -96,6 +123,9 @@ function Login() {
                 alert("There was an error creating account")
                 console.log(error)
             }
+
+            setStoredUsername('')
+            setStoredPassword('')
         }
 
         //console.log(localStorage.getItem('user'))
@@ -106,8 +136,8 @@ function Login() {
         <>
             <h1 className='contentHeading'>Login</h1>
             <div className='contentBody'>
-                <input type="text" placeholder="Username" onChange={changeUsername} />
-                <input type="password" placeholder="Password" onChange={changePassword} />
+                <input type="text" value={storedUsername} placeholder="Username" onChange={changeUsername} />
+                <input type="password" value={storedPassword} placeholder="Password" onChange={changePassword} />
                 <div className='buttonSet'>
                     <button onClick={login}>Login</button>
                     <button onClick={() => createAccount(false)}>Create Account</button><br />
