@@ -195,7 +195,7 @@ function OrderPage() {
         
 
     //console.log(orderList)
-    console.log(currentOrder)
+    //console.log(currentOrder)
 
     return (
         <>

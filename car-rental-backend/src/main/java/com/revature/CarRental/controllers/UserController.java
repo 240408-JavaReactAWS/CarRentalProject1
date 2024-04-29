@@ -19,7 +19,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT, RequestMethod.PATCH})
 public class UserController {
 
     private UserService us;
@@ -84,6 +84,7 @@ public class UserController {
     @GetMapping("/session")
     public ResponseEntity<User> validateSession(HttpSession session) {
         User user = (User) session.getAttribute("user");
+        System.out.println(user);
         if (user == null) {
             return new ResponseEntity<>(UNAUTHORIZED);
         }

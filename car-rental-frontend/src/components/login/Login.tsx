@@ -24,7 +24,8 @@ function Login() {
                 body: JSON.stringify({
                     username: storedUsername,
                     password: storedPassword
-                })
+                }),
+                credentials: 'include'
             })
             .then((data) => data.json())
             .then((data) => {
@@ -50,7 +51,8 @@ function Login() {
                     username: storedUsername,
                     password: storedPassword,
                     isAdmin: isAdmin
-                })
+                }),
+                credentials: 'include'
             })
             .then((data) => data.json())
             .then((data) => {

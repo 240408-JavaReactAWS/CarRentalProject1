@@ -8,10 +8,10 @@ export const commonFunctions = {
             });
             //console.log(res);
             if (res.status === 200) {
-                //console.log("Session is Valid")
+                console.log("Session is Valid")
                 return true;
             } else {
-                //console.log("Session is Invalid")
+                console.log("Session is Invalid")
                 return false;
             }
         } catch (error) {
@@ -21,7 +21,7 @@ export const commonFunctions = {
     },
     isAdmin: async () => {
         try {
-            let res = await axios.get('http://localhost:8080/users/validateAdmin', {
+            let res = await axios.get('http://localhost:8080/users/admin', {
                 withCredentials: true
             });
             if (res.status === 200) {
