@@ -54,6 +54,7 @@ function Login() {
             })
             .then((data) => data.json())
             .then((data) => {
+                localStorage.setItem('userId', JSON.stringify(data.userId))
                 localStorage.setItem('admin', JSON.stringify(data.isAdmin))
             })
             .catch((error) => {

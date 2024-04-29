@@ -21,21 +21,22 @@ function OrderPage() {
 
     // GETs All Orders. 
     let asyncCallAllOrders = async () => {
-        console.log("Getting all orders")
-        // Check headers
-        let res = await fetch('http://localhost:8080/orders/allorders', {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-        .then((data) => data.json())
-        .then((data) => {
-            // console.log(data)
-            setOrderList(data)})
-        .catch((error) => {
-            // alert("There was an error loading order list")
-            console.log(error)
-        })
+        try {
+            let res = await axios.get('http://localhost:8080/orders/allorders', { withCredentials: true })
+            if (res.status != 200) {
+                throw new Error("Error: " + res.status)
+            } else {
+                setOrderList(res.data)
+            }
+        } catch (error: any) {
+            let status = error.response.status
+            if (status === 404) {
+                console.log("No orders")
+                setCurrentOrder(null)
+            } else {
+                console.log("Error: " + error)
+            }
+        }
     }
 
     /*
@@ -60,53 +61,64 @@ function OrderPage() {
 
     // GETs All Pending Orders. Modify endpoint once defined
     let asyncCallPendingOrders = async () => {
-        console.log("Getting pending orders")
-        // Check headers
-        let res = await fetch('http://localhost:8080/orders/pendingorders', {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-        .then((data) => data.json())
-        .then((data) => setOrderList(data))
-        .catch((error) => {
-            // alert("There was an error loading order list")
-            console.log(error)
-        })
+        try {
+            let res = await axios.get('http://localhost:8080/orders/pendingorders', { withCredentials: true })
+            if (res.status != 200) {
+                throw new Error("Error: " + res.status)
+            } else {
+                setOrderList(res.data)
+            }
+        } catch (error: any) {
+            let status = error.response.status
+            if (status === 404) {
+                console.log("No pending orders")
+                setCurrentOrder(null)
+            } else {
+                console.log("Error: " + error)
+            }
+        }
     }
     
 
     // GETs All Completed Orders. Modify endpoint once defined
     let asyncCallCompletedOrders = async () => {
-        console.log("Getting completed orders")
-        // Check headers
-        let res = await fetch('http://localhost:8080/orders/completedorders', {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-        .then((data) => data.json())
-        .then((data) => setOrderList(data))
-        .catch((error) => {
-            // alert("There was an error loading order list")
-            console.log(error)
-        })
+        try {
+            let res = await axios.get('http://localhost:8080/orders/completedorders', { withCredentials: true })
+            if (res.status != 200) {
+                throw new Error("Error: " + res.status)
+            } else {
+                setOrderList(res.data)
+            }
+        } catch (error: any) {
+            let status = error.response.status
+            if (status === 404) {
+                console.log("No completed orders")
+                setCurrentOrder(null)
+            } else {
+                console.log("Error: " + error)
+            }
+        }
     }
 
     // GETs All User Orders.
     let asyncCallUserOrders = async () => {
-        // Check headers
-        let res = await fetch('http://localhost:8080/orders/myorders', {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-        .then((data) => data.json())
-        .then((data) => setOrderList(data))
-        .catch((error) => {
-            // alert("There was an error loading order list")
-            console.log(error)
-        })
+        try {
+            let res = await axios.get('http://localhost:8080/orders/myorders',  { withCredentials: true }
+            )
+            if (res.status != 200) {
+                throw new Error("Error: " + res.status)
+            } else {
+                setOrderList(res.data)
+            }
+        } catch (error: any) {
+            let status = error.response.status
+            if (status === 404) {
+                console.log("No orders")
+                setCurrentOrder(null)
+            } else {
+                console.log("Error: " + error)
+            }
+        }
     }
 
     // GETs Current User Order. Modify endpoint once defined
@@ -131,7 +143,7 @@ function OrderPage() {
         */
 
         try {
-            let res = await axios.get('http://localhost:8080/orders/current')
+            let res = await axios.get('http://localhost:8080/orders/current', { withCredentials: true })
             if (res.status != 200) {
                 throw new Error("Error: " + res.status)
             }
