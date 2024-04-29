@@ -4,6 +4,7 @@ import Button from '../Button'
 import { IOrder } from '../../models/IOrder'
 import { IOrderDTO } from '../../models/IOrderDTO'
 import {Source, IButtonProps} from '../../models/IButtonProps'
+import axios from 'axios'
 
 
 function Order(props: IOrderDTO) {
@@ -11,11 +12,22 @@ function Order(props: IOrderDTO) {
     //console.log(props)
 
     const [order, setOrder] = useState<any>(props.order);
+    const [approvalMessage, setApprovalMessage] = useState<string>("Pending")
     
     let approveReject = (approval: boolean) => {
         
         let asyncCall = async () => {
-            let res = await fetch('http://localhost:8080/orders/myOrder' + order.orderId, { 
+            let res = await axios.patch('http://localhost:8080/orders/' + order.orderId + "?approvalStatus=" + approval, {}, { withCredentials: true })
+            //.then((data) => console.log(data))
+            .then((response) => {
+                setOrder(response.data)
+                setApprovalMessage(approval ? "Approved" : "Rejected")
+            })
+            .catch((error) => {
+              alert("There was an error")
+              console.log(error)
+            })
+            /*let res = await fetch('http://localhost:8080/orders/' + order.orderId, { 
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -27,12 +39,26 @@ function Order(props: IOrderDTO) {
             .catch((error) => {
                 alert("There was an error")
                 console.log(error)
-            })
+            })*/
         }
 
         asyncCall()
 
     }
+
+    useEffect(() => {
+        if (order.isCompleted) {
+            if (order.isApproved) {
+                setApprovalMessage("Completed")
+            } else {
+                setApprovalMessage("Rejected")
+            }
+        } else if(order.isApproved) {
+            setApprovalMessage("Approved")
+        } else {
+            setApprovalMessage("Pending")
+        }
+    }, [])
 
     /*
     useEffect(() => {
@@ -67,17 +93,6 @@ function Order(props: IOrderDTO) {
     // console.log(order.vehicle)
     // console.log(order)
 
-    let approvalMessage: string
-    if (order.isCompleted) {
-        if (order.isApproved) {
-            approvalMessage = "Approved"
-        } else {
-            approvalMessage = "Rejected"
-        }
-    } else {
-        approvalMessage = "Pending"
-    }
-
     return (
         <>
             <div>
@@ -90,12 +105,12 @@ function Order(props: IOrderDTO) {
                 </div>
                 <div>
                     <VehicleInfo {...order.vehicle}/>
-                    <Button 
+                    {order.isApproved == false && order.isCompleted == false ? <Button 
                         source={Source.Order} 
                         sourceId={order.orderId} 
                         shouldDisplay={!order.isCompleted} 
                         methods={{approveReject: approveReject}}
-                    />
+                    /> : <></>}
                 </div>
             </div>
         </>

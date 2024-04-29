@@ -37,7 +37,7 @@ public class OrderController {
      * ADMIN - ORDER APPROVAL
      */
     @PatchMapping("{id}")
-    public ResponseEntity<Order> updateOrderApprovalStatusHandler(@PathVariable int id, @RequestBody Boolean approvalStatus, HttpSession session) {
+    public ResponseEntity<Order> updateOrderApprovalStatusHandler(@PathVariable int id, @RequestParam(required = false) Boolean approvalStatus, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null || !user.getAdmin()) {
             return new ResponseEntity<>(UNAUTHORIZED);
