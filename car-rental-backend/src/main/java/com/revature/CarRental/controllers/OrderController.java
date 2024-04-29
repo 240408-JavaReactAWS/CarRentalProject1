@@ -1,6 +1,7 @@
 package com.revature.CarRental.controllers;
 
 import com.revature.CarRental.models.Order;
+import com.revature.CarRental.models.OrderDTO;
 import com.revature.CarRental.models.User;
 import com.revature.CarRental.services.OrderService;
 import jakarta.persistence.EntityExistsException;
@@ -209,47 +210,4 @@ public class OrderController {
         return new ResponseEntity<>(order, NO_CONTENT);
     }
 
-}
-
-
-class VehicleUserDTO {
-    int vehicleId;
-    User login;
-
-    public void setLogin(User login) {
-        this.login = login;
-    }
-
-    public User getLogin() {
-        return login;
-    }
-
-    public void setVehicleId(int vehicleId) {
-        this.vehicleId = vehicleId;
-    }
-
-    public int getVehicleId() {
-        return vehicleId;
-    }
-}
-
-class OrderDTO {
-    Order order;
-    int userId;
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
 }
