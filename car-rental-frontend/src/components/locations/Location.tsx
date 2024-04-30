@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ILocation } from '../../models/ILocation'
 import axios from 'axios'
 import Vehicle from '../vehicles/Vehicle'
-import { IUser } from '../../models/IUser';
 import { IOrder } from '../../models/IOrder';
 import { useNavigate } from 'react-router-dom';
 import { commonFunctions } from '../../common-functions';
@@ -10,15 +9,9 @@ import { commonFunctions } from '../../common-functions';
 
 function Location(props: ILocation) {
 
-  let user : IUser | null;
   let currentOrder: IOrder | null;
   const navigate = useNavigate();
-
-  if (!localStorage.getItem('user')) {
-      user = null;
-  } else {
-      user = JSON.parse(localStorage.getItem('user') || '{}');
-  }
+  const [hasOrder, hasOrderHandler] = useState<boolean>(false);
 
   let placeOrder = async (vehicleId: number) => { 
     let res = await axios.post('http://localhost:8080/orders/placeorder/' + vehicleId, {}, { withCredentials: true })
@@ -44,9 +37,13 @@ function Location(props: ILocation) {
 
         }
       let res = await axios.get('http://localhost:8080/orders/current', { withCredentials: true })
-        .then((response) => currentOrder = response.data)
+        .then((response) => {
+          currentOrder = response.data
+          hasOrderHandler(true)
+        })
         .catch((error) => {
           currentOrder = null;
+          hasOrderHandler(false)
         })
     }
     asyncCall()
@@ -65,7 +62,7 @@ function Location(props: ILocation) {
                   <p>Vehicle Make: {vehicle.make}</p>
                   <p>Vehicle Model: {vehicle.model}</p>
                   <p>Vehicle Year: {vehicle.year}</p>
-                  {currentOrder == null ? <button onClick={() => placeOrder(vehicle.id)}>Order</button> : null}
+                  {!hasOrder ? <button onClick={() => placeOrder(vehicle.id)}>Order</button> : null}
                 </div>
             )}
         })}

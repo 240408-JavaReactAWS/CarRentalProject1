@@ -117,7 +117,7 @@ function OrderPage() {
             if (res.status != 200) {
                 throw new Error("Error: " + res.status)
             } else {
-                if (currentOrder != null) {
+                if (res.data[res.data.length - 1].order.isCompleted == false) {
                     res.data.pop()
                 }
                 setOrderList(res.data.sort((a: IOrderDTO, b: IOrderDTO) => {
