@@ -117,12 +117,14 @@ function OrderPage() {
             if (res.status != 200) {
                 throw new Error("Error: " + res.status)
             } else {
-                if (res.data[res.data.length - 1].order.isCompleted == false) {
-                    res.data.pop()
+                if(res.data.length > 0){
+                    if (res.data[res.data.length - 1].order.isCompleted == false) {
+                        res.data.pop()
+                    }
+                    setOrderList(res.data.sort((a: IOrderDTO, b: IOrderDTO) => {
+                        return b.order.orderId - a.order.orderId
+                    }))
                 }
-                setOrderList(res.data.sort((a: IOrderDTO, b: IOrderDTO) => {
-                    return b.order.orderId - a.order.orderId
-                }))
             }
         } catch (error: any) {
             let status = error.response.status
