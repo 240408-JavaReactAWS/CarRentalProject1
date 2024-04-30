@@ -82,7 +82,7 @@ function Button(props: IButtonProps) {
                 <>
                     <div className='ButtonDiv'>
                         <button onClick={() => props.methods?.approveReject?.(true)}>Approve</button>
-                        <button onClick={() => props.methods?.approveReject?.(false)}>Reject</button>
+                        <button className='delete' onClick={() => props.methods?.approveReject?.(false)}>Reject</button>
                     </div>
                 </>
             )
@@ -103,7 +103,7 @@ function Button(props: IButtonProps) {
                                 <button onClick={() => {props.methods?.pickUpOrder?.()
                                     setHasCar(true)
                                 }}>Pick Up</button> :
-                                <button onClick={() => {props.methods?.cancelOrder?.()
+                                <button className='delete' onClick={() => {props.methods?.cancelOrder?.()
                                     setHasCar(false)
                                     window.location.reload()
                                 }}>Cancel</button> 

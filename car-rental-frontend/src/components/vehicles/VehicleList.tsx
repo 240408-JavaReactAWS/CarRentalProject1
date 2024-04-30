@@ -66,9 +66,10 @@ const VehicleList = () => {
                                 <p>Vehicle Model: {vehicle.model}</p>
                                 <p>Vehicle Year: {vehicle.year}</p>
                                 <div className='ButtonDiv'>  
-                                    <button onClick={() => handleDeleteVehicle(vehicle.id, location)}>Delete</button>
+                                    <button className='delete' onClick={() => handleDeleteVehicle(vehicle.id, location)}>Delete</button>
                                 </div>
-                                <UpdateVehicleForm key={`e-${index}`} locations={locations} vehicle={vehicle} selectedLocation={location} />
+                                <div className='ButtonDiv'>
+                                <UpdateVehicleForm key={`e-${index}`} locations={locations} vehicle={vehicle} selectedLocation={location} /></div>
                                 <h2>Location: {`${location.streetAddress} ${location.city} ${location.state}`} </h2>
                             </div>
                         ))}

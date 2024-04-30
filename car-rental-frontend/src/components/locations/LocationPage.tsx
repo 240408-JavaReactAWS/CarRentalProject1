@@ -36,7 +36,7 @@ function LocationPage() {
         <>
             <h1 className='contentHeading'>Locations</h1>
             <div className='contentBody'>
-                <select name="locations" onChange={setSelectedLocationHandler}>
+                <select name="locations" onChange={setSelectedLocationHandler} title="Select a location">
                     <option value="0">Select a location</option>
                     {locations.map((location) => {
                         return (

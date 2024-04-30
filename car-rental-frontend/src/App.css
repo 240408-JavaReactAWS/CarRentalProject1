@@ -129,6 +129,8 @@ body {
 
 ::placeholder {
   font-family: 'Times New Roman', Times, serif;
+  color: #aaaaaa;
+  font-size: auto;
 }
 
 select, input {
@@ -138,4 +140,19 @@ select, input {
   border: 1px solid #aaaaaa;
   align-items: center;
   justify-content: center;
+}
+
+
+.ButtonDiv {
+  justify-content: center;
+}
+.ButtonDiv button {
+  border-radius: 20px;
+}
+.ButtonDiv button.delete:hover {
+  background-color: rgb(150, 0, 0);
+}
+
+button:hover {
+  text-shadow: 0 0 2px white, 0 0 7px rgba(224, 224, 224, 0.524);
 }

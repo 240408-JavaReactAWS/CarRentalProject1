@@ -1,13 +1,13 @@
 .ButtonDiv {
     display: flex;
-    justify-content: right;
+    justify-content: center;
     width: 100%;
 }
 
 .ButtonDiv button {
     margin: 10px;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 20px;
     background-color: rgba(95,95,95,1);
     border: 2px solid #aaa;
     cursor: pointer;

@@ -15,9 +15,21 @@
     margin: 5px;
 }
 
+s.loginform {
+
+    margin: 30px;
+}
+
+button.login {
+    border-radius: 20px;
+    padding: 7px 13px 7px 13px;
+}
+
 .buttonSet button:hover {
     box-shadow: 0 0 5px white, 0 0 10px rgba(255, 255, 255, 0.788),  0 0 20px rgba(255, 255, 255, 0.586);
     text-shadow: 0 0 1px white, 0 0 3px rgba(255, 255, 255, 0.524);
     color: white;
     background-color: rgb(162, 171, 183);
 }
+
+

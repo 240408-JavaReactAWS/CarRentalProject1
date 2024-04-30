@@ -44,7 +44,7 @@ const LocationList = (props: ILocation[]) => {
                         <p key={`veh-${vehicle.id}`}>{`${vehicle.make} ${vehicle.model} ${vehicle.year} ${vehicle.color}`}</p>
                     </>))}</p>
                     <div className="ButtonDiv">
-                        <button onClick={() => handleDeleteLocation(location.locationId)}>Delete</button>
+                        <button className="delete" onClick={() => handleDeleteLocation(location.locationId)}>Delete</button>
                     </div>
                     <UpdateLocationForm location={location} setLocations={setLocations}/>
                 </div>)
