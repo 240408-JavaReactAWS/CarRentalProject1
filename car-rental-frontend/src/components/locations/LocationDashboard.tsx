@@ -23,11 +23,18 @@ const LocationDashboard = () => {
 
     return (
         <div>
-            <h1>Location Dashboard</h1>
+            <h1 className="contentHeading">Location Dashboard</h1>
+            <div className='contentBody'>
+
+            <div className='contentBlock'>
                 <h2>Add Location Form</h2>
                     <LocationForm setLocations={setLocations} />
+            </div>
+            <div className='contentBlock'>
                 <h2>Location List</h2>
                     <LocationList {...locations} />
+            </div>
+            </div>
         </div>
     )
 }

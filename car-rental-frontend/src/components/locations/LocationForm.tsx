@@ -36,7 +36,6 @@ const LocationForm = (props:ILocationFormProps) => {
     
     return (
         <div>
-            <h3>Location Form</h3>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="streetAddress">Street Address</label>
                 <input type="text" id="streetAddress" placeholder="Street Address" name="streetAddress" value={location.streetAddress} onChange={handleChangeLocation} />
