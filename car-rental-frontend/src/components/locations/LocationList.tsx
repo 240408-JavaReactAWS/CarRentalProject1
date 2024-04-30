@@ -3,7 +3,8 @@ import { ILocation } from "../../models/ILocation";
 import axios from "axios";
 import UpdateLocationForm from "./UpdateLocationForm";
 
-const LocationList = () => {
+
+const LocationList = (props: ILocation[]) => {
     
     const [locations, setLocations] = useState<ILocation[]>([]);
 
@@ -19,7 +20,7 @@ const LocationList = () => {
         }
 
         getLocations();
-    },[]);
+    },[props, locations]);
 
     const handleDeleteLocation = async (locationId: number) => {
         try {
@@ -46,7 +47,7 @@ const LocationList = () => {
                     <div className="ButtonDiv">
                         <button onClick={() => handleDeleteLocation(location.locationId)}>Delete</button>
                     </div>
-                    <UpdateLocationForm location={location}/>
+                    <UpdateLocationForm location={location} setLocations={setLocations}/>
                 </div>)
             })
             }

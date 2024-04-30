@@ -55,8 +55,6 @@ const VehicleForm = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        //console.log(vehicle);
-        //console.log(`http://localhost:8080/vehicles/${currentLocation}/add`);
         try {
             axios.post(`http://localhost:8080/vehicles/${currentLocation}/add`, vehicle, {withCredentials: true});
         } catch (e) {
