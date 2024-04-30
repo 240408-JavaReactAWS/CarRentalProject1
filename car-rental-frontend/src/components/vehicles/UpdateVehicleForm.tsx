@@ -28,6 +28,7 @@ const UpdateVehicleForm = (props: IVehicleUpdateFormProps) => {
             setVehicle(updatedVehicle);
             //update the vehicle object in the database
             await axios.put(`http://localhost:8080/vehicles/update/${vId}`, updatedVehicle, { withCredentials: true });
+            handleShowUpdateForm();
         } catch (e) {
             console.log(e);
         }
@@ -51,7 +52,7 @@ const UpdateVehicleForm = (props: IVehicleUpdateFormProps) => {
     return (
         <>
             <div>
-                <div className='ButtonDiv'>
+                <div className='ButtonDiv ButtonDash'>
                     <button onClick={() => handleShowUpdateForm()}>Update</button>
                 </div>
 
@@ -76,7 +77,7 @@ const UpdateVehicleForm = (props: IVehicleUpdateFormProps) => {
                             {locations.map((location) => <option key={`loca-${location.locationId}`} value={JSON.stringify(location)}>{`${location.streetAddress}, ${location.city} ${location.state}`}</option>)}
                         </select>
 
-                        <div className='ButtonDiv'>
+                        <div className='ButtonDiv ButtonDash'>
                             <button type="submit">Update Vehicle</button>
                         </div>
                     </form>}

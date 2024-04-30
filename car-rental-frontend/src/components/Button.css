@@ -18,3 +18,9 @@
     background-color: rgba(45,45,45,1);
     color:white;
 }
+
+.ButtonDiv.ButtonDash {
+    display:flex;
+    justify-content: center;
+    width: 10%;
+}

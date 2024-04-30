@@ -36,7 +36,7 @@ const UpdateLocationForm = (props: ILocationUpdateFormProps) => {
     return (
         <>
             <div>
-                <div className='ButtonDiv'>
+                <div className='ButtonDiv ButtonDash'>
                     <button onClick={() => handleShowUpdateForm()}>Update</button>
                 </div>
                 {!editShow &&
@@ -49,7 +49,7 @@ const UpdateLocationForm = (props: ILocationUpdateFormProps) => {
                     <input type="text" name="state" value={location.state} onChange={handleChangeLocation} />
                     <label>Postal Code:</label>
                     <input type="text" name="postalCode" value={location.postalCode} onChange={handleChangeLocation} />
-                    <div className='ButtonDiv'>
+                    <div className='ButtonDiv ButtonDash'>
                         <button type="submit">Update Location</button>
                     </div>
                 </form>
