@@ -12,7 +12,6 @@ const LocationList = (props: ILocation[]) => {
         const getLocations = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/locations', {withCredentials: true});
-                console.log(response.data);
                 setLocations(response.data);
             } catch (e) {
                 console.log(e);

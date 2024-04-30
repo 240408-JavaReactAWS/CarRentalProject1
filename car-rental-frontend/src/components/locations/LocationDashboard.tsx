@@ -3,14 +3,23 @@ import LocationForm from "./LocationForm";
 import LocationList from "./LocationList";
 import { commonFunctions } from "../../common-functions";
 import { ILocation } from "../../models/ILocation";
+import { useNavigate } from "react-router-dom";
 
 const LocationDashboard = () => {
 
-    useEffect(() => {
-        let admin = commonFunctions.isAdmin();
-    }, []);
+    const navigate = useNavigate();
 
     const [locations, setLocations] = useState<ILocation[]>([]);
+
+    useEffect(() => {
+        const checkAdmin = async () => {
+            let admin = await commonFunctions.isAdmin();
+            if (!admin) {
+                navigate("/");
+            }
+        }
+        checkAdmin();
+    },[]);
 
     return (
         <div>

@@ -45,11 +45,14 @@ public class LocationController {
     /**
      * ADMIN - ADD LOCATION
      */
+    //Modify this function to throw an error if the location already exists.
     @PostMapping("/add")
     public ResponseEntity<Location> addLocationHandler(@RequestBody Location location, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null || !user.getAdmin()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } else if (ls.addLocation(location) == null) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         Location addedLoc = ls.addLocation(location);
         return new ResponseEntity<>(addedLoc, HttpStatus.CREATED);

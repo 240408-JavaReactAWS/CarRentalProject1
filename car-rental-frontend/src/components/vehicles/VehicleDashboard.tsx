@@ -9,11 +9,14 @@ const VehicleDashboard = () => {
     let navigate = useNavigate();
 
     useEffect(() => {
-        let admin = commonFunctions.isAdmin();
-        if (!admin) {
-            navigate('/');
+        const checkAdmin = async () => {
+            let admin = await commonFunctions.isAdmin();
+            if (!admin) {
+                navigate("/");
+            }
         }
-    },[])
+        checkAdmin();
+    },[]);
 
     return (
         <div>
