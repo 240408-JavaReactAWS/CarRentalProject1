@@ -7,6 +7,7 @@ import Nav from './components/nav/Nav';
 import Login from './components/login/Login';
 import VehicleDashboard from './components/vehicles/VehicleDashboard';
 import LocationPage from './components/locations/LocationPage';
+import LocationDashboard from './components/locations/LocationDashboard';
 
 interface userContextInterface {
   isLoggedIn: boolean,
@@ -41,6 +42,7 @@ function App() {
             <Route path="/orders" element={<OrderPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin/vehicles" element={<VehicleDashboard />} />
+            <Route path="/admin/locations" element={<LocationDashboard />} />
             {/* <Route path="/admin/locations" element={<LocationDashboard />} /> */}
           </Routes>
         </BrowserRouter>
