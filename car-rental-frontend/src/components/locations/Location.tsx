@@ -71,7 +71,18 @@ function Location(props: ILocation) {
                       </div> : null}
                   </div>
                 </div>
-            )}
+            )} else {
+              return (
+                <div className='vehicleBlock'>
+                  <div>
+                    <h2>{vehicle.year} {vehicle.make} {vehicle.model}</h2>
+                    {adminStatus ? <p>Vehicle Id: {vehicle.id}</p> : null}
+                    <p>Vehicle Color: {vehicle.color}</p>
+                    <p>Vehicle is currently unavailable</p>
+                  </div>
+                </div>
+              )
+            }
         })}
     </div>
   )
