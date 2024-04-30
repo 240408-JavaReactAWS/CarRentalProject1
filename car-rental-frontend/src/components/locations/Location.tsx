@@ -5,6 +5,8 @@ import Vehicle from '../vehicles/Vehicle'
 import { IOrder } from '../../models/IOrder';
 import { useNavigate } from 'react-router-dom';
 import { commonFunctions } from '../../common-functions';
+import './Location.css'
+import '../Button.css'
 
 
 function Location(props: ILocation) {
@@ -58,13 +60,16 @@ function Location(props: ILocation) {
         {props.vehicleStock.map((vehicle) => {
             if(vehicle.isAvailable == true) {
                 return (
-                <div>
-                  <p>Vehicle Id: {vehicle.id}</p>
-                  <p>Vehicle Color: {vehicle.color}</p>
-                  <p>Vehicle Make: {vehicle.make}</p>
-                  <p>Vehicle Model: {vehicle.model}</p>
-                  <p>Vehicle Year: {vehicle.year}</p>
-                  {!hasOrder && !adminStatus ? <button onClick={() => placeOrder(vehicle.id)}>Order</button> : null}
+                <div className='vehicleBlock'>
+                  <div>
+                    <h2>{vehicle.year} {vehicle.make} {vehicle.model}</h2>
+                    {adminStatus ? <p>Vehicle Id: {vehicle.id}</p> : null}
+                    <p>Vehicle Color: {vehicle.color}</p>
+                    {!hasOrder && !adminStatus ? 
+                      <div className='ButtonDiv'> 
+                        <button onClick={() => placeOrder(vehicle.id)}>Order</button>
+                      </div> : null}
+                  </div>
                 </div>
             )}
         })}
