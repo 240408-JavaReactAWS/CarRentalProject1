@@ -64,24 +64,31 @@ const VehicleForm = () => {
 
     return (
         <form onSubmit={handleSubmit}>
+            
             <label htmlFor="make">Make</label>
             <input type="text" id="make" name="make" placeholder="Make" value={vehicle.make} onChange={handleChangeVehicle} />
+            
             <label htmlFor="model">Model</label>
             <input type="text" id="model" name="model" placeholder="Model" value={vehicle.model} onChange={handleChangeVehicle} />
+            
             <label htmlFor="year">Year</label>
             <input type="text" id="year" name="year" placeholder="Year" value={vehicle.year} onChange={handleChangeVehicle} />
+            
             <label htmlFor="color">Color</label>
             <input type="text" id="color" name="color" placeholder="Color" value={vehicle.color} onChange={handleChangeVehicle} />
+            
             <label htmlFor="location">Location</label>
             <select name="location" id="location" onChange={handleChangeLocation}>
                 {locations.map(location => (
                     <option key={`loc-${location.locationId}`} value={location.locationId}>{`${location.streetAddress}, ${location.city} ${location.state}`}</option>
                 ))};
             </select>
+            
             <div className='ButtonDiv'>
                 <button type="submit">Submit</button>
             </div>
         </form>
+        
     )
 }
 

@@ -88,3 +88,41 @@ body {
  text-shadow: 0 0 1px white, 0 0 3px rgba(255, 255, 255, 0.524);
   color: white;
 }
+
+.contentBlock {
+  display: block;
+  justify-content: space-between;
+  margin: 10px 0;
+  padding: 10%;
+  border: 2px solid #aaaaaa00;
+  border-radius: 15px;
+  background-color: #f9f9f9;
+}
+
+.contentBlock div {
+  min-width: 450px;
+}
+
+.contentBlock h2 {
+  padding: 20px;
+  text-align: center;
+}
+
+.contentBlock form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonSet button {
+  font-size: 20px;
+  margin: 5px;
+}
+
+.buttonSet button:hover {
+  box-shadow: 0 0 5px white, 0 0 10px rgba(255, 255, 255, 0.788),  0 0 20px rgba(255, 255, 255, 0.586);
+  text-shadow: 0 0 1px white, 0 0 3px rgba(255, 255, 255, 0.524);
+  color: white;
+  background-color: rgb(162, 171, 183);
+}

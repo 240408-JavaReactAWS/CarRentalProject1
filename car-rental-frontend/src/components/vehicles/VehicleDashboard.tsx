@@ -20,11 +20,20 @@ const VehicleDashboard = () => {
 
     return (
         <div>
-            <h1>Vehicle Dashboard</h1>
-                <h2>Add Vehicle Form</h2>
+            <h1 className="contentHeading">Vehicle Dashboard</h1>
+            
+            <div className='contentBody'>
+            
+                <div className='contentBlock'>
+                    <h2>Add Vehicle Form</h2>
                     <VehicleForm />
-                <h2>Vehicle List</h2>
+                </div>
+            
+                <div className='contentBlock'>
+                    <h2>Vehicle List</h2>
                     <VehicleList />
+                </div>
+            </div>
         </div>
     )
 }
