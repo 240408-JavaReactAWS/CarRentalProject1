@@ -45,8 +45,14 @@ public class LocationService {
         locations.forEach( (loc) -> {vehicles.addAll( loc.getVehicleStock());} );
         return vehicles;
     }
-
+    //Modify this function to check for duplicate locations before adding.
     public Location addLocation(Location location) {
+        List<Location> locations = ld.findAll();
+        for (Location loc : locations) {
+            if (loc.getCity().equals(location.getCity()) && loc.getState().equals(location.getState()) && loc.getPostalCode().equals(location.getPostalCode()) && loc.getStreetAddress().equals(location.getStreetAddress())) {
+                return null;
+            }
+        }
         return ld.save(location);
     }
 

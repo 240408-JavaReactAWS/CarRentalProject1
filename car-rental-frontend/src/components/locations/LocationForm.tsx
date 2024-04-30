@@ -10,8 +10,7 @@ interface ILocationFormProps {
 
 const LocationForm = (props:ILocationFormProps) => {
 
-    const navigate = useNavigate();
-
+    const [errorMessage, setErrorMessage] = useState<string>()
     const [location, setLocation] = useState<ILocation>({
         streetAddress: '',
         city: '',
@@ -29,7 +28,8 @@ const LocationForm = (props:ILocationFormProps) => {
         e.preventDefault();
         try {
             const response = await axios.post("http://localhost:8080/locations/add", location, {withCredentials: true}).then(response => {props.setLocations([])});
-        } catch (e) {
+        } catch (e: Error | any) {
+            setErrorMessage(e.response.data.message);
             console.log(e);
         }
     }
@@ -46,6 +46,7 @@ const LocationForm = (props:ILocationFormProps) => {
                 <input type="text" id="state" name="state" placeholder="State" value={location.state} onChange={handleChangeLocation}/>
                 <label htmlFor="postalCode">Postal Code</label>
                 <input type="text" id="postalCode" name="postalCode" placeholder="Postal Code" value={location.postalCode} onChange={handleChangeLocation}/>
+                {errorMessage && <p>Location Exists already: {errorMessage}</p>}
                 <div className='ButtonDiv'>
                     <button type="submit">Add Location</button>
                 </div>
