@@ -15,27 +15,6 @@ function Order(props: IOrderDTO) {
 
     const [order, setOrder] = useState<any>(props.order);
     const [approvalMessage, setApprovalMessage] = useState<string>("Pending")
-    let [isAdmin, setIsAdmin] = useState<boolean>(false)
-    let [hasCar, setHasCar] = useState<boolean>(false)
-
-
-
-    useRef(() => {
-        let asyncCall = async () => {
-            isAdmin = await commonFunctions.isAdmin();
-            setIsAdmin(isAdmin);
-        }
-        asyncCall();
-     })
-
-    useState(() => {
-        let asyncCall = async () => {
-            hasCar = await commonFunctions.hasCar();
-            setHasCar(hasCar);
-        }
-        asyncCall();
-    })  
-
 
     let approveReject = (approval: boolean) => {
         
@@ -172,13 +151,15 @@ function Order(props: IOrderDTO) {
                 </div>
                 <div>
                     <VehicleInfo {...order.vehicle}/>
-                    {order.isApproved == false && order.isCompleted == false ? <Button 
-                        source={Source.Order} 
-                        sourceId={order.orderId} 
-                        shouldDisplay={!order.isCompleted} 
-                        methods={isAdmin?{approveReject: approveReject}
-                        :!hasCar?{cancelOrder:cancelOrder, pickUpOrder:pickupOrder}
-                        :{returnOrder:returnOrder} }/> : <></>}
+                    {order.isApproved == false && order.isCompleted == false ? <Button
+                        source={Source.Order}
+                        sourceId={order.orderId}
+                        shouldDisplay={!order.isCompleted}
+                        methods={{approveReject: approveReject,
+                            cancelOrder: cancelOrder,
+                            pickUpOrder: pickupOrder,
+                            returnOrder: returnOrder
+                        } }/> : <></>}
                 </div>
             </div>
         </>

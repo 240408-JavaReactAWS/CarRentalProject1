@@ -97,7 +97,7 @@ function Button(props: IButtonProps) {
                         <>
                             <div className='ButtonDiv'>
                                 <button onClick= {() => props.methods?.cancelOrder}>Cancel</button>
-                                <button onClick= {() => props.methods?.pickUpOrder}>Pick Up</button>
+                                {<button onClick= {() => props.methods?.pickUpOrder}>Pick Up</button>}
                             </div>
                         </>
                     )

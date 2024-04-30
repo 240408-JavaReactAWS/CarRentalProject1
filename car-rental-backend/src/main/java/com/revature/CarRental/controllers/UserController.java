@@ -111,7 +111,7 @@ public class UserController {
         if (user == null) {
             return new ResponseEntity<>(UNAUTHORIZED);
         } else if (user.getCurrentCar() == null) {
-            return new ResponseEntity<>(FORBIDDEN);
+            return new ResponseEntity<>(NOT_FOUND);
         } else {
             return new ResponseEntity<>(true, OK);
         }

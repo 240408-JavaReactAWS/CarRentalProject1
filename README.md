@@ -92,19 +92,19 @@ Presentations will occur on the morning of May 1st 2024. All team members must h
 
 ## User Stories
 
-    - Users and Admins can create accounts                                      Eli
-    - As a user, I can place rental orders                                      Eli
-    - As a user, I can see my current order                                     Eli
-    - As a user, I can see my past rentals                                      Eli
-    - As a user, I can see all cars at a location                               Ihtheram
-    - as a user, I can cancel orders                                            Ihtheram
+    - Users and Admins can create accounts                                      Eli             X
+    - As a user, I can place rental orders                                      Eli             X
+    - As a user, I can see my current order                                     Eli             X
+    - As a user, I can see my past rentals                                      Eli             X
+    - As a user, I can see all cars at a location                               Ihtheram        X
+    - as a user, I can cancel orders                                            Ihtheram        
     - as a user, I can pick up and return ordered vehicles                      Ihtheram
     - As an admin, I can add, remove, and update vehicles to the database       Tyler
     - As an admin, I can add, remove, and update locations to the database      Tyler
-    - As an admin I can see current and past orders                             Tyler
-    - as an Admin I can accept or reject orders                                 Devon
-    - As an admin, I can transfer cars between locations                        Devon
-    - Users and Admins can log in                                               Devon
+    - As an admin I can see current and past orders                             Tyler           X
+    - as an Admin I can accept or reject orders                                 Devon           -
+    - As an admin, I can transfer cars between locations                        Devon           O    
+    - Users and Admins can log in                                               Devon           X
     
 ## Process
 
