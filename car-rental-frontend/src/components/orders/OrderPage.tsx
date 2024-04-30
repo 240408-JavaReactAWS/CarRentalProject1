@@ -221,6 +221,11 @@ function OrderPage() {
             <>
                 <h1 className='contentHeading'>Orders</h1>
                 <div className='contentBody'>
+                    {(adminStatus) && (
+                        <OrderNav asyncCallAllOrders={asyncCallAllOrders} asyncCallPendingOrders={asyncCallPendingOrders} asyncCallCompletedOrders={asyncCallCompletedOrders}
+                        //filterOrders={filterOrders}
+                        />
+                    )}
                     <h2>"No Orders"</h2>
                 </div>
             </>
