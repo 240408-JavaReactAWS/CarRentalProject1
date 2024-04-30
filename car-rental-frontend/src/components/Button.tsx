@@ -28,7 +28,6 @@ function Button(props: IButtonProps) {
         let asyncCall = async () => {
             let isAdmin = await commonFunctions.isAdmin();
             let hasCar = await commonFunctions.hasCar();
-            
             setIsAdmin(isAdmin);
             setHasCar(hasCar);
 

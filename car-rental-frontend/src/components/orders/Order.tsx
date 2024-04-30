@@ -69,7 +69,7 @@ function Order(props: IOrderDTO) {
         console.log("Picking Up Order")
 
         let asyncCall = async () => {
-            let res = await axios.patch('http://localhost:8080/vehicles/pickup', { withCredentials: true })
+            let res = await axios.patch('http://localhost:8080/vehicles/pickup', {}, { withCredentials: true })
             .then(() => {
                 setApprovalMessage("Picked Up")
             })
@@ -86,7 +86,7 @@ function Order(props: IOrderDTO) {
         console.log("Returning Order")
 
         let asyncCall = async () => {
-            let res = await axios.patch('http://localhost:8080/vehicles/return', { withCredentials: true })
+            let res = await axios.patch('http://localhost:8080/vehicles/return', {}, { withCredentials: true })
             .then(() => {
                 setApprovalMessage("Returned")
             })

@@ -156,6 +156,8 @@ public class VehicleController {
         }
         vs.updateVehicleAvailability(order.getVehicle().getId(), false); // Mark vehicle as unavailable for others
         us.updateCurrentCar(user.getUserId(), order.getVehicle());  // Assign vehicle to user
+        user.setCurrentCar(order.getVehicle());
+        session.setAttribute("user", user);
         return new ResponseEntity<>(order.getVehicle(), OK);
     }
 
@@ -184,6 +186,8 @@ public class VehicleController {
             return new ResponseEntity<>(BAD_REQUEST); // User has no vehicle
         }
         us.updateCurrentCar(user.getUserId(), null); // Remove vehicle from user
+        user.setCurrentCar(null);
+        session.setAttribute("user", user);
         os.updateOrderCompletionStatus(order.getOrderId(), true); // Mark order as completed
         vs.updateVehicleAvailability(vehicle.getId(), true); // Mark vehicle as available for others
         return new ResponseEntity<>(vehicle, OK);

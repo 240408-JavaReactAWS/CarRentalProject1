@@ -109,4 +109,16 @@ public class User {
     public void setAdmin(Boolean admin) {
         isAdmin = admin;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", currentCar=" + currentCar +
+                ", allOrders=" + allOrders +
+                ", isAdmin=" + isAdmin +
+                '}';
+    }
 }
