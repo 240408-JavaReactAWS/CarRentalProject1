@@ -117,6 +117,7 @@ function OrderPage() {
             if (res.status != 200) {
                 throw new Error("Error: " + res.status)
             } else {
+                res.data.pop()
                 setOrderList(res.data.sort((a: IOrderDTO, b: IOrderDTO) => {
                     return b.order.orderId - a.order.orderId
                 }))
