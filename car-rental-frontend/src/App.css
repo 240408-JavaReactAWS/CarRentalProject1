@@ -126,3 +126,16 @@ body {
   color: white;
   background-color: rgb(162, 171, 183);
 }
+
+::placeholder {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+select, input {
+  font-family: 'Times New Roman', Times, serif;
+  text-align: center;
+  border-radius: 20px;
+  border: 1px solid #aaaaaa;
+  align-items: center;
+  justify-content: center;
+}
