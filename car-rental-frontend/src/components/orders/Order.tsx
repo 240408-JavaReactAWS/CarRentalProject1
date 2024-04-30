@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import VehicleInfo from '../vehicles/VehicleInfo'
 import Button from '../Button'
 import { IOrder } from '../../models/IOrder'
 import { IOrderDTO } from '../../models/IOrderDTO'
 import {Source, IButtonProps} from '../../models/IButtonProps'
+import { commonFunctions } from '../../common-functions';
 import axios from 'axios'
 import './Order.css'
 
@@ -14,7 +15,28 @@ function Order(props: IOrderDTO) {
 
     const [order, setOrder] = useState<any>(props.order);
     const [approvalMessage, setApprovalMessage] = useState<string>("Pending")
-    
+    let [isAdmin, setIsAdmin] = useState<boolean>(false)
+    let [hasCar, setHasCar] = useState<boolean>(false)
+
+
+
+    useRef(() => {
+        let asyncCall = async () => {
+            isAdmin = await commonFunctions.isAdmin();
+            setIsAdmin(isAdmin);
+        }
+        asyncCall();
+     })
+
+    useState(() => {
+        let asyncCall = async () => {
+            hasCar = await commonFunctions.hasCar();
+            setHasCar(hasCar);
+        }
+        asyncCall();
+    })  
+
+
     let approveReject = (approval: boolean) => {
         
         let asyncCall = async () => {
@@ -44,8 +66,51 @@ function Order(props: IOrderDTO) {
         }
 
         asyncCall()
-
     }
+
+    let cancelOrder = () => {
+        
+        let asyncCall = async () => {
+            let res = await axios.delete('http://localhost:8080/orders/current', { withCredentials: true })
+            .then((response) => {
+                console.log(response.data, response.status, "Order Cancelled")
+            })
+            .catch((error) => {
+              alert("There was an error cancelling the order")
+              console.log(error)
+            })
+        }
+        asyncCall()
+    }
+
+    let pickupOrder = () => {
+        let asyncCall = async () => {
+            let res = await axios.patch('http://localhost:8080/vehicles/pickup', { withCredentials: true })
+            .then(() => {
+                setApprovalMessage("Picked Up")
+            })
+            .catch((error) => {
+              alert("There was an error picking up the vehicle")
+              console.log(error)
+            })
+        }
+        asyncCall()
+    }
+
+    let returnOrder = () => {
+        let asyncCall = async () => {
+            let res = await axios.patch('http://localhost:8080/vehicles/return', { withCredentials: true })
+            .then(() => {
+                setApprovalMessage("Returned")
+            })
+            .catch((error) => {
+              alert("There was an error returning the vehicle")
+              console.log(error)
+            })
+        }
+        asyncCall()
+    }
+
 
     useEffect(() => {
         if (order.isCompleted) {
@@ -97,6 +162,7 @@ function Order(props: IOrderDTO) {
     return (
         <>
             <div className='orderBlock'>
+            
                 <div>
                     <h2>Order Information</h2>
                     <p>Order Id: {order.orderId}</p>
@@ -110,14 +176,14 @@ function Order(props: IOrderDTO) {
                         source={Source.Order} 
                         sourceId={order.orderId} 
                         shouldDisplay={!order.isCompleted} 
-                        methods={{approveReject: approveReject}}
-                    /> : <></>}
+                        methods={isAdmin?{approveReject: approveReject}
+                        :!hasCar?{cancelOrder:cancelOrder, pickUpOrder:pickupOrder}
+                        :{returnOrder:returnOrder} }/> : <></>}
                 </div>
             </div>
         </>
     )
-
-
 }
+
 
 export default Order

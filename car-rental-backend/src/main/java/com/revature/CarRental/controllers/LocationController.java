@@ -24,6 +24,9 @@ public class LocationController {
         this.ls = ls;
     }
 
+    /**
+     * USER - VIEW ALL LOCATIONS
+     */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody List<Location> viewAllLocationsHandler() {

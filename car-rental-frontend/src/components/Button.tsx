@@ -96,8 +96,8 @@ function Button(props: IButtonProps) {
                     return (
                         <>
                             <div className='ButtonDiv'>
-                                <button>Cancel</button>
-                                <button>Pick Up</button>
+                                <button onClick= {() => props.methods?.cancelOrder}>Cancel</button>
+                                <button onClick= {() => props.methods?.pickUpOrder}>Pick Up</button>
                             </div>
                         </>
                     )
@@ -108,7 +108,7 @@ function Button(props: IButtonProps) {
                     return (
                         <>
                             <div className='ButtonDiv'>
-                                <button>Return</button>
+                                <button onClick= {() => props.methods?.returnOrder}>Return</button>
                             </div>
                         </>
                     )
