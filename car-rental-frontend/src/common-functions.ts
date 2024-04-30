@@ -46,5 +46,17 @@ export const commonFunctions = {
         } catch (error) {
             return false;
         }
+    },
+    orderApproved: async (orderId: number) => {
+        try {
+            let res = await axios.get(`http://localhost:8080/orders/${orderId}/approved`, {
+                withCredentials: true
+            });
+            if (res.status === 200) {
+                return res.data;
+            } 
+        } catch (error) {
+            return false;
+        }
     }
 }

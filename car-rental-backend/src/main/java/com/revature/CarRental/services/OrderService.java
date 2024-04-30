@@ -137,5 +137,13 @@ public class OrderService {
         }
     }
 
+    public Order getOrderById(int id) {
+        Optional<Order> optionalOrder = od.findById(id);
+        if (optionalOrder.isPresent()) {
+            return optionalOrder.get();
+        }
+        throw new EntityNotFoundException("No Order found with id: " + id);
+    }
+
 
 }

@@ -210,4 +210,20 @@ public class OrderController {
         return new ResponseEntity<>(order, NO_CONTENT);
     }
 
+
+    // Get Approval of Order with Id
+    @GetMapping("/{id}/approved")
+    public ResponseEntity<Boolean> getApprovalStatus(@PathVariable int id) {
+        Order order;
+        try {
+            order = os.getOrderById(id);
+            if (order.getApproved()) {
+                return new ResponseEntity<>(true, OK);
+            } else {
+                return new ResponseEntity<>(false, OK);
+            }
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(NOT_FOUND);
+        }
+    }
 }
