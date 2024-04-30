@@ -21,7 +21,7 @@ function Button(props: IButtonProps) {
 
     let [isAdmin, setIsAdmin] = useState<boolean>(false)
     let [hasCar, setHasCar] = useState<boolean>(false)
-    let [orderApproved, setOrderApproved] = useState<boolean>(false)
+    
 
     useEffect(() => {
 
@@ -32,11 +32,6 @@ function Button(props: IButtonProps) {
             setIsAdmin(isAdmin);
             setHasCar(hasCar);
 
-            if (props.source == Source.Order) {
-                let approval = await commonFunctions.orderApproved(props.sourceId)
-                setOrderApproved(approval);
-            }
-            
         }
 
         asyncCall();
@@ -104,9 +99,9 @@ function Button(props: IButtonProps) {
                     return (
                         <>
                             <div className='ButtonDiv'>
-                                {orderApproved ?
-                                <button onClick={() => props.methods?.cancelOrder?.()}>Cancel</button> :
-                                <button onClick={() => props.methods?.pickUpOrder?.()}>Pick Up</button>
+                                {props.isApproved ?
+                                <button onClick={() => props.methods?.pickUpOrder?.()}>Pick Up</button> :
+                                <button onClick={() => props.methods?.cancelOrder?.()}>Cancel</button> 
                                 }
                             </div>
                         </>

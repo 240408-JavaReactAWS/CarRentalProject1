@@ -102,7 +102,7 @@ Presentations will occur on the morning of May 1st 2024. All team members must h
     - As an admin, I can add, remove, and update vehicles to the database       Tyler
     - As an admin, I can add, remove, and update locations to the database      Tyler
     - As an admin I can see current and past orders                             Tyler           X
-    - as an Admin I can accept or reject orders                                 Devon           -
+    - as an Admin I can accept or reject orders                                 Devon           X
     - As an admin, I can transfer cars between locations                        Devon           O    
     - Users and Admins can log in                                               Devon           X
     

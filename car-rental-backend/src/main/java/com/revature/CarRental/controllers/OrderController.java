@@ -211,17 +211,13 @@ public class OrderController {
     }
 
 
-    // Get Approval of Order with Id
-    @GetMapping("/{id}/approved")
-    public ResponseEntity<Boolean> getApprovalStatus(@PathVariable int id) {
+    // Get Order with Id
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getApprovalStatus(@PathVariable int id, HttpSession session) {
         Order order;
         try {
             order = os.getOrderById(id);
-            if (order.getApproved()) {
-                return new ResponseEntity<>(true, OK);
-            } else {
-                return new ResponseEntity<>(false, OK);
-            }
+            return new ResponseEntity<>(order, OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(NOT_FOUND);
         }
