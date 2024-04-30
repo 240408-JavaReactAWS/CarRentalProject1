@@ -213,6 +213,20 @@ function OrderPage() {
     //console.log(orderList)
     //console.log(currentOrder)
 
+    //console.log(orderList.length)
+
+    if (orderList.length === 0) {
+
+        return (
+            <>
+                <h1 className='contentHeading'>Orders</h1>
+                <div className='contentBody'>
+                    <h2>"No Orders"</h2>
+                </div>
+            </>
+        )
+    }
+
     return (
         <>
             <h1 className='contentHeading'>Orders</h1>

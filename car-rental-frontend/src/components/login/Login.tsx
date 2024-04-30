@@ -115,7 +115,7 @@ function Login() {
             // })
 
             try {
-                let res = await axios.post('http://localhost:8080/users/login', {
+                let res = await axios.post('http://localhost:8080/users/register', {
                     username: storedUsername,
                     password: storedPassword,
                     isAdmin: isAdmin
@@ -123,7 +123,7 @@ function Login() {
                     withCredentials: true
                 });
                 if (res.status === 200) {
-                    console.log("Login Successful")
+                    console.log("Account Created Successfully")
                     setIsLoggedIn(true)
                     navigate('/')
                 }
