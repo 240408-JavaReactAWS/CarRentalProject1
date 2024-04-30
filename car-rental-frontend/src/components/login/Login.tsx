@@ -1,13 +1,15 @@
-import React, { SyntheticEvent, useState, useEffect } from 'react';
+import React, { SyntheticEvent, useState, useEffect, useContext } from 'react';
 import './Login.css';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { UserContext } from '../../App';
 
 function Login() {
 
-    const location = useLocation();
-    const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(location.state.isLoggedIn);
+    const {isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin} = useContext(UserContext)
 
+    const location = useLocation();
+    
     const [storedUsername, setStoredUsername] = useState<string>('')
     const [storedPassword, setStoredPassword] = useState<string>('')
 
