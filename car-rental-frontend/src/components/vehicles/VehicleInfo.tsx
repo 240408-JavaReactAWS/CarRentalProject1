@@ -44,7 +44,7 @@ function VehicleInfo(props: number | IVehicle) {
 
     return (
         <>
-            <div className='contentBlock'>
+            <div >
                 <h2>Vehicle Information</h2>
                 <p>Vehicle Id: {vehicle.id}</p>
                 <p>Vehicle Color: {vehicle.color}</p>
