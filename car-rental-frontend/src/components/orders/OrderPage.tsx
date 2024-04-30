@@ -117,7 +117,9 @@ function OrderPage() {
             if (res.status != 200) {
                 throw new Error("Error: " + res.status)
             } else {
-                res.data.pop()
+                if (currentOrder != null) {
+                    res.data.pop()
+                }
                 setOrderList(res.data.sort((a: IOrderDTO, b: IOrderDTO) => {
                     return b.order.orderId - a.order.orderId
                 }))
@@ -185,8 +187,8 @@ function OrderPage() {
             } else if (adminStatus) {
                 await asyncCallAllOrders()
             } else {
-                await asyncCallUserOrders()
                 await asyncCallCurrentUserOrder()
+                await asyncCallUserOrders()
             }
 
             setAdminStatus(adminStatus)
