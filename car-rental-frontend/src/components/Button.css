@@ -16,4 +16,5 @@
 
 .ButtonDiv button:hover {
     background-color: rgba(45,45,45,1);
+    color:white;
 }

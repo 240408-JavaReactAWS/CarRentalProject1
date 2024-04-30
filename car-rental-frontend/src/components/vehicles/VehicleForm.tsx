@@ -80,7 +80,9 @@ const VehicleForm = () => {
                     <option key={`loc-${location.locationId}`} value={location.locationId}>{`${location.streetAddress}, ${location.city} ${location.state}`}</option>
                 ))};
             </select>
-            <button type="submit">Submit</button>
+            <div className='ButtonDiv'>
+                <button type="submit">Submit</button>
+            </div>
         </form>
     )
 }
