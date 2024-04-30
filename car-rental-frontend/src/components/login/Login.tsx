@@ -1,7 +1,7 @@
 import React, { SyntheticEvent, useState, useEffect, useContext } from 'react';
 import './Login.css';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../App';
 
 function Login() {
@@ -9,6 +9,7 @@ function Login() {
     const {isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin} = useContext(UserContext)
 
     const location = useLocation();
+    const navigate = useNavigate();
     
     const [storedUsername, setStoredUsername] = useState<string>('')
     const [storedPassword, setStoredPassword] = useState<string>('')
@@ -74,6 +75,7 @@ function Login() {
                 if (res.status === 200) {
                     console.log("Login Successful")
                     setIsLoggedIn(true)
+                    navigate('/')
                 }
             } catch (error) {
                 alert("There was an error logging in")
@@ -123,6 +125,7 @@ function Login() {
                 if (res.status === 200) {
                     console.log("Login Successful")
                     setIsLoggedIn(true)
+                    navigate('/')
                 }
             } catch (error) {
                 alert("There was an error creating account")
