@@ -48,6 +48,8 @@ function Order(props: IOrderDTO) {
     }
 
     let cancelOrder = () => {
+
+        console.log("Cancelling Order")
         
         let asyncCall = async () => {
             let res = await axios.delete('http://localhost:8080/orders/current', { withCredentials: true })
@@ -63,6 +65,9 @@ function Order(props: IOrderDTO) {
     }
 
     let pickupOrder = () => {
+
+        console.log("Picking Up Order")
+
         let asyncCall = async () => {
             let res = await axios.patch('http://localhost:8080/vehicles/pickup', { withCredentials: true })
             .then(() => {
@@ -77,6 +82,9 @@ function Order(props: IOrderDTO) {
     }
 
     let returnOrder = () => {
+
+        console.log("Returning Order")
+
         let asyncCall = async () => {
             let res = await axios.patch('http://localhost:8080/vehicles/return', { withCredentials: true })
             .then(() => {
@@ -151,7 +159,7 @@ function Order(props: IOrderDTO) {
                 </div>
                 <div>
                     <VehicleInfo {...order.vehicle}/>
-                    {order.isApproved == false && order.isCompleted == false ? <Button
+                    {order.isCompleted == false ? <Button
                         source={Source.Order}
                         sourceId={order.orderId}
                         shouldDisplay={!order.isCompleted}
@@ -160,6 +168,7 @@ function Order(props: IOrderDTO) {
                             pickUpOrder: pickupOrder,
                             returnOrder: returnOrder
                         } }/> : <></>}
+                    
                 </div>
             </div>
         </>
