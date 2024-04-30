@@ -215,7 +215,7 @@ function OrderPage() {
 
     //console.log(orderList.length)
 
-    if (orderList.length === 0) {
+    if (orderList.length === 0 && currentOrder === null) {
 
         return (
             <>

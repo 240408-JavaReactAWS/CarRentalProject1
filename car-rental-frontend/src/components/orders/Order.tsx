@@ -23,6 +23,7 @@ function Order(props: IOrderDTO) {
             //.then((data) => console.log(data))
             .then((response) => {
                 setOrder(response.data)
+                console.log(order)
                 setApprovalMessage(approval ? "Approved" : "Rejected")
             })
             .catch((error) => {
@@ -155,7 +156,7 @@ function Order(props: IOrderDTO) {
                     <p>Order Id: {order.orderId}</p>
                     <p>User Id: {props.userId}</p>
                     <p>Date and Time: {order.dateAndTime}</p>
-                    <p>Approved: {approvalMessage}</p>
+                    <p>Status: {approvalMessage}</p>
                 </div>
                 <div>
                     <VehicleInfo {...order.vehicle}/>

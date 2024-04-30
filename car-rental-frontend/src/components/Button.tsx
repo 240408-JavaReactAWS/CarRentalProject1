@@ -73,7 +73,7 @@ function Button(props: IButtonProps) {
     // If Button is A Part of the Order Component
     else if (props.source == Source.Order) {
         // If User is Admin
-        if (isAdmin && props.shouldDisplay) {
+        if (isAdmin && !props.isApproved && !isCompleted) {
             // If Order isCompleted is False
             // Display Approve/Reject Buttons
 
@@ -88,7 +88,7 @@ function Button(props: IButtonProps) {
             )
         }
         // If User is Not Admin
-        else if (!isCompleted) {
+        else if (!isAdmin && !isCompleted) {
             // If Order isCompleted is False
                 // If User Current Car is Null
                 if (!hasCar) {
