@@ -164,6 +164,7 @@ function Order(props: IOrderDTO) {
                         sourceId={order.orderId}
                         shouldDisplay={!order.isCompleted}
                         isApproved={order.isApproved}
+                        isCompleted={order.isCompleted}
                         methods={{approveReject: approveReject,
                             cancelOrder: cancelOrder,
                             pickUpOrder: pickupOrder,

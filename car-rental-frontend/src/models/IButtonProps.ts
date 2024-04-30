@@ -8,6 +8,7 @@ export interface IButtonProps {
     sourceId: number,
     shouldDisplay: boolean,
     isApproved?: boolean,
+    isCompleted?: boolean,
     methods : {
         approveReject?: (approval: boolean) => void,
         cancelOrder?: ()  => void,

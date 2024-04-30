@@ -20,6 +20,7 @@ function Button(props: IButtonProps) {
     */
 
     let [isAdmin, setIsAdmin] = useState<boolean>(false)
+    let [isCompleted, setIsCompleted] = useState<boolean | undefined>(props.isCompleted)
     let [hasCar, setHasCar] = useState<boolean>(false)
     
 
@@ -87,7 +88,7 @@ function Button(props: IButtonProps) {
             )
         }
         // If User is Not Admin
-        else if (props.shouldDisplay) {
+        else if (!isCompleted) {
             // If Order isCompleted is False
                 // If User Current Car is Null
                 if (!hasCar) {
@@ -98,9 +99,14 @@ function Button(props: IButtonProps) {
                     return (
                         <>
                             <div className='ButtonDiv'>
-                                {props.isApproved ?
-                                <button onClick={() => props.methods?.pickUpOrder?.()}>Pick Up</button> :
-                                <button onClick={() => props.methods?.cancelOrder?.()}>Cancel</button> 
+                                {props.isApproved && !isCompleted ?
+                                <button onClick={() => {props.methods?.pickUpOrder?.()
+                                    setHasCar(true)
+                                }}>Pick Up</button> :
+                                <button onClick={() => {props.methods?.cancelOrder?.()
+                                    setHasCar(false)
+                                    window.location.reload()
+                                }}>Cancel</button> 
                                 }
                             </div>
                         </>
@@ -112,7 +118,10 @@ function Button(props: IButtonProps) {
                     return (
                         <>
                             <div className='ButtonDiv'>
-                                <button onClick= {() => props.methods?.returnOrder?.()}>Return</button>
+                                <button onClick= {() => {props.methods?.returnOrder?.()
+                                    setHasCar(false)
+                                    setIsCompleted(true)
+                                }}>Return</button>
                             </div>
                         </>
                     )
