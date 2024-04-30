@@ -3,13 +3,15 @@ import { ILocation } from "../../models/ILocation";
 import axios from "axios";
 
 interface ILocationUpdateFormProps {
-    location: ILocation
+    location: ILocation,
+    setLocations: Function
 }
 
 const UpdateLocationForm = (props: ILocationUpdateFormProps) => {
 
     const [location, setLocation] = useState<ILocation>(props.location);
     const [editShow, setEditShow] = useState<boolean>(true);
+    const [newLocation, setNewLocation] = useState<ILocation>()
 
     const handleChangeLocation = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLocation({...location, [e.target.name]: e.target.value});
@@ -22,7 +24,10 @@ const UpdateLocationForm = (props: ILocationUpdateFormProps) => {
     const handleUpdateLocation = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8080/locations/update/${location.locationId}`, location, {withCredentials: true});
+            const response = await axios.put(`http://localhost:8080/locations/update/${location.locationId}`, location, {withCredentials: true})
+            .then(response => {
+                props.setLocations([])});
+           // setNewLocation(response.data);
         } catch (e) {
             console.log(e);
         }

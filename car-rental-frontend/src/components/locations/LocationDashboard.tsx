@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import LocationForm from "./LocationForm";
 import LocationList from "./LocationList";
 import { commonFunctions } from "../../common-functions";
+import { ILocation } from "../../models/ILocation";
 
 const LocationDashboard = () => {
 
@@ -9,13 +10,15 @@ const LocationDashboard = () => {
         let admin = commonFunctions.isAdmin();
     }, []);
 
+    const [locations, setLocations] = useState<ILocation[]>([]);
+
     return (
         <div>
             <h1>Location Dashboard</h1>
                 <h2>Add Location Form</h2>
-                    <LocationForm />
+                    <LocationForm setLocations={setLocations} />
                 <h2>Location List</h2>
-                    <LocationList />
+                    <LocationList {...locations} />
         </div>
     )
 }

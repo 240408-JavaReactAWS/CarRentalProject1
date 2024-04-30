@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { ILocation } from "../../models/ILocation";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+interface ILocationFormProps {
+    setLocations: Function
+}
 
 
-const LocationForm = () => {
+const LocationForm = (props:ILocationFormProps) => {
+
+    const navigate = useNavigate();
 
     const [location, setLocation] = useState<ILocation>({
         streetAddress: '',
@@ -21,7 +28,7 @@ const LocationForm = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:8080/locations/add", location, {withCredentials: true});
+            const response = await axios.post("http://localhost:8080/locations/add", location, {withCredentials: true}).then(response => {props.setLocations([])});
         } catch (e) {
             console.log(e);
         }
