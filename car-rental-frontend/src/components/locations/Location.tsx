@@ -12,6 +12,7 @@ function Location(props: ILocation) {
   let currentOrder: IOrder | null;
   const navigate = useNavigate();
   const [hasOrder, hasOrderHandler] = useState<boolean>(false);
+  const [adminStatus, setAdminStatus] = useState<boolean>(false);
 
   let placeOrder = async (vehicleId: number) => { 
     let res = await axios.post('http://localhost:8080/orders/placeorder/' + vehicleId, {}, { withCredentials: true })
@@ -27,11 +28,12 @@ function Location(props: ILocation) {
 
     let asyncCall = async () => {
         let isValidSession = await commonFunctions.validateSession();
-        let adminStatus = await commonFunctions.isAdmin();
+        let isAdmin = await commonFunctions.isAdmin();
+        setAdminStatus(isAdmin)
         if (!isValidSession) {
             // Redirect to login
             navigate('/login')
-        } else if (adminStatus) {
+        } else if (isAdmin) {
 
         } else {
 
@@ -62,7 +64,7 @@ function Location(props: ILocation) {
                   <p>Vehicle Make: {vehicle.make}</p>
                   <p>Vehicle Model: {vehicle.model}</p>
                   <p>Vehicle Year: {vehicle.year}</p>
-                  {!hasOrder ? <button onClick={() => placeOrder(vehicle.id)}>Order</button> : null}
+                  {!hasOrder && !adminStatus ? <button onClick={() => placeOrder(vehicle.id)}>Order</button> : null}
                 </div>
             )}
         })}
